@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Request Service | MyReliaCare</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant:wght@300;400;500;600&family=Cormorant+Unicase:wght@600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Cormorant', serif;
+            background: linear-gradient(135deg, #FAF7F5 0%, #F5EFE7 100%);
+            color: #4A3933;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            width: 100%;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        
+        .title {
+            font-family: 'Cormorant Unicase', serif;
+            color: #B59197;
+            font-size: 3em;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+        
+        .subtitle {
+            color: #6B5D58;
+            font-size: 1.2em;
+            line-height: 1.7;
+            margin-bottom: 15px;
+        }
+        
+        .contact-info {
+            color: #8B7355;
+            font-size: 1em;
+        }
+        
+        .form-options {
+            display: grid;
+            gap: 25px;
+        }
+        
+        .form-card {
+            background: white;
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 8px 30px rgba(181, 145, 151, 0.15);
+            border: 2px solid #E8D5D8;
+            transition: all 0.3s ease;
+        }
+        
+        .form-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(181, 145, 151, 0.25);
+            border-color: #B59197;
+        }
+        
+        .form-card h2 {
+            font-family: 'Cormorant Unicase', serif;
+            color: #B59197;
+            font-size: 2.2em;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+        
+        .form-card p {
+            color: #6B5D58;
+            font-size: 1.15em;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+        
+        .form-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #B59197 0%, #A37F85 100%);
+            color: white;
+            padding: 16px 35px;
+            border: none;
+            border-radius: 10px;
+            font-family: 'Cormorant Unicase', serif;
+            font-size: 1.3em;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(181, 145, 151, 0.3);
+        }
+        
+        .form-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(181, 145, 151, 0.4);
+        }
+        
+        .form-button::after {
+            content: " →";
+            margin-left: 8px;
+            font-size: 1.2em;
+        }
+        
+        @media (max-width: 768px) {
+            .title {
+                font-size: 2.2em;
+            }
+            
+            .form-card {
+                padding: 30px;
+            }
+            
+            .form-card h2 {
+                font-size: 1.8em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 class="title">Request Service(s)</h1>
+            <p class="subtitle">Choose the booking form that best suits your pet care needs.</p>
+            <p class="contact-info">Need help? Reach out at info@myreliacare.com or (859) 346-0605</p>
+        </div>
+        
+        <div class="form-options">
+            <!-- ONE-TIME & VACATION CARE -->
+            <div class="form-card">
+                <h2>One-Time & Vacation Care</h2>
+                <p>Perfect for single visits, vacation coverage, or when you need flexible pet care.</p>
+                <a href="one-time-booking.html" class="form-button">Start Request</a>
+            </div>
+            
+            <!-- REGULAR & RECURRING CARE -->
+            <div class="form-card">
+                <h2>Regular & Recurring Care</h2>
+                <p>Set up ongoing care with flexible scheduling options for regular visits.</p>
+                <a href="recurring-booking.html" class="form-button">Start Request</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

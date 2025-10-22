@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Your Service - One-Time Care</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant:wght@300;400;500;600&family=Cormorant+Unicase:wght@600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Page Header Styles */
+        .page-header {
+            max-width: 800px;
+            margin: 40px auto 30px auto;
+            padding: 0 20px;
+            text-align: center;
+        }
+        
+        .page-title {
+            font-family: 'Cormorant Unicase', serif;
+            color: #B59197;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+        
+        .page-intro {
+            font-family: 'Cormorant', serif;
+            color: #6B5D58;
+            font-size: 1.15em;
+            line-height: 1.7;
+            margin-bottom: 30px;
+        }
+        
+        .page-intro a {
+            color: #B59197;
+            text-decoration: underline;
+            font-weight: 600;
+        }
+        
+        /* Expandable Card Styles */
+        .booking-section {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 0 20px;
+            height: auto !important;
+            min-height: auto !important;
+            overflow: visible !important;
+        }
+        
+        .expandable-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(181, 145, 151, 0.15);
+            border: 2px solid #E8D5D8;
+            margin-bottom: 20px;
+            min-height: 150px;
+        }
+        
+        .card-header {
+            padding: 30px;
+            cursor: pointer;
+            background: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.3s ease;
+            border-radius: 12px;
+        }
+        
+        .card-header:hover {
+            background: rgba(181, 145, 151, 0.05);
+        }
+        
+        .card-header h2 {
+            font-family: 'Cormorant Unicase', serif;
+            color: #B59197;
+            font-size: 2em;
+            margin: 0;
+        }
+        
+        .expand-icon {
+            color: #B59197;
+            font-size: 1.5em;
+            transition: transform 0.3s ease;
+        }
+        
+        .card-content {
+            display: none;
+            padding: 0 30px 30px 30px;
+            max-height: none !important;
+            overflow: visible !important;
+        }
+        
+        /* Form sections initially hidden */
+        #datesSection,
+        #serviceSection,
+        #petSection,
+        #additionalSection,
+        #termsSection {
+            display: none;
+        }
+        
+        /* Original Form Styles */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'Cormorant', serif; 
+            background: linear-gradient(135deg, #FAF7F5 0%, #F5EFE7 100%);
+            color: #4A3933; 
+            line-height: 1.6;
+        }
+        .form-section {
+            margin-bottom: 30px;
+        }
+        .section-title {
+            font-family: 'Cormorant Unicase', serif;
+            color: #B59197;
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #F5EFE7;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            color: #4A3933;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 1.05em;
+        }
+        .required {
+            color: #B59197;
+            margin-left: 4px;
+        }
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        input[type="date"],
+        input[type="time"],
+        input[type="number"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #E8D5D8;
+            border-radius: 8px;
+            font-family: 'Cormorant', serif;
+            font-size: 1em;
+            color: #4A3933;
+            background: white;
+            transition: all 0.3s ease;
+        }
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #B59197;
+            box-shadow: 0 0 0 3px rgba(181, 145, 151, 0.1);
+        }
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .checkbox-group, .radio-group {
+            background: rgba(181, 145, 151, 0.05);
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #E8D5D8;
+        }
+        .checkbox-item, .radio-item {
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+        }
+        .checkbox-item:last-child, .radio-item:last-child {
+            margin-bottom: 0;
+        }
+        .checkbox-item input[type="checkbox"],
+        .radio-item input[type="radio"] {
+            width: auto;
+            margin-right: 10px;
+            cursor: pointer;
+        }
+        .checkbox-item label,
+        .radio-item label {
+            margin-bottom: 0;
+            font-weight: 500;
+            cursor: pointer;
+        }
+        .helper-text {
+            font-size: 0.9em;
+            color: #8B7355;
+            margin-top: 5px;
+            font-style: italic;
+        }
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(181, 145, 151, 0.1) 0%, rgba(181, 145, 151, 0.05) 100%);
+            border: 2px solid #B59197;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        .highlight-box h3 {
+            font-family: 'Cormorant Unicase', serif;
+            color: #B59197;
+            font-size: 1.3em;
+            margin-bottom: 10px;
+        }
+        .highlight-box p {
+            color: #6B5D58;
+            line-height: 1.7;
+        }
+        .submit-button {
+            width: 100%;
+            background: linear-gradient(135deg, #B59197 0%, #A37F85 100%);
+            color: white;
+            padding: 18px 30px;
+            border: none;
+            border-radius: 8px;
+            font-family: 'Cormorant Unicase', serif;
+            font-size: 1.3em;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(181, 145, 151, 0.3);
+            margin-top: 30px;
+        }
+        .submit-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(181, 145, 151, 0.4);
+        }
+        .date-input-group {
+            background: rgba(181, 145, 151, 0.05);
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #E8D5D8;
+        }
+        #bookingSummary {
+            background: linear-gradient(135deg, #F5EFE7 0%, #FAF7F5 100%);
+            border: 2px solid #B59197;
+            padding: 30px;
+            border-radius: 12px;
+            display: none;
+        }
+        @media (max-width: 768px) {
+            .form-row { grid-template-columns: 1fr; }
+            .page-title { font-size: 2em; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Page Header -->
+    <div class="page-header">
+        <h1 class="page-title">Request Service(s)</h1>
+        <p class="page-intro">
+            Choose the booking form below that best suits your pet care needs. If you're experiencing any difficulty with the forms, please reach out to us directly at info@myreliacare.com or (859) 346-0605.
+        </p>
+    </div>
+    
+    <div class="booking-section">
+        <!-- ONE-TIME & VACATION CARE FORM -->
+        <div class="expandable-card">
+            <div class="card-header" onclick="toggleSection()">
+                <h2>One-Time & Vacation Care</h2>
+                <span class="expand-icon" id="expandIcon">⌄</span>
+            </div>
+            
+            <p style="color: #6B5D58; font-size: 1.1em; padding: 0 30px 20px 30px; margin: -10px 0 0 0;">
+                Perfect for single visits, vacation coverage, or when you need flexible pet care.
+            </p>
+            
+            <div class="card-content" id="formSection">
+                <form id="bookingForm" action="https://formspree.io/f/xgvnbrgd" method="POST">
+                    <!-- Hidden fields for Formspree -->
+                    <input type="hidden" name="_subject" value="New One-Time/Vacation Booking Request">
+                    <input type="hidden" name="form_type" value="One-Time/Vacation">
+                    
+                    <!-- CONTACT INFORMATION -->
+                    <div class="form-section">
+                        <h2 class="section-title">Contact Information</h2>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>First Name <span class="required">*</span></label>
+                                <input type="text" name="firstName" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Last Name <span class="required">*</span></label>
+                                <input type="text" name="lastName" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Email <span class="required">*</span></label>
+                                <input type="email" name="email" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Phone Number <span class="required">*</span></label>
+                                <input type="tel" name="phone" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Street Address <span class="required">*</span></label>
+                            <input type="text" name="address" required>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>City <span class="required">*</span></label>
+                                <input type="text" name="city" required>
+                            </div>
+                            <div class="form-group">
+                                <label>ZIP Code <span class="required">*</span></label>
+                                <input type="text" name="zip" required>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- COMMUNICATION PREFERENCES -->
+                    <div class="form-section">
+                        <h2 class="section-title">Communication Preferences</h2>
+                        <div class="form-group">
+                            <label>How would you like to receive confirmations, forms, and invoices? <span class="required">*</span></label>
+                            <p class="helper-text" style="margin-bottom: 12px;">We'll send all booking confirmations, pet information forms, and invoices using your preferred method</p>
+                            <div class="radio-group">
+                                <div class="radio-item">
+                                    <input type="radio" id="commText" name="communicationMethod" value="text" required>
+                                    <label for="commText">Text Message</label>
+                                </div>
+                                <div class="radio-item">
+                                    <input type="radio" id="commEmail" name="communicationMethod" value="email">
+                                    <label for="commEmail">Email</label>
+                                </div>
+                                <div class="radio-item">
+                                    <input type="radio" id="commBoth" name="communicationMethod" value="both">
+                                    <label for="commBoth">Both Text & Email</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- CLIENT STATUS -->
+                    <div class="form-section">
+                        <h2 class="section-title">Client Status</h2>
+                        <div class="form-group">
+                            <label>Are you a new or returning client? <span class="required">*</span></label>
+                            <div class="radio-group">
+                                <div class="radio-item">
+                                    <input type="radio" id="newClient" name="clientStatus" value="new" required onchange="handleClientStatus()">
+                                    <label for="newClient">New Client</label>
+                                </div>
+                                <div class="radio-item">
+                                    <input type="radio" id="returningClient" name="clientStatus" value="returning" onchange="handleClientStatus()">
+                                    <label for="returningClient">Returning Client</label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- NEW CLIENT OPTIONS -->
+                        <div id="newClientOptions" style="display: none;">
+                            <div class="highlight-box">
+                                <h3>Welcome! Choose Your New Client Option:</h3>
+                                <div class="form-group" style="margin-top: 15px;">
+                                    <div class="radio-group">
+                                        <div class="radio-item">
+                                            <input type="radio" id="meetGreet" name="newClientOption" value="meet-greet" onchange="handleNewClientOption()">
+                                            <label for="meetGreet">Free Meet & Greet (20-minute intro, no commitment)</label>
+                                        </div>
+                                        <div class="radio-item">
+                                            <input type="radio" id="discount" name="newClientOption" value="10-percent-off" onchange="handleNewClientOption()">
+                                            <label for="discount">10% Off First Day of Services</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- MEET & GREET SCHEDULING -->
+                            <div id="meetGreetScheduling" style="display: none; margin-top: 20px; background: rgba(181, 145, 151, 0.05); padding: 20px; border-radius: 8px; border: 1px solid #E8D5D8;">
+                                <h3 style="color: #B59197; font-family: 'Cormorant Unicase', serif; font-size: 1.3em; margin-bottom: 15px;">Schedule Your Meet & Greet</h3>
+                                <div class="form-group">
+                                    <label>Preferred date and time(s) <span class="required">*</span></label>
+                                    <textarea name="meetGreetTimes" id="meetGreetTimes" rows="4" placeholder="Please provide a few date/time options that work for you"></textarea>
+                                    <p class="helper-text">We're available Monday-Sunday between 8am and 8pm</p>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label>Would you like to book services after the meet & greet?</label>
+                                    <div class="radio-group">
+                                        <div class="radio-item">
+                                            <input type="radio" id="bookAfterYes" name="bookAfterMeetGreet" value="yes" onchange="handleBookAfter()">
+                                            <label for="bookAfterYes">Yes, I'd like to set up services now</label>
+                                        </div>
+                                        <div class="radio-item">
+                                            <input type="radio" id="bookAfterNo" name="bookAfterMeetGreet" value="no" onchange="handleBookAfter()">
+                                            <label for="bookAfterNo">No, just the meet & greet for now</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- SERVICE SELECTION -->
+                    <div class="form-section" id="serviceSection">
+                        <h2 class="section-title">Service Selection</h2>
+                        
+                        <div class="form-group">
+                            <label>Primary Service Needed <span class="required">*</span></label>
+                            <select name="primaryService" required onchange="handleService()">
+                                <option value="">Select your primary service...</option>
+                                <option value="drop-in-pet-visit">Drop-in Pet Visit</option>
+                                <option value="stand-alone-pet-reset-cleaning">Stand Alone Pet Reset Cleaning</option>
+                                <option value="weekly-refresh">Weekly Refresh Package (30min visit + reset cleaning + dog bath)</option>
+                            </select>
+                        </div>
+                        
+                        <div id="serviceDuration" style="display: none;">
+                            <div class="form-group">
+                                <label>Visit Duration <span class="required">*</span></label>
+                                <select name="duration" id="duration">
+                                    <option value="">Select duration...</option>
+                                    <option value="30min">30 minutes</option>
+                                    <option value="1hr">1 hour</option>
+                                    <option value="90min">90 minutes</option>
+                                    <option value="2hr">2 hours</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Add-Ons</label>
+                            <div class="checkbox-group">
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="dogBath" name="addOns" value="Dog Bath">
+                                    <label for="dogBath">Dog Bath</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="addOnCleaning" name="addOns" value="Add-On Pet Reset Cleaning">
+                                    <label for="addOnCleaning">Add-On Pet Reset Cleaning</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SERVICE DATES -->
+                    <div class="form-section" id="datesSection">
+                        <h2 class="section-title">Service Dates</h2>
+                        
+                        <!-- Booking Type Selection -->
+                        <div class="form-group">
+                            <label>Booking Type <span class="required">*</span></label>
+                            <select id="bookingType" name="bookingType" required onchange="handleBookingType()">
+                                <option value="">Select...</option>
+                                <option value="single">Single Day</option>
+                                <option value="multiple">Multiple Days/Vacation Coverage</option>
+                            </select>
+                        </div>
+                        
+                        <!-- Single Day Selection -->
+                        <div id="singleDay" style="display: none;">
+                            <div class="date-input-group">
+                                <div class="form-group">
+                                    <label>Select Date <span class="required">*</span></label>
+                                    <input type="date" id="singleDate" name="singleDate">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label>Number of Visits This Day</label>
+                                    <select id="singleVisitCount" name="singleVisitCount" onchange="handleSingleVisits()">
+                                        <option value="">Select...</option>
+                                        <option value="1">1 visit</option>
+                                        <option value="2">2 visits</option>
+                                        <option value="3">3 visits</option>
+                                        <option value="4">4+ visits</option>
+                                    </select>
+                                </div>
+                                
+                                <div id="singleVisitTimes" style="display: none;">
+                                    <!-- Dynamic time selections will be inserted here -->
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Multiple Days Selection -->
+                        <div id="multipleDays" style="display: none;">
+                            <div class="date-input-group">
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label>Start Date <span class="required">*</span></label>
+                                        <input type="date" id="startDate" name="startDate">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>End Date <span class="required">*</span></label>
+                                        <input type="date" id="endDate" name="endDate">
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label>Visits Per Day</label>
+                                    <select id="multipleVisitCount" name="multipleVisitCount" onchange="handleMultipleVisits()">
+                                        <option value="">Select...</option>
+                                        <option value="1">1 visit per day</option>
+                                        <option value="2">2 visits per day</option>
+                                        <option value="3">3 visits per day</option>
+                                        <option value="varies">Varies by day (please specify below)</option>
+                                    </select>
+                                </div>
+                                
+                                <div id="multipleVisitTimes" style="display: none;">
+                                    <!-- Dynamic time selections will be inserted here -->
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group" style="margin-top: 20px;">
+                            <label>Additional Date/Time Notes</label>
+                            <textarea name="dateNotes" placeholder="Any specific instructions about dates or times? Different schedule on certain days?"></textarea>
+                        </div>
+                    </div>
+                    
+                    
+                    <!-- PET INFORMATION -->
+                    <div class="form-section" id="petSection">
+                        <h2 class="section-title">Pet Information</h2>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Number of Dogs</label>
+                                <input type="number" name="numberOfDogs" min="0" value="0">
+                            </div>
+                            <div class="form-group">
+                                <label>Number of Cats</label>
+                                <input type="number" name="numberOfCats" min="0" value="0">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Number of Other/Small Animals</label>
+                            <input type="number" name="numberOfOther" min="0" value="0">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Pet Names and Breed <span class="required">*</span></label>
+                            <textarea name="petNamesBreed" required placeholder="Please list each pet's name and breed (e.g., Max - Golden Retriever, Whiskers - Tabby Cat)"></textarea>
+                            <p class="helper-text">We'll collect detailed care information, medical needs, and behavioral notes after we confirm your booking</p>
+                        </div>
+                    </div>
+                    
+                    <!-- ADDITIONAL INFORMATION -->
+                    <div class="form-section" id="additionalSection">
+                        <h2 class="section-title">Additional Information</h2>
+                        
+                        <div class="form-group">
+                            <label>Is there anything important we should know about your pet(s) or home before confirming your booking?</label>
+                            <textarea name="specialInstructions" placeholder="Any special needs, concerns, or details about your pets or home that would help us prepare?"></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Questions for Us</label>
+                            <textarea name="clientQuestions" placeholder="Have any questions? We'll answer them when we send your booking confirmation and care information forms."></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Preferred Payment Method <span class="required">*</span></label>
+                            <div class="radio-group">
+                                <div class="radio-item">
+                                    <input type="radio" id="cardInvoice" name="paymentMethod" value="card-invoice" required>
+                                    <label for="cardInvoice">Credit/Debit Card via Invoice</label>
+                                </div>
+                                <div class="radio-item">
+                                    <input type="radio" id="cardOnline" name="paymentMethod" value="card-online">
+                                    <label for="cardOnline">Credit/Debit Card via Online Bill Pay</label>
+                                </div>
+                                <div class="radio-item">
+                                    <input type="radio" id="venmo" name="paymentMethod" value="venmo">
+                                    <label for="venmo">Venmo</label>
+                                </div>
+                                <div class="radio-item">
+                                    <input type="radio" id="cashApp" name="paymentMethod" value="cashapp">
+                                    <label for="cashApp">Cash App</label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>How did you hear about us?</label>
+                            <select name="referralSource">
+                                <option value="">Please select</option>
+                                <option value="Google">Google Search</option>
+                                <option value="Facebook">Facebook</option>
+                                <option value="Instagram">Instagram</option>
+                                <option value="Nextdoor">Nextdoor</option>
+                                <option value="Friend/Family">Friend or Family</option>
+                                <option value="Vet">Veterinarian</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <!-- TERMS AND SUBMIT -->
+                    <div class="form-section" id="termsSection">
+                        <div class="checkbox-item" style="background: rgba(181, 145, 151, 0.05); padding: 15px; border-radius: 8px; border: 1px solid #E8D5D8;">
+                            <input type="checkbox" id="agreeTerms" name="agreeTerms" required style="width: auto; margin-right: 10px;">
+                            <label for="agreeTerms" style="margin-bottom: 0; font-weight: 500; display: inline;">
+                                I agree to the MyReliaCare Terms of Service and understand that services are subject to availability <span class="required">*</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <!-- BOOKING SUMMARY -->
+                    <div id="bookingSummary">
+                        <h2 class="section-title">Booking Summary</h2>
+                        <div id="summaryContent"></div>
+                    </div>
+                    
+                    <button type="submit" class="submit-button">Submit Booking Request</button>
+                </form>
+                
+                <!-- Success Message -->
+                <div id="successMessage" style="display: none; background: linear-gradient(135deg, #B59197 0%, #A37F85 100%); color: white; padding: 30px; border-radius: 12px; text-align: center; margin-top: 30px;">
+                    <h2 style="font-family: 'Cormorant Unicase', serif; font-size: 2em; margin-bottom: 15px;">Request Received!</h2>
+                    <p style="font-size: 1.2em; margin-bottom: 20px;">Thank you for your booking request!</p>
+                    
+                    <div style="background: rgba(255,255,255,0.2); border: 2px solid rgba(255,255,255,0.3); padding: 20px; border-radius: 10px; margin: 20px 0;">
+                        <p style="font-size: 1.1em; margin-bottom: 10px;"><strong>What happens next?</strong></p>
+                        <p>We'll review your request and contact you within 24 hours to confirm availability and finalize details.</p>
+                    </div>
+                    
+                    <p style="margin-top: 20px;">Need immediate assistance? Call or text: (859) 346-0605</p>
+                </div>
+            </div>
+            
+            <script type="text/javascript">
+        // ONE-TIME FORM FUNCTIONS
+        var form = document.getElementById('bookingForm');
+        if (form) {
+            form.addEventListener('submit', function(event) {
+                event.preventDefault();
+                
+                var submitBtn = form.querySelector('.submit-button');
+                var originalText = submitBtn.textContent;
+                submitBtn.textContent = 'Submitting...';
+                submitBtn.disabled = true;
+                
+                var formData = new FormData(form);
+                
+                fetch('https://formspree.io/f/xgvnbrgd', {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                })
+                .then(function(response) {
+                    if (response.ok) {
+                        form.style.display = 'none';
+                        document.getElementById('successMessage').style.display = 'block';
+                        document.getElementById('successMessage').scrollIntoView({ behavior: 'smooth' });
+                    } else {
+                        throw new Error('Form submission failed');
+                    }
+                })
+                .catch(function(error) {
+                    alert('There was an error submitting your request. Please try again or call us at (859) 346-0605');
+                    submitBtn.textContent = originalText;
+                    submitBtn.disabled = false;
+                });
+            });
+        }
+        
+        // Toggle sections
+        function toggleSection() {
+            const content = document.getElementById('formSection');
+            const icon = document.getElementById('expandIcon');
+            
+            if (content.style.display === 'none' || content.style.display === '') {
+                content.style.display = 'block';
+                icon.style.transform = 'rotate(180deg)';
+            } else {
+                content.style.display = 'none';
+                icon.style.transform = 'rotate(0deg)';
+            }
+        }
+        
+        // One-time form handlers
+        function handleClientStatus() {
+            const status = document.querySelector('input[name="clientStatus"]:checked');
+            const newOptions = document.getElementById('newClientOptions');
+            const restOfForm = document.querySelectorAll('#datesSection, #serviceSection, #petSection, #additionalSection, #termsSection, #bookingSummary, .submit-button');
+            
+            if (!status) return;
+            
+            if (status.value === 'new') {
+                newOptions.style.display = 'block';
+                restOfForm.forEach(section => {
+                    if (section.classList.contains('submit-button')) {
+                        section.style.display = 'none';
+                    } else if (section.id) {
+                        section.style.display = 'none';
+                    }
+                });
+            } else {
+                newOptions.style.display = 'none';
+                restOfForm.forEach(section => {
+                    if (section.classList.contains('submit-button')) {
+                        section.style.display = 'block';
+                    } else if (section.id && section.id !== 'bookingSummary') {
+                        section.style.display = 'block';
+                    }
+                });
+            }
+        }
+        
+        function handleNewClientOption() {
+            const option = document.querySelector('input[name="newClientOption"]:checked');
+            const meetGreet = document.getElementById('meetGreetScheduling');
+            const meetGreetTimes = document.getElementById('meetGreetTimes');
+            const restOfForm = document.querySelectorAll('#datesSection, #serviceSection, #petSection, #additionalSection, #termsSection, #bookingSummary, .submit-button');
+            
+            if (!option) return;
+            
+            if (option.value === 'meet-greet') {
+                meetGreet.style.display = 'block';
+                meetGreetTimes.required = true;
+                const bookAfter = document.querySelector('input[name="bookAfterMeetGreet"]:checked');
+                if (bookAfter && bookAfter.value === 'yes') {
+                    restOfForm.forEach(section => {
+                        if (section.classList.contains('submit-button')) {
+                            section.style.display = 'block';
+                        } else if (section.id && section.id !== 'bookingSummary') {
+                            section.style.display = 'block';
+                        }
+                    });
+                } else {
+                    restOfForm.forEach(section => {
+                        if (section.classList.contains('submit-button')) {
+                            section.style.display = 'block';
+                        } else if (section.id) {
+                            section.style.display = 'none';
+                        }
+                    });
+                }
+            } else {
+                meetGreet.style.display = 'none';
+                meetGreetTimes.required = false;
+                restOfForm.forEach(section => {
+                    if (section.classList.contains('submit-button')) {
+                        section.style.display = 'block';
+                    } else if (section.id && section.id !== 'bookingSummary') {
+                        section.style.display = 'block';
+                    }
+                });
+            }
+        }
+        
+        function handleBookAfter() {
+            const bookAfter = document.querySelector('input[name="bookAfterMeetGreet"]:checked');
+            const restOfForm = document.querySelectorAll('#datesSection, #serviceSection, #petSection, #additionalSection, #termsSection, #bookingSummary, .submit-button');
+            
+            if (!bookAfter) return;
+            
+            if (bookAfter.value === 'yes') {
+                restOfForm.forEach(section => {
+                    if (section.classList.contains('submit-button')) {
+                        section.style.display = 'block';
+                    } else if (section.id && section.id !== 'bookingSummary') {
+                        section.style.display = 'block';
+                    }
+                });
+            } else {
+                restOfForm.forEach(section => {
+                    if (section.classList.contains('submit-button')) {
+                        section.style.display = 'block';
+                    } else if (section.id) {
+                        section.style.display = 'none';
+                    }
+                });
+            }
+        }
+        
+        function handleBookingType() {
+            const type = document.getElementById('bookingType').value;
+            const singleDay = document.getElementById('singleDay');
+            const multipleDays = document.getElementById('multipleDays');
+            
+            if (type === 'single') {
+                singleDay.style.display = 'block';
+                multipleDays.style.display = 'none';
+                document.getElementById('singleDate').required = true;
+                document.getElementById('startDate').required = false;
+                document.getElementById('endDate').required = false;
+            } else if (type === 'multiple') {
+                singleDay.style.display = 'none';
+                multipleDays.style.display = 'block';
+                document.getElementById('singleDate').required = false;
+                document.getElementById('startDate').required = true;
+                document.getElementById('endDate').required = true;
+            } else {
+                singleDay.style.display = 'none';
+                multipleDays.style.display = 'none';
+            }
+        }
+        
+        function createTimeSelect(name, label) {
+            return '<div class="form-group">' +
+                '<label>' + label + '</label>' +
+                '<select name="' + name + '">' +
+                '<option value="">Select time...</option>' +
+                '<option value="anytime">Anytime</option>' +
+                '<option value="morning">Morning (8am-12pm)</option>' +
+                '<option value="afternoon">Afternoon (12pm-5pm)</option>' +
+                '<option value="evening">Evening (5pm-8pm)</option>' +
+                '<option value="8am-9am">8am - 9am</option>' +
+                '<option value="9am-10am">9am - 10am</option>' +
+                '<option value="10am-11am">10am - 11am</option>' +
+                '<option value="11am-12pm">11am - 12pm</option>' +
+                '<option value="12pm-1pm">12pm - 1pm</option>' +
+                '<option value="1pm-2pm">1pm - 2pm</option>' +
+                '<option value="2pm-3pm">2pm - 3pm</option>' +
+                '<option value="3pm-4pm">3pm - 4pm</option>' +
+                '<option value="4pm-5pm">4pm - 5pm</option>' +
+                '<option value="5pm-6pm">5pm - 6pm</option>' +
+                '<option value="6pm-7pm">6pm - 7pm</option>' +
+                '<option value="7pm-8pm">7pm - 8pm</option>' +
+                '</select>' +
+                '</div>';
+        }
+        
+        function handleSingleVisits() {
+            const count = document.getElementById('singleVisitCount').value;
+            const container = document.getElementById('singleVisitTimes');
+            
+            if (!count) {
+                container.style.display = 'none';
+                return;
+            }
+            
+            container.style.display = 'block';
+            let html = '<div style="margin-top: 15px;">';
+            
+            if (count === '1') {
+                html += createTimeSelect('singleVisit1Time', 'Preferred Time:');
+            } else if (count === '2') {
+                html += createTimeSelect('singleVisit1Time', 'Visit 1 - Preferred Time:');
+                html += createTimeSelect('singleVisit2Time', 'Visit 2 - Preferred Time:');
+            } else if (count === '3') {
+                html += createTimeSelect('singleVisit1Time', 'Visit 1 - Preferred Time:');
+                html += createTimeSelect('singleVisit2Time', 'Visit 2 - Preferred Time:');
+                html += createTimeSelect('singleVisit3Time', 'Visit 3 - Preferred Time:');
+            } else {
+                html += '<div class="form-group"><label>Preferred Visit Times</label>' +
+                    '<textarea name="multipleVisitTimesDesc" placeholder="Please describe your preferred schedule for 4+ visits"></textarea></div>';
+            }
+            
+            html += '</div>';
+            container.innerHTML = html;
+        }
+        
+        function handleMultipleVisits() {
+            const count = document.getElementById('multipleVisitCount').value;
+            const container = document.getElementById('multipleVisitTimes');
+            
+            if (!count) {
+                container.style.display = 'none';
+                return;
+            }
+            
+            container.style.display = 'block';
+            let html = '<div style="margin-top: 15px;">';
+            
+            if (count === '1') {
+                html += createTimeSelect('dailyVisit1Time', 'Daily Visit - Preferred Time:');
+            } else if (count === '2') {
+                html += createTimeSelect('dailyVisit1Time', 'Morning Visit - Preferred Time:');
+                html += createTimeSelect('dailyVisit2Time', 'Evening Visit - Preferred Time:');
+            } else if (count === '3') {
+                html += createTimeSelect('dailyVisit1Time', 'Morning Visit - Preferred Time:');
+                html += createTimeSelect('dailyVisit2Time', 'Midday Visit - Preferred Time:');
+                html += createTimeSelect('dailyVisit3Time', 'Evening Visit - Preferred Time:');
+            } else {
+                html += '<div class="form-group"><label>Visit Schedule Details</label>' +
+                    '<textarea name="varyingSchedule" placeholder="Please describe which days need different numbers of visits and your preferred times"></textarea></div>';
+            }
+            
+            html += '</div>';
+            container.innerHTML = html;
+        }
+        
+        function handleService() {
+            const service = document.querySelector('select[name="primaryService"]').value;
+            const durationDiv = document.getElementById('serviceDuration');
+            const durationSelect = document.getElementById('duration');
+            
+            if (service === 'drop-in-pet-visit') {
+                durationDiv.style.display = 'block';
+                durationSelect.required = true;
+            } else {
+                durationDiv.style.display = 'none';
+                durationSelect.required = false;
+            }
+        }
+            </script>
+        </div>
+    </div>
+</body>
+</html>
