@@ -1,0 +1,1286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Poop Scoop Service Quote Request</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant:wght@300;400;500;600&family=Cormorant+Unicase:wght@600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Cormorant', serif;
+            background: linear-gradient(135deg, #FAF7F5 0%, #F5EFE7 100%);
+            color: #4A3933;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 800px;
+            width: 100%;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(181, 145, 151, 0.15);
+            border: 2px solid #E8D5D8;
+            overflow: hidden;
+        }
+
+        .header {
+            background: white;
+            padding: 40px 30px 30px 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-family: 'Cormorant Unicase', serif;
+            color: #B59197;
+            font-size: 2.5em;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .header p {
+            font-family: 'Cormorant', serif;
+            color: #6B5D58;
+            font-size: 1.15em;
+            line-height: 1.7;
+        }
+
+        .form-content {
+            padding: 30px;
+        }
+
+        .form-section {
+            margin-bottom: 35px;
+        }
+
+        .form-section h2 {
+            font-family: 'Cormorant Unicase', serif;
+            color: #B59197;
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #F5EFE7;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            color: #4A3933;
+            margin-bottom: 8px;
+            font-size: 1.05em;
+        }
+
+        .required {
+            color: #B59197;
+            margin-left: 4px;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        input[type="date"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #E8D5D8;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: all 0.3s ease;
+            font-family: 'Cormorant', serif;
+            color: #4A3933;
+            background: white;
+        }
+
+        input[type="date"] {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            position: relative;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%23B59197' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='4' width='18' height='18' rx='2' ry='2'/%3E%3Cline x1='16' y1='2' x2='16' y2='6'/%3E%3Cline x1='8' y1='2' x2='8' y2='6'/%3E%3Cline x1='3' y1='10' x2='21' y2='10'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            background-size: 20px;
+            padding-right: 45px;
+        }
+
+        input[type="date"]::-webkit-calendar-picker-indicator {
+            position: absolute;
+            right: 12px;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        input[type="tel"]:focus,
+        input[type="date"]:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #B59197;
+            box-shadow: 0 0 0 3px rgba(181, 145, 151, 0.1);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .radio-grid,
+        .checkbox-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .radio-box,
+        .checkbox-box {
+            position: relative;
+        }
+
+        .radio-box input[type="radio"],
+        .checkbox-box input[type="checkbox"] {
+            display: none;
+        }
+
+        .radio-box-label,
+        .checkbox-box-label {
+            display: block;
+            padding: 15px 12px;
+            border: 2px solid #E8D5D8;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            font-weight: 500;
+            background: white;
+        }
+
+        .radio-box-label:hover,
+        .checkbox-box-label:hover {
+            border-color: #B59197;
+            background: rgba(181, 145, 151, 0.05);
+        }
+
+        .radio-box input[type="radio"]:checked + .radio-box-label,
+        .checkbox-box input[type="checkbox"]:checked + .checkbox-box-label {
+            border-color: #B59197;
+            background: rgba(181, 145, 151, 0.1);
+            font-weight: 600;
+        }
+
+        .radio-box-label small,
+        .checkbox-box-label small {
+            display: block;
+            font-size: 0.85em;
+            color: #8B7355;
+            margin-top: 5px;
+        }
+
+        #payCash + .radio-box-label small {
+            display: inline;
+            margin-top: 0;
+            margin-left: 3px;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .number-input-group {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .number-input-group button {
+            width: 40px;
+            height: 40px;
+            border: 2px solid #E8D5D8;
+            background: white;
+            color: #B59197;
+            border-radius: 8px;
+            font-size: 1.3em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .number-input-group button:hover {
+            border-color: #B59197;
+            background: rgba(181, 145, 151, 0.05);
+        }
+
+        .number-input-group input {
+            width: 70px;
+            text-align: center;
+            font-size: 1.05em;
+            font-weight: 500;
+        }
+
+        .number-input-group input::-webkit-inner-spin-button,
+        .number-input-group input::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        .help-text {
+            font-size: 0.9em;
+            color: #8B7355;
+            margin-top: 5px;
+            font-style: italic;
+        }
+
+        .yard-size-selector {
+            background: rgba(181, 145, 151, 0.05);
+            padding: 20px;
+            border-radius: 8px;
+            border: 2px solid #E8D5D8;
+            margin-top: 15px;
+        }
+
+        .yard-size-selector h4 {
+            font-family: 'Cormorant Unicase', serif;
+            color: #B59197;
+            font-size: 1.2em;
+            margin-bottom: 15px;
+        }
+
+        /* Keep traditional radio list style for yard sizes inside the selector */
+        .yard-size-selector .radio-option {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        .yard-size-selector .radio-option:last-child {
+            margin-bottom: 0;
+        }
+
+        .yard-size-selector input[type="radio"] {
+            width: auto;
+            margin-right: 10px;
+            cursor: pointer;
+            accent-color: #B59197;
+        }
+
+        .yard-size-selector .radio-label {
+            margin-bottom: 0;
+            font-weight: 500;
+            cursor: pointer;
+            color: #4A3933;
+        }
+
+        .price-display {
+            background: linear-gradient(135deg, rgba(181, 145, 151, 0.1) 0%, rgba(181, 145, 151, 0.05) 100%);
+            border: 2px solid #B59197;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            margin: 30px 0;
+            display: none;
+            animation: slideIn 0.5s ease;
+        }
+
+        .price-display.show {
+            display: block;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .price-display h3 {
+            font-family: 'Cormorant Unicase', serif;
+            color: #B59197;
+            font-size: 1.4em;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .price-amount {
+            font-family: 'Cormorant Unicase', serif;
+            color: #B59197;
+            font-size: 3em;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .price-breakdown {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 2px solid rgba(181, 145, 151, 0.3);
+            text-align: left;
+        }
+
+        .price-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            font-size: 1em;
+            color: #6B5D58;
+        }
+
+        .price-item.total {
+            font-weight: bold;
+            font-size: 1.2em;
+            color: #B59197;
+            border-top: 2px solid rgba(181, 145, 151, 0.5);
+            margin-top: 10px;
+            padding-top: 15px;
+        }
+
+        .submit-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #B59197 0%, #A37F85 100%);
+            color: white;
+            padding: 18px 30px;
+            border: none;
+            border-radius: 8px;
+            font-family: 'Cormorant Unicase', serif;
+            font-size: 1.3em;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(181, 145, 151, 0.3);
+            margin-top: 30px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(181, 145, 151, 0.4);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        /* Confirmation Section */
+        .confirmation-section {
+            display: none;
+            text-align: center;
+            padding: 60px 30px;
+        }
+
+        .confirmation-section.show {
+            display: block;
+        }
+
+        .checkmark {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: rgba(181, 145, 151, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 30px auto;
+        }
+
+        .checkmark svg {
+            width: 50px;
+            height: 50px;
+            stroke: #B59197;
+        }
+
+        .confirmation-section h2 {
+            font-family: 'Cormorant Unicase', serif;
+            color: #B59197;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            font-weight: 700;
+            border: none;
+            padding: 0;
+        }
+
+        .confirmation-section p {
+            font-size: 1.15em;
+            line-height: 1.8;
+            color: #6B5D58;
+            margin-bottom: 15px;
+        }
+
+        .confirmation-highlight {
+            background: linear-gradient(135deg, rgba(181, 145, 151, 0.1) 0%, rgba(181, 145, 151, 0.05) 100%);
+            border: 2px solid #B59197;
+            padding: 25px;
+            border-radius: 10px;
+            margin: 30px 0;
+            text-align: left;
+        }
+
+        .confirmation-highlight h3 {
+            font-family: 'Cormorant Unicase', serif;
+            color: #B59197;
+            font-size: 1.3em;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .confirmation-highlight p {
+            font-size: 1.05em;
+            margin-bottom: 8px;
+        }
+
+        @media (max-width: 768px) {
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+
+            .header h1 {
+                font-size: 2em;
+            }
+
+            .price-amount {
+                font-size: 2.5em;
+            }
+
+            .confirmation-section h2 {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Poop Scoop Service Quote</h1>
+        </div>
+
+        <form id="quoteForm" class="form-content" action="https://formspree.io/f/mnngkgyq" method="POST">
+            <!-- Hidden fields for Formspree -->
+            <input type="hidden" name="_subject" value="New Poop Scoop Service Quote Request">
+            
+            <!-- Contact Information -->
+            <div class="form-section">
+                <h2>Contact Information</h2>
+                
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label for="firstName">First Name <span class="required">*</span></label>
+                        <input type="text" id="firstName" name="firstName" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="lastName">Last Name <span class="required">*</span></label>
+                        <input type="text" id="lastName" name="lastName" required>
+                    </div>
+                </div>
+
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label for="email">Email <span class="required">*</span></label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone">Phone Number <span class="required">*</span></label>
+                        <input type="tel" id="phone" name="phone" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Preferred Communication Method <span class="required">*</span></label>
+                    <div class="radio-grid">
+                        <div class="radio-box">
+                            <input type="radio" id="commText" name="communicationPreference" value="text" required>
+                            <label for="commText" class="radio-box-label">Text</label>
+                        </div>
+                        <div class="radio-box">
+                            <input type="radio" id="commEmail" name="communicationPreference" value="email">
+                            <label for="commEmail" class="radio-box-label">Email</label>
+                        </div>
+                        <div class="radio-box">
+                            <input type="radio" id="commBoth" name="communicationPreference" value="both">
+                            <label for="commBoth" class="radio-box-label">Both</label>
+                        </div>
+                    </div>
+                    <p class="help-text">We'll send your confirmation, service details form, and payment information via your preferred method.</p>
+                </div>
+
+                <div class="form-group">
+                    <label for="address">Service Address <span class="required">*</span></label>
+                    <input type="text" id="address" name="address" placeholder="123 Main St, City, KY 12345" required>
+                    <p class="help-text">We use this to calculate distance and ensure we service your area</p>
+                </div>
+            </div>
+
+            <!-- Yard Information -->
+            <div class="form-section">
+                <h2>Yard Information</h2>
+
+                <div class="form-group">
+                    <label>Which areas need service? <span class="required">*</span></label>
+                    <div class="checkbox-grid">
+                        <div class="checkbox-box">
+                            <input type="checkbox" id="backYard" name="serviceArea" value="back" onchange="toggleYardSizeSection('back')">
+                            <label for="backYard" class="checkbox-box-label">Back Yard</label>
+                        </div>
+                        <div class="checkbox-box">
+                            <input type="checkbox" id="frontYard" name="serviceArea" value="front" onchange="toggleYardSizeSection('front')">
+                            <label for="frontYard" class="checkbox-box-label">Front Yard</label>
+                        </div>
+                    </div>
+                    <p class="help-text">Select both for 10% discount!</p>
+                </div>
+
+                <!-- Back Yard Size -->
+                <div id="backYardSizeSection" class="yard-size-selector" style="display: none;">
+                    <h4>Back Yard Size</h4>
+                    <div class="radio-option">
+                        <input type="radio" id="backSmall" name="backYardSize" value="small" onchange="calculatePrice()">
+                        <label for="backSmall" class="radio-label">Small (< 5,000 sq ft / 0.11 acres)</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="backMedium" name="backYardSize" value="medium" onchange="calculatePrice()">
+                        <label for="backMedium" class="radio-label">Medium (5,000-10,000 sq ft / 0.11-0.23 acres)</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="backLarge" name="backYardSize" value="large" onchange="calculatePrice()">
+                        <label for="backLarge" class="radio-label">Large (10,000-20,000 sq ft / 0.23-0.46 acres)</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="backXLarge" name="backYardSize" value="xlarge" onchange="calculatePrice()">
+                        <label for="backXLarge" class="radio-label">X-Large (20,000+ sq ft / 0.46+ acres)</label>
+                    </div>
+                </div>
+
+                <!-- Front Yard Size -->
+                <div id="frontYardSizeSection" class="yard-size-selector" style="display: none;">
+                    <h4>Front Yard Size</h4>
+                    <div class="radio-option">
+                        <input type="radio" id="frontSmall" name="frontYardSize" value="small" onchange="calculatePrice()">
+                        <label for="frontSmall" class="radio-label">Small (< 5,000 sq ft / 0.11 acres)</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="frontMedium" name="frontYardSize" value="medium" onchange="calculatePrice()">
+                        <label for="frontMedium" class="radio-label">Medium (5,000-10,000 sq ft / 0.11-0.23 acres)</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="frontLarge" name="frontYardSize" value="large" onchange="calculatePrice()">
+                        <label for="frontLarge" class="radio-label">Large (10,000-20,000 sq ft / 0.23-0.46 acres)</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="frontXLarge" name="frontYardSize" value="xlarge" onchange="calculatePrice()">
+                        <label for="frontXLarge" class="radio-label">X-Large (20,000+ sq ft / 0.46+ acres)</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dog Information -->
+            <div class="form-section">
+                <h2>Dog Information</h2>
+
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label for="numDogs">Total Number of Dogs <span class="required">*</span></label>
+                        <div class="number-input-group">
+                            <button type="button" onclick="adjustNumber('numDogs', -1)">-</button>
+                            <input type="number" id="numDogs" name="numDogs" value="1" min="1" max="10" required>
+                            <button type="button" onclick="adjustNumber('numDogs', 1)">+</button>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="numLargeDogs">How many are large dogs (50+ lbs)?</label>
+                        <div class="number-input-group">
+                            <button type="button" onclick="adjustNumber('numLargeDogs', -1)">-</button>
+                            <input type="number" id="numLargeDogs" name="numLargeDogs" value="0" min="0" max="10">
+                            <button type="button" onclick="adjustNumber('numLargeDogs', 1)">+</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Service Preferences -->
+            <div class="form-section">
+                <h2>Service Preferences</h2>
+
+                <div class="form-group">
+                    <label>Service Frequency <span class="required">*</span></label>
+                    <div class="radio-grid">
+                        <div class="radio-box">
+                            <input type="radio" id="freqWeekly" name="frequency" value="weekly" required onchange="calculatePrice()">
+                            <label for="freqWeekly" class="radio-box-label">Weekly</label>
+                        </div>
+                        <div class="radio-box">
+                            <input type="radio" id="freqBiweekly" name="frequency" value="biweekly" onchange="calculatePrice()">
+                            <label for="freqBiweekly" class="radio-box-label">Bi-Weekly</label>
+                        </div>
+                        <div class="radio-box">
+                            <input type="radio" id="freqMonthly" name="frequency" value="monthly" onchange="calculatePrice()">
+                            <label for="freqMonthly" class="radio-box-label">Monthly</label>
+                        </div>
+                        <div class="radio-box">
+                            <input type="radio" id="freqOneTime" name="frequency" value="onetime" onchange="calculatePrice()">
+                            <label for="freqOneTime" class="radio-box-label">One-Time</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Add Deodorizer Service? <span style="font-size: 0.9em; color: #8B7355; font-weight: 400;">(Pricing varies by yard size)</span></label>
+                    <div class="radio-grid">
+                        <div class="radio-box">
+                            <input type="radio" id="deodorizerNo" name="deodorizer" value="no" checked onchange="calculatePrice()">
+                            <label for="deodorizerNo" class="radio-box-label">No Thanks</label>
+                        </div>
+                        <div class="radio-box">
+                            <input type="radio" id="deodorizerFirstOnly" name="deodorizer" value="first" onchange="calculatePrice()">
+                            <label for="deodorizerFirstOnly" class="radio-box-label">First Visit Only</label>
+                        </div>
+                        <div class="radio-box">
+                            <input type="radio" id="deodorizerEvery" name="deodorizer" value="every" onchange="calculatePrice()">
+                            <label for="deodorizerEvery" class="radio-box-label">Every Visit</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Has yard been cleaned in the last month?</label>
+                    <div class="radio-grid">
+                        <div class="radio-box">
+                            <input type="radio" id="cleanedYes" name="recentlyCleaned" value="yes" checked onchange="calculatePrice()">
+                            <label for="cleanedYes" class="radio-box-label">Yes</label>
+                        </div>
+                        <div class="radio-box">
+                            <input type="radio" id="cleanedNo" name="recentlyCleaned" value="no" onchange="calculatePrice()">
+                            <label for="cleanedNo" class="radio-box-label">No</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Additional Notes -->
+            <div class="form-section">
+                <h2>Additional Information</h2>
+
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label for="preferredDate">Preferred Date for First Service <span class="required">*</span></label>
+                        <input type="date" id="preferredDate" name="preferredDate" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="preferredTime">Preferred Time <span class="required">*</span></label>
+                        <select id="preferredTime" name="preferredTime" required>
+                            <option value="">Select a time...</option>
+                            <option value="anytime">Anytime</option>
+                            <option value="morning">Morning (8am-12pm)</option>
+                            <option value="afternoon">Afternoon (12pm-5pm)</option>
+                            <option value="8am-9am">8:00am - 9:00am</option>
+                            <option value="9am-10am">9:00am - 10:00am</option>
+                            <option value="10am-11am">10:00am - 11:00am</option>
+                            <option value="11am-12pm">11:00am - 12:00pm</option>
+                            <option value="12pm-1pm">12:00pm - 1:00pm</option>
+                            <option value="1pm-2pm">1:00pm - 2:00pm</option>
+                            <option value="2pm-3pm">2:00pm - 3:00pm</option>
+                            <option value="3pm-4pm">3:00pm - 4:00pm</option>
+                            <option value="4pm-5pm">4:00pm - 5:00pm</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Payment Preference <span class="required">*</span></label>
+                    <div class="radio-grid">
+                        <div class="radio-box">
+                            <input type="radio" id="payInvoice" name="paymentPreference" value="invoice" required>
+                            <label for="payInvoice" class="radio-box-label">Invoice</label>
+                        </div>
+                        <div class="radio-box">
+                            <input type="radio" id="payOnline" name="paymentPreference" value="online-bill-pay">
+                            <label for="payOnline" class="radio-box-label">Online Bill Pay</label>
+                        </div>
+                        <div class="radio-box">
+                            <input type="radio" id="payVenmoOrCashApp" name="paymentPreference" value="venmo-cashapp">
+                            <label for="payVenmoOrCashApp" class="radio-box-label">Venmo / Cash App</label>
+                        </div>
+                        <div class="radio-box">
+                            <input type="radio" id="payCash" name="paymentPreference" value="cash">
+                            <label for="payCash" class="radio-box-label">
+                                Cash <small>(Must be home)</small>
+                            </label>
+                        </div>
+                    </div>
+                    <div id="cashPaymentNote" style="display: none; background: rgba(181, 145, 151, 0.1); padding: 15px; border-left: 4px solid #B59197; border-radius: 4px; margin-top: 15px; font-size: 0.95em; color: #4A3933;">
+                        <strong>Important:</strong> Cash payment must be collected prior to service start.
+                    </div>
+                    <p class="help-text">We'll send payment details via your preferred communication method.</p>
+                </div>
+
+                <div class="form-group">
+                    <label for="notes">Notes or Questions for Us</label>
+                    <textarea id="notes" name="notes" placeholder="Any additional information you'd like us to know..."></textarea>
+                    <p class="help-text">We'll send you a short form to complete prior to your first service for gate codes, special areas to avoid, detailed dog information, etc.</p>
+                </div>
+
+                <div class="form-group">
+                    <div style="background: rgba(181, 145, 151, 0.05); padding: 15px; border-radius: 8px; border: 1px solid #E8D5D8;">
+                        <label style="display: flex; align-items: flex-start; cursor: pointer; margin-bottom: 0;">
+                            <input type="checkbox" id="termsAgree" name="termsAgree" required style="width: auto; margin-right: 10px; margin-top: 3px; cursor: pointer; accent-color: #B59197;">
+                            <span style="font-size: 0.95em; line-height: 1.6;">
+                                I agree to <a href="https://myreliacare.com/terms-%26-privacy" target="_blank" style="color: #B59197; text-decoration: underline; font-weight: 600;">MyReliaCare's Terms of Service</a> <span class="required">*</span>
+                            </span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Price Display -->
+            <div id="priceDisplay" class="price-display">
+                <h3>Your Estimated Quote</h3>
+                
+                <!-- Service Summary -->
+                <div id="serviceSummary" style="background: white; padding: 20px; border-radius: 8px; margin-bottom: 25px; text-align: left;"></div>
+                
+                <!-- First Visit Price -->
+                <div style="margin-bottom: 25px;">
+                    <p style="font-size: 1.1em; margin-bottom: 10px; color: #B59197; font-weight: 600;">First Visit</p>
+                    <div class="price-amount" id="firstVisitPrice">$0</div>
+                    <div class="price-breakdown" id="firstVisitBreakdown"></div>
+                </div>
+
+                <!-- Regular Visit Price (if recurring) -->
+                <div id="regularVisitSection" style="display: none;">
+                    <p style="font-size: 1.1em; margin-bottom: 10px; color: #B59197; font-weight: 600;">Each Visit After</p>
+                    <div class="price-amount" id="regularVisitPrice">$0</div>
+                    <div class="price-breakdown" id="regularVisitBreakdown"></div>
+                </div>
+
+                <!-- Travel Fee Note -->
+                <div style="margin-top: 25px; padding-top: 20px; border-top: 2px solid rgba(181, 145, 151, 0.3); text-align: center;">
+                    <p style="font-size: 0.9em; color: #8B7355; font-style: italic;">
+                        Your final quote may include a small travel fee based on distance from Walton, KY.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="button" class="submit-btn" onclick="handleFormSubmit()">Submit Service Request</button>
+        </form>
+
+        <!-- Confirmation Section (shown after submission) -->
+        <div id="confirmationSection" class="confirmation-section">
+            <div class="checkmark">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M20 6L9 17L4 12" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </div>
+
+            <h2>Request Received!</h2>
+
+            <div class="confirmation-highlight">
+                <h3>What Happens Next?</h3>
+                <p><strong>Within 12 hours:</strong> We'll contact you via your preferred method to confirm your quote and schedule.</p>
+                <p><strong>Before your first visit:</strong> We'll send you a short form to complete with gate codes, special instructions, and detailed pet information.</p>
+                <p><strong>Payment details:</strong> Will be included in your confirmation message.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Pricing configuration
+        const pricing = {
+            base: {
+                small: 18,
+                medium: 25,
+                large: 35,
+                xlarge: 50
+            },
+            deodorizer: {
+                small: 15,
+                medium: 20,
+                large: 25,
+                xlarge: 30
+            },
+            frequency: {
+                weekly: 0,
+                biweekly: 0,
+                monthly: 5,
+                onetime: 10  // flat fee if recently cleaned
+            },
+            notCleanedSurcharge: {
+                small: 10,
+                medium: 15,
+                large: 20,
+                xlarge: 25
+            },
+            largeDog: 10,
+            frontAndBackDiscount: 0.10
+        };
+
+        function toggleYardSizeSection(area) {
+            const checkbox = document.getElementById(area + 'Yard');
+            const sizeSection = document.getElementById(area + 'YardSizeSection');
+            
+            if (checkbox.checked) {
+                sizeSection.style.display = 'block';
+            } else {
+                sizeSection.style.display = 'none';
+                // Clear selected size when unchecking area
+                const radios = document.getElementsByName(area + 'YardSize');
+                radios.forEach(radio => radio.checked = false);
+            }
+            
+            calculatePrice();
+        }
+
+        function adjustNumber(fieldId, change) {
+            const input = document.getElementById(fieldId);
+            let value = parseInt(input.value) || 0;
+            value = Math.max(parseInt(input.min) || 0, value + change);
+            if (input.max) {
+                value = Math.min(parseInt(input.max), value);
+            }
+            input.value = value;
+            
+            // Limit large dogs to total number of dogs
+            if (fieldId === 'numDogs') {
+                const largeDogs = document.getElementById('numLargeDogs');
+                if (parseInt(largeDogs.value) > value) {
+                    largeDogs.value = value;
+                }
+            }
+            
+            if (fieldId === 'numLargeDogs') {
+                const totalDogs = parseInt(document.getElementById('numDogs').value) || 1;
+                if (value > totalDogs) {
+                    input.value = totalDogs;
+                }
+            }
+            
+            calculatePrice();
+        }
+
+        function isFormComplete() {
+            const form = document.getElementById('quoteForm');
+            
+            // Check basic required text inputs
+            const firstName = document.getElementById('firstName').value.trim();
+            const lastName = document.getElementById('lastName').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            const address = document.getElementById('address').value.trim();
+            
+            if (!firstName || !lastName || !email || !phone || !address) {
+                return false;
+            }
+            
+            // Check communication preference
+            const commPref = document.querySelector('input[name="communicationPreference"]:checked');
+            if (!commPref) return false;
+            
+            // Check if at least one service area is selected
+            const backYardChecked = document.getElementById('backYard').checked;
+            const frontYardChecked = document.getElementById('frontYard').checked;
+            
+            if (!backYardChecked && !frontYardChecked) {
+                return false;
+            }
+            
+            // Check if selected areas have sizes chosen
+            if (backYardChecked) {
+                const backSize = document.querySelector('input[name="backYardSize"]:checked');
+                if (!backSize) return false;
+            }
+            
+            if (frontYardChecked) {
+                const frontSize = document.querySelector('input[name="frontYardSize"]:checked');
+                if (!frontSize) return false;
+            }
+            
+            // Check frequency
+            const frequency = document.querySelector('input[name="frequency"]:checked');
+            if (!frequency) return false;
+            
+            // Check payment preference
+            const payment = document.querySelector('input[name="paymentPreference"]:checked');
+            if (!payment) return false;
+            
+            // Check preferred date
+            const preferredDate = document.getElementById('preferredDate').value;
+            if (!preferredDate) return false;
+            
+            // Check preferred time
+            const preferredTime = document.getElementById('preferredTime').value;
+            if (!preferredTime) return false;
+            
+            // Check terms agreement
+            const termsAgree = document.getElementById('termsAgree').checked;
+            if (!termsAgree) return false;
+            
+            return true;
+        }
+
+        function calculatePrice() {
+            if (!isFormComplete()) {
+                document.getElementById('priceDisplay').classList.remove('show');
+                return;
+            }
+
+            const frequency = document.querySelector('input[name="frequency"]:checked')?.value;
+            const deodorizer = document.querySelector('input[name="deodorizer"]:checked')?.value;
+            const recentlyCleaned = document.querySelector('input[name="recentlyCleaned"]:checked')?.value === 'yes';
+            const largeDogs = parseInt(document.getElementById('numLargeDogs').value) || 0;
+            const totalDogs = parseInt(document.getElementById('numDogs').value) || 1;
+            
+            const backYardChecked = document.getElementById('backYard').checked;
+            const frontYardChecked = document.getElementById('frontYard').checked;
+            
+            // Get yard sizes
+            const backSize = backYardChecked ? document.querySelector('input[name="backYardSize"]:checked')?.value : null;
+            const frontSize = frontYardChecked ? document.querySelector('input[name="frontYardSize"]:checked')?.value : null;
+            
+            // Build service summary
+            let summaryHTML = '<div style="font-size: 0.95em; color: #4A3933; line-height: 1.8;">';
+            
+            // Yard info
+            let yardInfo = [];
+            if (backSize) yardInfo.push(`Back Yard (${capitalizeFirst(backSize)})`);
+            if (frontSize) yardInfo.push(`Front Yard (${capitalizeFirst(frontSize)})`);
+            summaryHTML += `<p><strong>Service Area:</strong> ${yardInfo.join(' + ')}</p>`;
+            
+            // Dog info
+            let dogInfo = `${totalDogs} dog${totalDogs > 1 ? 's' : ''}`;
+            if (largeDogs > 0) {
+                dogInfo += ` (${largeDogs} large)`;
+            }
+            summaryHTML += `<p><strong>Dogs:</strong> ${dogInfo}</p>`;
+            
+            // Frequency
+            summaryHTML += `<p><strong>Service Frequency:</strong> ${capitalizeFirst(frequency === 'onetime' ? 'One-Time' : frequency)}</p>`;
+            
+            // Deodorizer
+            let deodorizerText = 'Not included';
+            if (deodorizer === 'first') deodorizerText = 'First visit only';
+            if (deodorizer === 'every') deodorizerText = 'Every visit';
+            summaryHTML += `<p><strong>Deodorizer:</strong> ${deodorizerText}</p>`;
+            
+            // Recently cleaned
+            summaryHTML += `<p><strong>Recently Cleaned:</strong> ${recentlyCleaned ? 'Yes' : 'No'}</p>`;
+            
+            summaryHTML += '</div>';
+            document.getElementById('serviceSummary').innerHTML = summaryHTML;
+            
+            // Calculate base yard prices
+            let baseTotal = 0;
+            if (backSize) baseTotal += pricing.base[backSize];
+            if (frontSize) baseTotal += pricing.base[frontSize];
+
+            // Apply multi-area discount
+            if (backYardChecked && frontYardChecked) {
+                baseTotal -= baseTotal * pricing.frontAndBackDiscount;
+            }
+
+            // Calculate REGULAR VISIT price first (what they'll pay ongoing)
+            let regularTotal = baseTotal;
+
+            // Apply frequency fee
+            if (frequency !== 'onetime' && pricing.frequency[frequency] > 0) {
+                regularTotal += pricing.frequency[frequency];
+            }
+
+            // Add large dog fees
+            if (largeDogs > 0) {
+                regularTotal += largeDogs * pricing.largeDog;
+            }
+
+            // Add deodorizer if "every visit"
+            if (deodorizer === 'every') {
+                let deodorizerSize = getLargestYardSize(backYardChecked, frontYardChecked, backSize, frontSize);
+                regularTotal += pricing.deodorizer[deodorizerSize];
+            }
+
+            // Apply minimum charge of $22
+            if (regularTotal < 22) {
+                regularTotal = 22;
+            }
+
+            // Calculate FIRST VISIT price (should always be >= regular visit)
+            let firstVisitTotal = regularTotal; // Start with regular price
+
+            // Add not cleaned surcharge if applicable
+            if (!recentlyCleaned) {
+                if (backSize) firstVisitTotal += pricing.notCleanedSurcharge[backSize];
+                if (frontSize) firstVisitTotal += pricing.notCleanedSurcharge[frontSize];
+            } else if (frequency === 'onetime') {
+                // For one-time that's recently cleaned, use the one-time fee
+                firstVisitTotal = baseTotal;
+                if (largeDogs > 0) {
+                    firstVisitTotal += largeDogs * pricing.largeDog;
+                }
+                firstVisitTotal += pricing.frequency.onetime;
+            }
+
+            // Add deodorizer for first visit if "first only"
+            if (deodorizer === 'first') {
+                let deodorizerSize = getLargestYardSize(backYardChecked, frontYardChecked, backSize, frontSize);
+                firstVisitTotal += pricing.deodorizer[deodorizerSize];
+            }
+
+            // Apply minimum charge of $22
+            if (firstVisitTotal < 22) {
+                firstVisitTotal = 22;
+            }
+
+            // Display prices
+            document.getElementById('firstVisitPrice').textContent = '$' + firstVisitTotal.toFixed(2);
+            document.getElementById('firstVisitBreakdown').innerHTML = '';
+
+            if (frequency !== 'onetime') {
+                document.getElementById('regularVisitPrice').textContent = '$' + regularTotal.toFixed(2);
+                
+                // Add monthly estimate
+                let monthlyHTML = '';
+                if (frequency === 'weekly') {
+                    const monthlyEstimate = regularTotal * 4;
+                    monthlyHTML = `
+                        <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(181, 145, 151, 0.3);">
+                            <div class="price-item" style="opacity: 0.8; font-size: 0.95em;">
+                                <span>Estimated Monthly</span>
+                                <span>~$${monthlyEstimate.toFixed(2)}</span>
+                            </div>
+                            <p style="font-size: 0.85em; color: #8B7355; margin-top: 5px; text-align: center;">(Based on 4 visits per month)</p>
+                        </div>
+                    `;
+                } else if (frequency === 'biweekly') {
+                    const monthlyEstimate = regularTotal * 2;
+                    monthlyHTML = `
+                        <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(181, 145, 151, 0.3);">
+                            <div class="price-item" style="opacity: 0.8; font-size: 0.95em;">
+                                <span>Estimated Monthly</span>
+                                <span>~$${monthlyEstimate.toFixed(2)}</span>
+                            </div>
+                            <p style="font-size: 0.85em; color: #8B7355; margin-top: 5px; text-align: center;">(Based on 2 visits per month)</p>
+                        </div>
+                    `;
+                }
+                
+                document.getElementById('regularVisitBreakdown').innerHTML = monthlyHTML;
+                document.getElementById('regularVisitSection').style.display = 'block';
+            } else {
+                // Hide regular visit section for one-time services
+                document.getElementById('regularVisitSection').style.display = 'none';
+            }
+            
+            document.getElementById('priceDisplay').classList.add('show');
+        }
+
+        function getLargestYardSize(backYardChecked, frontYardChecked, backSize, frontSize) {
+            let deodorizerSize = 'small';
+            if (backYardChecked && frontYardChecked) {
+                const sizes = ['small', 'medium', 'large', 'xlarge'];
+                const backIndex = sizes.indexOf(backSize);
+                const frontIndex = sizes.indexOf(frontSize);
+                deodorizerSize = sizes[Math.max(backIndex, frontIndex)];
+            } else if (backYardChecked) {
+                deodorizerSize = backSize;
+            } else if (frontYardChecked) {
+                deodorizerSize = frontSize;
+            }
+            return deodorizerSize;
+        }
+
+        function capitalizeFirst(str) {
+            return str.charAt(0).toUpperCase() + str.slice(1);
+        }
+
+        function handleFormSubmit() {
+            const form = document.getElementById('quoteForm');
+            
+            if (!isFormComplete()) {
+                alert('Please fill out all required fields before submitting.');
+                return;
+            }
+
+            // Collect yard information
+            const yards = [];
+            if (document.getElementById('backYard').checked) {
+                const backSize = document.querySelector('input[name="backYardSize"]:checked')?.value;
+                yards.push(`Back Yard (${backSize})`);
+            }
+            if (document.getElementById('frontYard').checked) {
+                const frontSize = document.querySelector('input[name="frontYardSize"]:checked')?.value;
+                yards.push(`Front Yard (${frontSize})`);
+            }
+            
+            // Add hidden fields
+            let serviceAreasInput = document.getElementById('serviceAreasHidden');
+            if (!serviceAreasInput) {
+                serviceAreasInput = document.createElement('input');
+                serviceAreasInput.type = 'hidden';
+                serviceAreasInput.id = 'serviceAreasHidden';
+                serviceAreasInput.name = 'serviceAreas';
+                form.appendChild(serviceAreasInput);
+            }
+            serviceAreasInput.value = yards.join(', ');
+            
+            const firstVisitPrice = document.getElementById('firstVisitPrice').textContent;
+            const regularVisitPrice = document.getElementById('regularVisitPrice').textContent;
+            
+            let firstPriceInput = document.getElementById('firstVisitPriceHidden');
+            if (!firstPriceInput) {
+                firstPriceInput = document.createElement('input');
+                firstPriceInput.type = 'hidden';
+                firstPriceInput.id = 'firstVisitPriceHidden';
+                firstPriceInput.name = 'firstVisitPrice';
+                form.appendChild(firstPriceInput);
+            }
+            firstPriceInput.value = firstVisitPrice;
+            
+            const frequency = document.querySelector('input[name="frequency"]:checked')?.value;
+            if (frequency !== 'onetime') {
+                let regularPriceInput = document.getElementById('regularVisitPriceHidden');
+                if (!regularPriceInput) {
+                    regularPriceInput = document.createElement('input');
+                    regularPriceInput.type = 'hidden';
+                    regularPriceInput.id = 'regularVisitPriceHidden';
+                    regularPriceInput.name = 'regularVisitPrice';
+                    form.appendChild(regularPriceInput);
+                }
+                regularPriceInput.value = regularVisitPrice;
+            }
+            
+            // Show confirmation page
+            document.querySelector('.form-content').style.display = 'none';
+            document.getElementById('confirmationSection').style.display = 'block';
+            window.scrollTo(0, 0);
+            
+            // Submit form
+            const formData = new FormData(form);
+            fetch(form.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'Accept': 'application/json'
+                }
+            }).catch(error => {
+                // Silent
+            });
+        }
+
+        // Add event listeners to all form inputs
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('quoteForm');
+            const inputs = form.querySelectorAll('input, select, textarea');
+            
+            inputs.forEach(input => {
+                input.addEventListener('change', calculatePrice);
+                if (input.type === 'text' || input.type === 'email' || input.type === 'tel') {
+                    input.addEventListener('input', calculatePrice);
+                }
+            });
+
+            // Show/hide cash payment note
+            document.querySelectorAll('input[name="paymentPreference"]').forEach(option => {
+                option.addEventListener('change', function() {
+                    const cashNote = document.getElementById('cashPaymentNote');
+                    cashNote.style.display = (this.value === 'cash' && this.checked) ? 'block' : 'none';
+                });
+            });
+
+            // Form submission
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                if (!isFormComplete()) {
+                    alert('Please fill out all required fields before submitting.');
+                    return;
+                }
+
+                // Collect yard information and add to form as hidden field
+                const yards = [];
+                if (document.getElementById('backYard').checked) {
+                    const backSize = document.querySelector('input[name="backYardSize"]:checked')?.value;
+                    yards.push(`Back Yard (${backSize})`);
+                }
+                if (document.getElementById('frontYard').checked) {
+                    const frontSize = document.querySelector('input[name="frontYardSize"]:checked')?.value;
+                    yards.push(`Front Yard (${frontSize})`);
+                }
+                
+                // Add service areas as hidden field
+                let serviceAreasInput = document.getElementById('serviceAreasHidden');
+                if (!serviceAreasInput) {
+                    serviceAreasInput = document.createElement('input');
+                    serviceAreasInput.type = 'hidden';
+                    serviceAreasInput.id = 'serviceAreasHidden';
+                    serviceAreasInput.name = 'serviceAreas';
+                    form.appendChild(serviceAreasInput);
+                }
+                serviceAreasInput.value = yards.join(', ');
+                
+                // Add calculated prices as hidden fields
+                const firstVisitPrice = document.getElementById('firstVisitPrice').textContent;
+                const regularVisitPrice = document.getElementById('regularVisitPrice').textContent;
+                
+                let firstPriceInput = document.getElementById('firstVisitPriceHidden');
+                if (!firstPriceInput) {
+                    firstPriceInput = document.createElement('input');
+                    firstPriceInput.type = 'hidden';
+                    firstPriceInput.id = 'firstVisitPriceHidden';
+                    firstPriceInput.name = 'firstVisitPrice';
+                    form.appendChild(firstPriceInput);
+                }
+                firstPriceInput.value = firstVisitPrice;
+                
+                const frequency = document.querySelector('input[name="frequency"]:checked')?.value;
+                if (frequency !== 'onetime') {
+                    let regularPriceInput = document.getElementById('regularVisitPriceHidden');
+                    if (!regularPriceInput) {
+                        regularPriceInput = document.createElement('input');
+                        regularPriceInput.type = 'hidden';
+                        regularPriceInput.id = 'regularVisitPriceHidden';
+                        regularPriceInput.name = 'regularVisitPrice';
+                        form.appendChild(regularPriceInput);
+                    }
+                    regularPriceInput.value = regularVisitPrice;
+                }
+                
+                // Show confirmation immediately
+                document.querySelector('.form-content').style.display = 'none';
+                document.getElementById('confirmationSection').style.display = 'block';
+                window.scrollTo(0, 0);
+                
+                // Submit form in background
+                const formData = new FormData(form);
+                fetch(form.action, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                }).catch(error => {
+                    // Silent fail - confirmation already shown
+                });
+            });
+        });
+    </script>
+</body>
+</html>
