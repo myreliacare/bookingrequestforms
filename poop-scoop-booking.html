@@ -527,17 +527,17 @@
                     <label>Are you a new or returning client? <span class="required">*</span></label>
                     <div class="radio-grid">
                         <div class="radio-box">
-                            <input type="radio" id="clientNew" name="clientType" value="new" required>
+                            <input type="radio" id="clientNew" name="clientStatus" value="new" required onchange="toggleNewClientNote()">
                             <label for="clientNew" class="radio-box-label">New Client</label>
                         </div>
                         <div class="radio-box">
-                            <input type="radio" id="clientReturning" name="clientType" value="returning">
+                            <input type="radio" id="clientReturning" name="clientStatus" value="returning" onchange="toggleNewClientNote()">
                             <label for="clientReturning" class="radio-box-label">Returning Client</label>
                         </div>
                     </div>
-                </div>
-                <div id="newClientNote" style="display: none; background: rgba(181, 145, 151, 0.1); padding: 15px; border-left: 4px solid #B59197; border-radius: 4px; margin-top: 15px; font-size: 0.95em; color: #4A3933;">
-                    <strong>New Client Discount:</strong> You'll receive 10% off your first poop scoop service!
+                    <div id="newClientNote" style="display: none; background: rgba(181, 145, 151, 0.1); padding: 15px; border-left: 4px solid #B59197; border-radius: 4px; margin-top: 15px; font-size: 0.95em; color: #4A3933;">
+                        <strong>New Client Discount:</strong> You'll receive 10% off your first poop scoop service!
+                    </div>
                 </div>
 
                 <div class="form-group">
@@ -757,10 +757,8 @@
                     <p class="help-text">We'll send you a short form to complete prior to your first service for gate codes, special areas to avoid, detailed dog information, etc.</p>
                 </div>
 
-                <div style="background: rgba(181, 145, 151, 0.1); padding: 20px; border-left: 4px solid #B59197; border-radius: 4px; margin-bottom: 20px;">
-                    <p style="font-size: 1em; color: #4A3933; line-height: 1.6; margin: 0;">
-                        <strong>Bundle & Save 10%:</strong> Want to add a Weekly Refresh (30-min pet visit, dog bath & pet reset cleaning - $110) to your poop scoop service? Mention it in the notes above and we'll include it in your scheduling and send the appropriate forms. Already submitted a Weekly Refresh request? We'll automatically apply 10% off this poop scoop service during confirmation.
-                    </p>
+                <div style="background: rgba(181, 145, 151, 0.1); padding: 20px; border-left: 4px solid #B59197; border-radius: 4px; margin-bottom: 25px; font-size: 0.95em; color: #4A3933; line-height: 1.7;">
+                    <strong style="color: #B59197; font-size: 1.05em;">Bundle & Save 10%:</strong> Want to add a Weekly Refresh (30-min pet visit, dog bath & pet reset cleaning - $115) to your poop scoop service? Mention it in the notes above and we'll include it in your scheduling and send the appropriate forms. Already submitted a Weekly Refresh request? We'll automatically apply 10% off this poop scoop service during confirmation.
                 </div>
 
                 <div class="form-group">
@@ -816,16 +814,14 @@
                 </svg>
             </div>
 
-            <h2>Request Received!</h2>
-            
-            <p style="font-size: 1.15em; color: #6B5D58; margin-bottom: 25px;">Thank you for submitting your service request. It has been received by our team.</p>
-
             <div class="confirmation-highlight">
                 <h3>What Happens Next?</h3>
-                <p><strong>Within 12 hours:</strong> We'll contact you via your preferred method to confirm your quote and schedule.</p>
+                <p><strong>Within 12 hours:</strong> We'll contact you via your preferred method to confirm availability and your quote.</p>
                 <p><strong>Before your first visit:</strong> We'll send you a short form to complete with gate codes, special instructions, and detailed pet information.</p>
                 <p><strong>Payment details:</strong> Will be included in your confirmation message.</p>
             </div>
+
+            <a href="https://forms.myreliacare.com/" class="submit-btn" style="display: inline-block; text-decoration: none; margin-top: 20px;">Return to Forms Page</a>
         </div>
     </div>
 
@@ -876,6 +872,12 @@
             calculatePrice();
         }
 
+        function toggleNewClientNote() {
+            const newClientNote = document.getElementById('newClientNote');
+            const isNewClient = document.getElementById('clientNew').checked;
+            newClientNote.style.display = isNewClient ? 'block' : 'none';
+        }
+
         function adjustNumber(fieldId, change) {
             const input = document.getElementById(fieldId);
             let value = parseInt(input.value) || 0;
@@ -920,6 +922,10 @@
             // Check communication preference
             const commPref = document.querySelector('input[name="communicationPreference"]:checked');
             if (!commPref) return false;
+            
+            // Check client status
+            const clientStatus = document.querySelector('input[name="clientStatus"]:checked');
+            if (!clientStatus) return false;
             
             // Check if at least one service area is selected
             const backYardChecked = document.getElementById('backYard').checked;
@@ -1074,39 +1080,49 @@
                 firstVisitTotal = 22;
             }
 
-            // Apply new client discount (10% off first service)
-            const clientType = document.querySelector('input[name="clientType"]:checked')?.value;
-            let newClientDiscount = 0;
-            if (clientType === 'new') {
-                newClientDiscount = firstVisitTotal * 0.10;
-                firstVisitTotal -= newClientDiscount;
-            }
+            // Calculate tax (6%) BEFORE any discounts
+            const firstVisitTax = firstVisitTotal * 0.06;
+            const regularTax = regularTotal * 0.06;
 
-            // Display prices
-            document.getElementById('firstVisitPrice').textContent = '$' + firstVisitTotal.toFixed(2);
-            
-            // Add discount notation if applicable
-            let firstVisitBreakdown = '';
-            if (clientType === 'new' && newClientDiscount > 0) {
-                firstVisitBreakdown = `
-                    <div style="margin-top: 10px; padding-top: 10px; border-top: 1px solid rgba(181, 145, 151, 0.3);">
-                        <p style="font-size: 0.9em; color: #B59197; text-align: center;">
-                            <strong>New Client Discount Applied!</strong><br>
-                            You saved $${newClientDiscount.toFixed(2)} (10% off)
-                        </p>
+            // Add tax to totals
+            const firstVisitWithTax = firstVisitTotal + firstVisitTax;
+            const regularWithTax = regularTotal + regularTax;
+
+            // Display prices with tax breakdown
+            document.getElementById('firstVisitPrice').textContent = '$' + firstVisitWithTax.toFixed(2);
+            document.getElementById('firstVisitBreakdown').innerHTML = `
+                <div style="font-size: 0.9em; color: #6B5D58; margin-top: 10px;">
+                    <div style="display: flex; justify-content: space-between; padding: 5px 0;">
+                        <span>Subtotal:</span>
+                        <span>$${firstVisitTotal.toFixed(2)}</span>
                     </div>
-                `;
-            }
-            document.getElementById('firstVisitBreakdown').innerHTML = firstVisitBreakdown;
+                    <div style="display: flex; justify-content: space-between; padding: 5px 0;">
+                        <span>State Tax (6%):</span>
+                        <span>$${firstVisitTax.toFixed(2)}</span>
+                    </div>
+                </div>
+            `;
 
             if (frequency !== 'onetime') {
-                document.getElementById('regularVisitPrice').textContent = '$' + regularTotal.toFixed(2);
+                document.getElementById('regularVisitPrice').textContent = '$' + regularWithTax.toFixed(2);
                 
-                // Add monthly estimate
-                let monthlyHTML = '';
+                // Add monthly estimate with tax
+                let monthlyHTML = `
+                    <div style="font-size: 0.9em; color: #6B5D58; margin-top: 10px; margin-bottom: 15px;">
+                        <div style="display: flex; justify-content: space-between; padding: 5px 0;">
+                            <span>Subtotal:</span>
+                            <span>$${regularTotal.toFixed(2)}</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; padding: 5px 0;">
+                            <span>State Tax (6%):</span>
+                            <span>$${regularTax.toFixed(2)}</span>
+                        </div>
+                    </div>
+                `;
+                
                 if (frequency === 'weekly') {
-                    const monthlyEstimate = regularTotal * 4;
-                    monthlyHTML = `
+                    const monthlyEstimate = regularWithTax * 4;
+                    monthlyHTML += `
                         <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(181, 145, 151, 0.3);">
                             <div class="price-item" style="opacity: 0.8; font-size: 0.95em;">
                                 <span>Estimated Monthly</span>
@@ -1116,8 +1132,8 @@
                         </div>
                     `;
                 } else if (frequency === 'biweekly') {
-                    const monthlyEstimate = regularTotal * 2;
-                    monthlyHTML = `
+                    const monthlyEstimate = regularWithTax * 2;
+                    monthlyHTML += `
                         <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(181, 145, 151, 0.3);">
                             <div class="price-item" style="opacity: 0.8; font-size: 0.95em;">
                                 <span>Estimated Monthly</span>
@@ -1248,14 +1264,6 @@
                 option.addEventListener('change', function() {
                     const cashNote = document.getElementById('cashPaymentNote');
                     cashNote.style.display = (this.value === 'cash' && this.checked) ? 'block' : 'none';
-                });
-            });
-
-            // Show/hide new client discount note
-            document.querySelectorAll('input[name="clientType"]').forEach(option => {
-                option.addEventListener('change', function() {
-                    const newClientNote = document.getElementById('newClientNote');
-                    newClientNote.style.display = (this.value === 'new' && this.checked) ? 'block' : 'none';
                 });
             });
 
