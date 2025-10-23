@@ -524,6 +524,23 @@
                 </div>
 
                 <div class="form-group">
+                    <label>Are you a new or returning client? <span class="required">*</span></label>
+                    <div class="radio-grid">
+                        <div class="radio-box">
+                            <input type="radio" id="clientNew" name="clientType" value="new" required>
+                            <label for="clientNew" class="radio-box-label">New Client</label>
+                        </div>
+                        <div class="radio-box">
+                            <input type="radio" id="clientReturning" name="clientType" value="returning">
+                            <label for="clientReturning" class="radio-box-label">Returning Client</label>
+                        </div>
+                    </div>
+                </div>
+                <div id="newClientNote" style="display: none; background: rgba(181, 145, 151, 0.1); padding: 15px; border-left: 4px solid #B59197; border-radius: 4px; margin-top: 15px; font-size: 0.95em; color: #4A3933;">
+                    <strong>New Client Discount:</strong> You'll receive 10% off your first poop scoop service!
+                </div>
+
+                <div class="form-group">
                     <label for="address">Service Address <span class="required">*</span></label>
                     <input type="text" id="address" name="address" placeholder="123 Main St, City, KY 12345" required>
                     <p class="help-text">We use this to calculate distance and ensure we service your area</p>
@@ -738,6 +755,12 @@
                     <label for="notes">Notes or Questions for Us</label>
                     <textarea id="notes" name="notes" placeholder="Any additional information you'd like us to know..."></textarea>
                     <p class="help-text">We'll send you a short form to complete prior to your first service for gate codes, special areas to avoid, detailed dog information, etc.</p>
+                </div>
+
+                <div style="background: rgba(181, 145, 151, 0.1); padding: 20px; border-left: 4px solid #B59197; border-radius: 4px; margin-bottom: 20px;">
+                    <p style="font-size: 1em; color: #4A3933; line-height: 1.6; margin: 0;">
+                        <strong>Bundle & Save 10%:</strong> Want to add a Weekly Refresh (30-min pet visit, dog bath & pet reset cleaning - $110) to your poop scoop service? Mention it in the notes above and we'll include it in your scheduling and send the appropriate forms. Already submitted a Weekly Refresh request? We'll automatically apply 10% off this poop scoop service during confirmation.
+                    </p>
                 </div>
 
                 <div class="form-group">
@@ -1049,9 +1072,30 @@
                 firstVisitTotal = 22;
             }
 
+            // Apply new client discount (10% off first service)
+            const clientType = document.querySelector('input[name="clientType"]:checked')?.value;
+            let newClientDiscount = 0;
+            if (clientType === 'new') {
+                newClientDiscount = firstVisitTotal * 0.10;
+                firstVisitTotal -= newClientDiscount;
+            }
+
             // Display prices
             document.getElementById('firstVisitPrice').textContent = '$' + firstVisitTotal.toFixed(2);
-            document.getElementById('firstVisitBreakdown').innerHTML = '';
+            
+            // Add discount notation if applicable
+            let firstVisitBreakdown = '';
+            if (clientType === 'new' && newClientDiscount > 0) {
+                firstVisitBreakdown = `
+                    <div style="margin-top: 10px; padding-top: 10px; border-top: 1px solid rgba(181, 145, 151, 0.3);">
+                        <p style="font-size: 0.9em; color: #B59197; text-align: center;">
+                            <strong>New Client Discount Applied!</strong><br>
+                            You saved $${newClientDiscount.toFixed(2)} (10% off)
+                        </p>
+                    </div>
+                `;
+            }
+            document.getElementById('firstVisitBreakdown').innerHTML = firstVisitBreakdown;
 
             if (frequency !== 'onetime') {
                 document.getElementById('regularVisitPrice').textContent = '$' + regularTotal.toFixed(2);
@@ -1202,6 +1246,14 @@
                 option.addEventListener('change', function() {
                     const cashNote = document.getElementById('cashPaymentNote');
                     cashNote.style.display = (this.value === 'cash' && this.checked) ? 'block' : 'none';
+                });
+            });
+
+            // Show/hide new client discount note
+            document.querySelectorAll('input[name="clientType"]').forEach(option => {
+                option.addEventListener('change', function() {
+                    const newClientNote = document.getElementById('newClientNote');
+                    newClientNote.style.display = (this.value === 'new' && this.checked) ? 'block' : 'none';
                 });
             });
 
