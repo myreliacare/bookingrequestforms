@@ -1,0 +1,934 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dog Boarding Quote Request | MyReliaCare</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant:wght@300;400;500;600&family=Cormorant+Unicase:wght@600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Cormorant', serif;
+            background: linear-gradient(135deg, #FAF7F5 0%, #F5EFE7 100%);
+            color: #4A3933;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 800px;
+            width: 100%;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(181, 145, 151, 0.15);
+            border: 2px solid #E8D5D8;
+            overflow: hidden;
+        }
+
+        .header {
+            background: white;
+            padding: 40px 30px 30px 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-family: 'Cormorant Unicase', serif;
+            color: #B59197;
+            font-size: 2.5em;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .header p {
+            font-family: 'Cormorant', serif;
+            color: #6B5D58;
+            font-size: 1.1em;
+            line-height: 1.7;
+            margin-bottom: 10px;
+        }
+
+        .info-box {
+            background: rgba(181, 145, 151, 0.05);
+            padding: 20px;
+            border-radius: 8px;
+            border: 2px solid #E8D5D8;
+            margin-top: 20px;
+            text-align: left;
+        }
+
+        .info-box h3 {
+            font-family: 'Cormorant Unicase', serif;
+            color: #B59197;
+            font-size: 1.3em;
+            margin-bottom: 10px;
+        }
+
+        .info-box ul {
+            margin-left: 20px;
+            color: #6B5D58;
+        }
+
+        .info-box li {
+            margin-bottom: 5px;
+        }
+
+        .form-content {
+            padding: 30px;
+        }
+
+        .form-section {
+            margin-bottom: 35px;
+        }
+
+        .form-section h2 {
+            font-family: 'Cormorant Unicase', serif;
+            color: #8B6F75;
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #F5EFE7;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            color: #4A3933;
+            margin-bottom: 8px;
+            font-size: 1.05em;
+        }
+
+        .required {
+            color: #B59197;
+            margin-left: 4px;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        input[type="date"],
+        input[type="number"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #E8D5D8;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: all 0.3s ease;
+            font-family: 'Cormorant', serif;
+            color: #4A3933;
+            background: white;
+        }
+
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        input[type="tel"]:focus,
+        input[type="date"]:focus,
+        input[type="number"]:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #B59197;
+            box-shadow: 0 0 0 3px rgba(181, 145, 151, 0.1);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .radio-grid,
+        .checkbox-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .radio-box,
+        .checkbox-box {
+            position: relative;
+        }
+
+        .radio-box input[type="radio"],
+        .checkbox-box input[type="checkbox"] {
+            display: none;
+        }
+
+        .radio-box-label,
+        .checkbox-box-label {
+            display: block;
+            padding: 15px 12px;
+            border: 2px solid #E8D5D8;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            font-weight: 500;
+            background: white;
+        }
+
+        .radio-box-label:hover,
+        .checkbox-box-label:hover {
+            border-color: #B59197;
+            background: rgba(181, 145, 151, 0.05);
+        }
+
+        .radio-box input[type="radio"]:checked + .radio-box-label,
+        .checkbox-box input[type="checkbox"]:checked + .checkbox-box-label {
+            border-color: #B59197;
+            background: rgba(181, 145, 151, 0.1);
+            font-weight: 600;
+        }
+
+        .radio-box-label small,
+        .checkbox-box-label small {
+            display: block;
+            font-size: 0.85em;
+            color: #8B7355;
+            margin-top: 5px;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .help-text {
+            font-size: 0.9em;
+            color: #8B7355;
+            margin-top: 5px;
+            font-style: italic;
+        }
+
+        .submit-btn {
+            background: #B59197;
+            color: white;
+            border: none;
+            padding: 18px 50px;
+            font-size: 1.2em;
+            font-family: 'Cormorant Unicase', serif;
+            font-weight: 600;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(181, 145, 151, 0.3);
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .submit-btn:hover {
+            background: #9F7F85;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(181, 145, 151, 0.4);
+        }
+
+        .confirmation-section {
+            display: none;
+            padding: 60px 30px;
+            text-align: center;
+        }
+
+        .confirmation-section.show {
+            display: block;
+        }
+
+        .checkmark {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: rgba(181, 145, 151, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 30px auto;
+        }
+
+        .checkmark svg {
+            width: 50px;
+            height: 50px;
+            stroke: #B59197;
+        }
+
+        .confirmation-section h2 {
+            font-family: 'Cormorant Unicase', serif;
+            color: #B59197;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            font-weight: 700;
+            border: none;
+            padding: 0;
+        }
+
+        .confirmation-section p {
+            font-size: 1.15em;
+            line-height: 1.8;
+            color: #6B5D58;
+            margin-bottom: 15px;
+        }
+
+        .confirmation-highlight {
+            background: linear-gradient(135deg, rgba(181, 145, 151, 0.1) 0%, rgba(181, 145, 151, 0.05) 100%);
+            border: 2px solid #B59197;
+            padding: 25px;
+            border-radius: 10px;
+            margin: 25px 0;
+        }
+
+        .confirmation-highlight h3 {
+            font-family: 'Cormorant Unicase', serif;
+            color: #B59197;
+            font-size: 1.5em;
+            margin-bottom: 15px;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2em;
+            }
+
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+
+            .radio-grid,
+            .checkbox-grid {
+                grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 style="white-space: nowrap;">Dog Boarding Quote</h1>
+            <p>Our In-Home Dog Boarding provides a calm, cozy alternative to traditional kennels. Perfect for pups who get anxious in boarding facilities, don't enjoy being crated for long periods, or simply thrive with individualized attention.</p>
+            <p style="font-size: 1em; margin-top: 15px;">Boarding takes place in our own home, where we live with our Morkie, Wizzy, & our cat, Moo.</p>
+            
+            <div class="info-box">
+                <h3>What's Included:</h3>
+                <ul style="margin-left: 20px; color: #6B5D58; display: grid; grid-template-columns: 1fr 1fr; gap: 5px 15px;">
+                    <li>Safe, comfortable home environment</li>
+                    <li>Playtime, walks, & snuggles</li>
+                    <li>Feeding & fresh water</li>
+                    <li>Medication administration</li>
+                    <li>Complimentary bath</li>
+                    <li>Regular updates with photos</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Confirmation Section (shown after submission) -->
+        <div id="confirmationSection" class="confirmation-section">
+            <div class="checkmark">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M20 6L9 17L4 12" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </div>
+
+            <h2>Request Received!</h2>
+
+            <div class="confirmation-highlight">
+                <h3>What Happens Next?</h3>
+                <p>We'll contact you via your preferred method to confirm your booking request.</p>
+                <p><strong>Before boarding:</strong> We'll send you a detailed form to complete with feeding instructions, medication details, emergency contacts, and more.</p>
+                <p><strong>Meet & Greet:</strong> If you're unsure how your pup will do with our animals, we're happy to arrange a meet & greet in our home before booking!</p>
+            </div>
+        </div>
+
+        <form id="boardingForm" class="form-content" action="https://formspree.io/f/mnngkgyq" method="POST">
+            <!-- Hidden fields for Formspree -->
+            <input type="hidden" name="_subject" value="New Dog Boarding Quote Request">
+            
+            <!-- Contact Information -->
+            <div class="form-section">
+                <h2>Contact Information</h2>
+                
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label for="firstName">First Name <span class="required">*</span></label>
+                        <input type="text" id="firstName" name="firstName" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="lastName">Last Name <span class="required">*</span></label>
+                        <input type="text" id="lastName" name="lastName" required>
+                    </div>
+                </div>
+
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label for="email">Email <span class="required">*</span></label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone">Phone Number <span class="required">*</span></label>
+                        <input type="tel" id="phone" name="phone" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Preferred Communication Method <span class="required">*</span></label>
+                    <div class="radio-grid">
+                        <div class="radio-box">
+                            <input type="radio" id="commText" name="communicationPreference" value="text" required>
+                            <label for="commText" class="radio-box-label">Text</label>
+                        </div>
+                        <div class="radio-box">
+                            <input type="radio" id="commEmail" name="communicationPreference" value="email">
+                            <label for="commEmail" class="radio-box-label">Email</label>
+                        </div>
+                        <div class="radio-box">
+                            <input type="radio" id="commBoth" name="communicationPreference" value="both">
+                            <label for="commBoth" class="radio-box-label">Both</label>
+                        </div>
+                    </div>
+                    <p class="help-text">We'll send your booking confirmation, pet/care info form, and final pricing & payment information via your preferred method.</p>
+                </div>
+
+                <div class="form-group">
+                    <label>Are you a new or returning client? <span class="required">*</span></label>
+                    <div class="radio-grid">
+                        <div class="radio-box">
+                            <input type="radio" id="clientNew" name="clientType" value="new" required>
+                            <label for="clientNew" class="radio-box-label">New Client</label>
+                        </div>
+                        <div class="radio-box">
+                            <input type="radio" id="clientReturning" name="clientType" value="returning">
+                            <label for="clientReturning" class="radio-box-label">Returning Client</label>
+                        </div>
+                    </div>
+                </div>
+                <div id="newClientNote" style="display: none; background: rgba(181, 145, 151, 0.1); padding: 15px; border-left: 4px solid #B59197; border-radius: 4px; margin-top: 15px; margin-bottom: 20px; font-size: 0.95em; color: #4A3933;">
+                    <strong>New Client Discount:</strong> You'll receive 10% off your boarding total!
+                </div>
+            </div>
+
+            <!-- Boarding Dates -->
+            <div class="form-section">
+                <h2>Boarding Dates</h2>
+                
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label for="checkInDate">Check-In Date <span class="required">*</span></label>
+                        <input type="date" id="checkInDate" name="checkInDate" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="checkOutDate">Check-Out Date <span class="required">*</span></label>
+                        <input type="date" id="checkOutDate" name="checkOutDate" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="totalNights">Total Nights <span class="required">*</span></label>
+                    <input type="number" id="totalNights" name="totalNights" min="1" value="1" readonly style="background: #FAF7F5;">
+                </div>
+            </div>
+
+            <!-- Dog Information -->
+            <div class="form-section">
+                <h2>Dog Information</h2>
+                
+                <div class="form-group">
+                    <label for="numDogs">How many dogs will be boarding? <span class="required">*</span></label>
+                    <input type="number" id="numDogs" name="numDogs" min="1" max="3" value="1" required>
+                    <p class="help-text">Maximum 3 dogs</p>
+                </div>
+
+                <div id="dogDetailsContainer"></div>
+            </div>
+
+            <!-- Transportation -->
+            <div class="form-section">
+                <h2>Transportation</h2>
+                
+                <div class="form-group">
+                    <label>Do you need transportation? <span class="required">*</span></label>
+                    <div class="radio-grid">
+                        <div class="radio-box">
+                            <input type="radio" id="transportPickup" name="transportation" value="pickup" required>
+                            <label for="transportPickup" class="radio-box-label">Pick-up only</label>
+                        </div>
+                        <div class="radio-box">
+                            <input type="radio" id="transportDropoff" name="transportation" value="dropoff">
+                            <label for="transportDropoff" class="radio-box-label">Drop-off only</label>
+                        </div>
+                        <div class="radio-box">
+                            <input type="radio" id="transportBoth" name="transportation" value="both">
+                            <label for="transportBoth" class="radio-box-label">Both</label>
+                        </div>
+                        <div class="radio-box">
+                            <input type="radio" id="transportNeither" name="transportation" value="neither">
+                            <label for="transportNeither" class="radio-box-label">Neither</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="transportAddress" style="display: none; margin-top: 20px;">
+                    <div class="form-group">
+                        <label for="pickupAddress">Pick-up/Drop-off Address <span class="required">*</span></label>
+                        <input type="text" id="pickupAddress" name="pickupAddress" placeholder="123 Main St, City, KY 12345">
+                        <p class="help-text">Where should we pick up or drop off your pup?</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Requirements Confirmation -->
+            <div class="form-section">
+                <h2>Requirements Confirmation</h2>
+                
+                <div class="form-group">
+                    <label>Do all of your dogs meet these requirements? <span class="required">*</span></label>
+                    <div style="background: rgba(181, 145, 151, 0.05); padding: 15px; border-radius: 8px; margin-bottom: 15px;">
+                        <ul style="margin-left: 20px; color: #6B5D58;">
+                            <li>Weigh under 40 lbs</li>
+                            <li>Up to date on vaccinations (Rabies, DHPP, Bordetella)</li>
+                            <li>No aggressive behavior with food, toys, or people</li>
+                        </ul>
+                    </div>
+                    <div class="radio-grid">
+                        <div class="radio-box">
+                            <input type="radio" id="requirementsYes" name="meetsRequirements" value="yes" required>
+                            <label for="requirementsYes" class="radio-box-label">Yes, all requirements are met</label>
+                        </div>
+                        <div class="radio-box">
+                            <input type="radio" id="requirementsNo" name="meetsRequirements" value="no">
+                            <label for="requirementsNo" class="radio-box-label">No / Not sure</label>
+                        </div>
+                    </div>
+                    <div id="requirementsWarning" style="display: none; background: rgba(181, 145, 151, 0.15); padding: 15px; border-left: 4px solid #B59197; border-radius: 4px; margin-top: 15px; font-size: 0.95em; color: #4A3933;">
+                        <strong>Important:</strong> We cannot confirm boarding for dogs that do not meet our requirements. Please contact us if you have questions.
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Are your dogs comfortable with other dogs and cats? <span class="required">*</span></label>
+                    <div class="radio-grid">
+                        <div class="radio-box">
+                            <input type="radio" id="comfortableYes" name="comfortableWithPets" value="yes" required>
+                            <label for="comfortableYes" class="radio-box-label">Yes</label>
+                        </div>
+                        <div class="radio-box">
+                            <input type="radio" id="comfortableNotSure" name="comfortableWithPets" value="not-sure">
+                            <label for="comfortableNotSure" class="radio-box-label">Not sure</label>
+                        </div>
+                        <div class="radio-box">
+                            <input type="radio" id="comfortableNo" name="comfortableWithPets" value="no">
+                            <label for="comfortableNo" class="radio-box-label">No</label>
+                        </div>
+                    </div>
+                    <div id="notSureNote" style="display: none; background: rgba(181, 145, 151, 0.1); padding: 15px; border-left: 4px solid #B59197; border-radius: 4px; margin-top: 15px; font-size: 0.95em; color: #4A3933;">
+                        <strong>Meet & Greet Required:</strong> A meet & greet is required to assess your dog's comfort level with our pets.
+                    </div>
+                    <div id="comfortableWarning" style="display: none; background: rgba(181, 145, 151, 0.15); padding: 15px; border-left: 4px solid #B59197; border-radius: 4px; margin-top: 15px; font-size: 0.95em; color: #4A3933;">
+                        <strong>Important:</strong> We cannot confirm boarding for dogs that do not meet our requirements. Please contact us if you have questions.
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Would you like to schedule a Meet & Greet in our home? <span class="required">*</span></label>
+                    <div class="radio-grid">
+                        <div class="radio-box">
+                            <input type="radio" id="meetGreetYes" name="meetAndGreet" value="yes" required>
+                            <label for="meetGreetYes" class="radio-box-label">Yes, please!</label>
+                        </div>
+                        <div class="radio-box">
+                            <input type="radio" id="meetGreetNo" name="meetAndGreet" value="no">
+                            <label for="meetGreetNo" class="radio-box-label">No, thank you</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="meetGreetSchedule" style="display: none; margin-top: 20px;">
+                    <div class="form-group">
+                        <label for="meetGreetDates">Preferred Dates & Times for Meet & Greet</label>
+                        <textarea id="meetGreetDates" name="meetGreetDates" placeholder="Please provide 2-3 date/time options that work for you before your boarding start date. Example: Saturday 3/15 anytime after 2pm, Sunday 3/16 morning, Monday 3/17 after 5pm"></textarea>
+                        <p class="help-text">The meet & greet will take place at our home in Walton, KY 41094. We will send you our full address when your meet & greet is confirmed.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Additional Information -->
+            <div class="form-section">
+                <h2>Additional Information</h2>
+                
+                <div class="form-group">
+                    <label for="additionalNotes">Questions or Additional Notes</label>
+                    <textarea id="additionalNotes" name="additionalNotes" placeholder="Any questions or additional information you'd like us to know..."></textarea>
+                    <p class="help-text">We'll collect detailed pet and care information once we've confirmed your booking</p>
+                </div>
+
+                <div class="form-group">
+                    <div style="background: rgba(181, 145, 151, 0.05); padding: 15px; border-radius: 8px; border: 1px solid #E8D5D8;">
+                        <label style="display: flex; align-items: flex-start; cursor: pointer; margin-bottom: 0;">
+                            <input type="checkbox" id="termsAgree" name="termsAgree" required style="width: auto; margin-right: 10px; margin-top: 3px; cursor: pointer; accent-color: #B59197;">
+                            <span style="font-size: 0.95em; line-height: 1.6;">
+                                I agree to <a href="https://myreliacare.com/terms-%26-privacy" target="_blank" style="color: #B59197; text-decoration: underline; font-weight: 600;">MyReliaCare's Terms of Service</a> <span class="required">*</span>
+                            </span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Price Display -->
+            <div id="priceDisplay" style="display: none; background: linear-gradient(135deg, #FAF7F5 0%, #F5EFE7 100%); border: 2px solid #E8D5D8; border-radius: 12px; padding: 30px; margin-top: 30px;">
+                <h3 style="font-family: 'Cormorant Unicase', serif; color: #B59197; font-size: 1.6em; text-align: center; margin-bottom: 25px;">Your Boarding Quote</h3>
+                
+                <!-- Booking Summary -->
+                <div id="bookingSummary" style="background: white; padding: 20px; border-radius: 8px; margin-bottom: 25px; text-align: left;"></div>
+                
+                <!-- Total Price -->
+                <div style="background: white; border-radius: 10px; padding: 20px; border: 2px solid #E8D5D8;">
+                    <p style="font-size: 1.2em; margin-bottom: 10px; color: #B59197; font-weight: 600; text-align: center;">Total Boarding Cost</p>
+                    <div style="text-align: center; font-size: 2.5em; font-weight: 700; color: #B59197; margin: 15px 0;" id="totalPrice">$0</div>
+                    <div id="priceBreakdown" style="font-size: 0.95em; color: #6B5D58; line-height: 1.8;"></div>
+                </div>
+
+                <div style="margin-top: 20px; padding: 15px; background: rgba(181, 145, 151, 0.1); border-left: 4px solid #B59197; border-radius: 4px; font-size: 0.95em; color: #4A3933;">
+                    <strong>Please Note:</strong> This is an estimated quote. Final pricing will be confirmed after we review your request and confirm availability.
+                </div>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="button" class="submit-btn" onclick="handleFormSubmit()">Submit Boarding Request</button>
+        </form>
+    </div>
+
+    <script>
+        // Calculate total nights when dates change
+        document.getElementById('checkInDate').addEventListener('change', calculateNights);
+        document.getElementById('checkOutDate').addEventListener('change', calculateNights);
+
+        function calculateNights() {
+            const checkIn = new Date(document.getElementById('checkInDate').value);
+            const checkOut = new Date(document.getElementById('checkOutDate').value);
+            
+            if (checkIn && checkOut && checkOut > checkIn) {
+                const nights = Math.ceil((checkOut - checkIn) / (1000 * 60 * 60 * 24));
+                document.getElementById('totalNights').value = nights;
+            }
+        }
+
+        // Generate dog detail fields based on number of dogs
+        document.getElementById('numDogs').addEventListener('change', function() {
+            const numDogs = parseInt(this.value);
+            const container = document.getElementById('dogDetailsContainer');
+            container.innerHTML = '';
+
+            for (let i = 1; i <= numDogs; i++) {
+                const dogSection = document.createElement('div');
+                dogSection.style.cssText = 'background: rgba(181, 145, 151, 0.05); padding: 20px; border-radius: 8px; margin-bottom: 20px;';
+                dogSection.innerHTML = `
+                    <h3 style="font-family: 'Cormorant Unicase', serif; color: #B59197; font-size: 1.2em; margin-bottom: 15px;">Dog ${i}</h3>
+                    <div class="form-group">
+                        <label for="dogName${i}">Name <span class="required">*</span></label>
+                        <input type="text" id="dogName${i}" name="dogName${i}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="dogBreed${i}">Breed <span class="required">*</span></label>
+                        <input type="text" id="dogBreed${i}" name="dogBreed${i}" required>
+                    </div>
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label for="dogAge${i}">Age <span class="required">*</span></label>
+                            <input type="text" id="dogAge${i}" name="dogAge${i}" placeholder="e.g., 3 years" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="dogWeight${i}">Weight (lbs) <span class="required">*</span></label>
+                            <input type="number" id="dogWeight${i}" name="dogWeight${i}" min="1" max="40" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Is this dog house trained? <span class="required">*</span></label>
+                        <div class="radio-grid">
+                            <div class="radio-box">
+                                <input type="radio" id="houseTrained${i}Yes" name="houseTrained${i}" value="yes" required>
+                                <label for="houseTrained${i}Yes" class="radio-box-label">Yes</label>
+                            </div>
+                            <div class="radio-box">
+                                <input type="radio" id="houseTrained${i}No" name="houseTrained${i}" value="no">
+                                <label for="houseTrained${i}No" class="radio-box-label">No</label>
+                            </div>
+                        </div>
+                        ${i === 1 ? '<p class="help-text">Not being house trained will not disqualify your pup from boarding</p>' : ''}
+                    </div>
+                `;
+                container.appendChild(dogSection);
+            }
+            
+            // Add event listeners to house trained radio buttons
+            for (let i = 1; i <= numDogs; i++) {
+                document.querySelectorAll(`input[name="houseTrained${i}"]`).forEach(el => {
+                    el.addEventListener('change', calculatePrice);
+                });
+            }
+            
+            calculatePrice();
+        });
+
+        // Trigger initial dog fields
+        document.getElementById('numDogs').dispatchEvent(new Event('change'));
+
+        // Show/hide new client discount note
+        document.querySelectorAll('input[name="clientType"]').forEach(option => {
+            option.addEventListener('change', function() {
+                const newClientNote = document.getElementById('newClientNote');
+                newClientNote.style.display = (this.value === 'new' && this.checked) ? 'block' : 'none';
+            });
+        });
+
+        // Show/hide requirements warning
+        document.querySelectorAll('input[name="meetsRequirements"]').forEach(option => {
+            option.addEventListener('change', function() {
+                const requirementsWarning = document.getElementById('requirementsWarning');
+                requirementsWarning.style.display = (this.value === 'no' && this.checked) ? 'block' : 'none';
+            });
+        });
+
+        // Show/hide pet comfort messages and enforce meet & greet requirement
+        document.querySelectorAll('input[name="comfortableWithPets"]').forEach(option => {
+            option.addEventListener('change', function() {
+                const notSureNote = document.getElementById('notSureNote');
+                const comfortableWarning = document.getElementById('comfortableWarning');
+                const meetGreetYes = document.getElementById('meetGreetYes');
+                const meetGreetNo = document.getElementById('meetGreetNo');
+                
+                if (this.value === 'not-sure' && this.checked) {
+                    notSureNote.style.display = 'block';
+                    comfortableWarning.style.display = 'none';
+                    // Auto-select "Yes" for meet & greet and disable "No" option
+                    meetGreetYes.checked = true;
+                    meetGreetNo.disabled = true;
+                    meetGreetYes.dispatchEvent(new Event('change'));
+                } else if (this.value === 'no' && this.checked) {
+                    notSureNote.style.display = 'none';
+                    comfortableWarning.style.display = 'block';
+                    meetGreetNo.disabled = false;
+                } else {
+                    notSureNote.style.display = 'none';
+                    comfortableWarning.style.display = 'none';
+                    meetGreetNo.disabled = false;
+                }
+            });
+        });
+
+        // Show/hide meet & greet scheduling
+        document.querySelectorAll('input[name="meetAndGreet"]').forEach(option => {
+            option.addEventListener('change', function() {
+                const meetGreetSchedule = document.getElementById('meetGreetSchedule');
+                meetGreetSchedule.style.display = (this.value === 'yes' && this.checked) ? 'block' : 'none';
+            });
+        });
+
+        // Show/hide transportation address
+        document.querySelectorAll('input[name="transportation"]').forEach(option => {
+            option.addEventListener('change', function() {
+                const transportAddress = document.getElementById('transportAddress');
+                const needsAddress = ['pickup', 'dropoff', 'both'].includes(this.value);
+                transportAddress.style.display = (needsAddress && this.checked) ? 'block' : 'none';
+                
+                // Make address required if transport is needed
+                const addressField = document.getElementById('pickupAddress');
+                if (needsAddress) {
+                    addressField.setAttribute('required', 'required');
+                } else {
+                    addressField.removeAttribute('required');
+                }
+                
+                calculatePrice();
+            });
+        });
+
+        // Calculate pricing
+        function calculatePrice() {
+            // Check if minimum required fields are filled
+            const totalNights = parseInt(document.getElementById('totalNights').value) || 0;
+            const numDogs = parseInt(document.getElementById('numDogs').value) || 0;
+            const clientType = document.querySelector('input[name="clientType"]:checked')?.value;
+            const transportation = document.querySelector('input[name="transportation"]:checked')?.value;
+            const meetAndGreet = document.querySelector('input[name="meetAndGreet"]:checked')?.value;
+            
+            if (!totalNights || !numDogs || !clientType || !transportation || !meetAndGreet) {
+                document.getElementById('priceDisplay').style.display = 'none';
+                return;
+            }
+
+            // Pricing structure
+            const baseRate = 75; // per night for first dog
+            const additionalDog2Rate = 30; // per night for 2nd dog
+            const additionalDog3Rate = 15; // per night for 3rd dog
+            const nonHouseTrainedFee = 5; // per day, per dog
+            const transportBothWays = 30;
+            const transportOneWay = 15;
+
+            let subtotal = 0;
+            let breakdown = [];
+
+            // Base boarding cost for first dog
+            subtotal += baseRate * totalNights;
+            breakdown.push(`First dog: $${baseRate} x ${totalNights} night${totalNights > 1 ? 's' : ''} = $${(baseRate * totalNights).toFixed(2)}`);
+
+            // Additional dogs
+            if (numDogs >= 2) {
+                const dog2Cost = additionalDog2Rate * totalNights;
+                subtotal += dog2Cost;
+                breakdown.push(`Second dog: $${additionalDog2Rate} x ${totalNights} night${totalNights > 1 ? 's' : ''} = $${dog2Cost.toFixed(2)}`);
+            }
+            if (numDogs >= 3) {
+                const dog3Cost = additionalDog3Rate * totalNights;
+                subtotal += dog3Cost;
+                breakdown.push(`Third dog: $${additionalDog3Rate} x ${totalNights} night${totalNights > 1 ? 's' : ''} = $${dog3Cost.toFixed(2)}`);
+            }
+
+            // Non-house trained fees
+            let nonHouseTrainedCount = 0;
+            for (let i = 1; i <= numDogs; i++) {
+                const houseTrained = document.querySelector(`input[name="houseTrained${i}"]:checked`)?.value;
+                if (houseTrained === 'no') {
+                    nonHouseTrainedCount++;
+                }
+            }
+            if (nonHouseTrainedCount > 0) {
+                const nonHouseTrainedTotal = nonHouseTrainedFee * totalNights * nonHouseTrainedCount;
+                subtotal += nonHouseTrainedTotal;
+                breakdown.push(`Non-house trained fee: $${nonHouseTrainedFee} x ${totalNights} night${totalNights > 1 ? 's' : ''} x ${nonHouseTrainedCount} dog${nonHouseTrainedCount > 1 ? 's' : ''} = $${nonHouseTrainedTotal.toFixed(2)}`);
+            }
+
+            // Transportation
+            if (transportation === 'both') {
+                subtotal += transportBothWays;
+                breakdown.push(`Transportation (both ways): $${transportBothWays.toFixed(2)}`);
+            } else if (transportation === 'pickup' || transportation === 'dropoff') {
+                subtotal += transportOneWay;
+                breakdown.push(`Transportation (one way): $${transportOneWay.toFixed(2)}`);
+            }
+
+            // Add state tax to breakdown before discounts
+            const taxRate = 0.06;
+            const taxAmount = subtotal * taxRate;
+            breakdown.push(`State tax (6%): $${taxAmount.toFixed(2)}`);
+
+            // Calculate discounts
+            let discountRate = 0;
+            let discountLabel = '';
+            
+            if (clientType === 'new' && totalNights >= 3) {
+                discountRate = 0.15;
+                discountLabel = 'New client + 3+ nights discount (15%)';
+            } else if (clientType === 'new') {
+                discountRate = 0.10;
+                discountLabel = 'New client discount (10%)';
+            } else if (totalNights >= 3) {
+                discountRate = 0.10;
+                discountLabel = '3+ nights discount (10%)';
+            }
+
+            let discountAmount = 0;
+            if (discountRate > 0) {
+                discountAmount = subtotal * discountRate;
+                breakdown.push(`<span style="color: #B59197; font-weight: 600;">${discountLabel}: -$${discountAmount.toFixed(2)}</span>`);
+            }
+
+            const total = subtotal + taxAmount - discountAmount;
+
+            // Display booking summary
+            let summaryHTML = '<div style="font-size: 0.95em; color: #4A3933; line-height: 1.8;">';
+            summaryHTML += `<p><strong>Dates:</strong> ${totalNights} night${totalNights > 1 ? 's' : ''}</p>`;
+            summaryHTML += `<p><strong>Dogs:</strong> ${numDogs}</p>`;
+            if (transportation !== 'neither') {
+                summaryHTML += `<p><strong>Transportation:</strong> ${transportation.charAt(0).toUpperCase() + transportation.slice(1)}</p>`;
+            }
+            summaryHTML += '</div>';
+            document.getElementById('bookingSummary').innerHTML = summaryHTML;
+
+            // Display price breakdown
+            document.getElementById('priceBreakdown').innerHTML = breakdown.map(item => `<p>${item}</p>`).join('');
+            document.getElementById('totalPrice').textContent = '$' + total.toFixed(2);
+            document.getElementById('priceDisplay').style.display = 'block';
+        }
+
+        // Add event listeners for price calculation
+        document.getElementById('checkInDate').addEventListener('change', calculatePrice);
+        document.getElementById('checkOutDate').addEventListener('change', calculatePrice);
+        document.getElementById('numDogs').addEventListener('change', calculatePrice);
+        document.querySelectorAll('input[name="clientType"]').forEach(el => el.addEventListener('change', calculatePrice));
+        document.querySelectorAll('input[name="meetAndGreet"]').forEach(el => el.addEventListener('change', calculatePrice));
+
+        function handleFormSubmit() {
+            const form = document.getElementById('boardingForm');
+            
+            // Basic validation
+            if (!form.checkValidity()) {
+                // Find the first invalid field
+                const firstInvalid = form.querySelector(':invalid');
+                
+                if (firstInvalid) {
+                    // Scroll to the first invalid field
+                    firstInvalid.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    
+                    // Highlight it briefly
+                    firstInvalid.style.transition = 'border-color 0.3s';
+                    firstInvalid.style.borderColor = '#B59197';
+                    setTimeout(() => {
+                        firstInvalid.style.borderColor = '';
+                    }, 2000);
+                    
+                    // Show a more helpful message
+                    let fieldName = 'a required field';
+                    const label = form.querySelector(`label[for="${firstInvalid.id}"]`);
+                    if (label) {
+                        fieldName = label.textContent.replace('*', '').trim();
+                    } else if (firstInvalid.name) {
+                        // For radio buttons, get the label text
+                        const radioLabel = form.querySelector(`label:has(~ .radio-grid input[name="${firstInvalid.name}"])`);
+                        if (radioLabel) {
+                            fieldName = radioLabel.textContent.replace('*', '').trim();
+                        }
+                    }
+                    
+                    alert(`Please fill out all required fields. The first missing field is: ${fieldName}`);
+                } else {
+                    alert('Please fill out all required fields before submitting.');
+                }
+                
+                // Trigger HTML5 validation UI
+                form.reportValidity();
+                return;
+            }
+
+            // Show confirmation page
+            document.querySelector('.form-content').style.display = 'none';
+            document.getElementById('confirmationSection').style.display = 'block';
+            window.scrollTo(0, 0);
+            
+            // Submit form
+            const formData = new FormData(form);
+            fetch(form.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'Accept': 'application/json'
+                }
+            }).catch(error => {
+                // Silent fail - confirmation already shown
+            });
+        }
+    </script>
+</body>
+</html>
