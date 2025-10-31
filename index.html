@@ -66,6 +66,10 @@
             box-shadow: 0 8px 30px rgba(181, 145, 151, 0.15);
             border: 2px solid #E8D5D8;
             transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
         }
         
         .form-card:hover {
@@ -78,7 +82,7 @@
             font-family: 'Cormorant Unicase', serif;
             color: #B59197;
             font-size: 2.2em;
-            margin-bottom: 15px;
+            margin-bottom: 0;
             font-weight: 700;
         }
         
@@ -124,6 +128,9 @@
             
             .form-card {
                 padding: 30px;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
             }
             
             .form-card h2 {
@@ -144,28 +151,24 @@
             <!-- ONE-TIME & VACATION CARE -->
             <div class="form-card">
                 <h2>One-Time & Vacation Care</h2>
-                <p>Perfect for single visits or vacation coverage.</p>
                 <a href="one-time-booking.html" class="form-button">Start Request</a>
             </div>
             
             <!-- REGULAR & RECURRING CARE -->
             <div class="form-card">
                 <h2>Regular & Recurring Care</h2>
-                <p>Set up ongoing care with flexible scheduling options for regular visits.</p>
                 <a href="recurring-booking.html" class="form-button">Start Request</a>
             </div>
             
             <!-- POOP SCOOP REQUEST -->
             <div class="form-card">
                 <h2>Poop Scoop Service</h2>
-                <p>Keep your yard clean and fresh with our professional poop scoop service.</p>
                 <a href="poop-scoop-booking.html" class="form-button">Start Request</a>
             </div>
             
             <!-- DOG BOARDING REQUEST -->
             <div class="form-card">
                 <h2>Dog Boarding</h2>
-                <p>Comfortable home-style boarding for your pup(s).</p>
                 <a href="dog-boarding-booking.html" class="form-button">Start Request</a>
             </div>
         </div>
