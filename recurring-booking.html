@@ -1,845 +1,1587 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Regular & Recurring Care Booking</title>
+    <title>Recurring, Ongoing Care Booking</title>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant:wght@300;400;500;600&family=Cormorant+Unicase:wght@600;700&display=swap" rel="stylesheet">
     <style>
-        /* Page Header Styles */
-        .page-header {
-            max-width: 800px;
-            margin: 40px auto 30px auto;
-            padding: 0 20px;
-            text-align: center;
-        }
-        
-        .page-title {
-            font-family: 'Cormorant Unicase', serif;
-            color: #B59197;
-            font-size: 2.5em;
-            margin-bottom: 20px;
-            font-weight: 700;
-        }
-        
-        .page-intro {
-            font-family: 'Cormorant', serif;
-            color: #6B5D58;
-            font-size: 1.15em;
-            line-height: 1.7;
-            margin-bottom: 30px;
-        }
-        
-        .page-intro a {
-            color: #B59197;
-            text-decoration: underline;
-            font-weight: 600;
-        }
-        
-        /* Expandable Card Styles */
-        .booking-section {
-            max-width: 800px;
-            margin: 20px auto;
-            padding: 0 20px;
-            height: auto !important;
-            min-height: auto !important;
-            overflow: visible !important;
-        }
-        
-        .expandable-card {
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(181, 145, 151, 0.15);
-            border: 2px solid #E8D5D8;
-            margin-bottom: 20px;
-            min-height: 150px;
-        }
-        
-        .card-header {
-            padding: 30px;
-            cursor: pointer;
-            background: white;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            transition: background 0.3s ease;
-            border-radius: 12px;
-        }
-        
-        .card-header:hover {
-            background: rgba(181, 145, 151, 0.05);
-        }
-        
-        .card-header h2 {
-            font-family: 'Cormorant Unicase', serif;
-            color: #B59197;
-            font-size: 2em;
-            margin: 0;
-        }
-        
-        .expand-icon {
-            color: #B59197;
-            font-size: 1.5em;
-            transition: transform 0.3s ease;
-        }
-        
-        .card-content {
-            display: none;
-            padding: 0 30px 30px 30px;
-        }
-        
-        /* Form sections initially hidden */
-        #recurringScheduleSection,
-        #recurringServiceSection,
-        #recurringPetSection,
-        #recurringAdditionalSection,
-        #recurringBillingSection,
-        #recurringTermsSection {
-            display: none;
-        }
-        
-        /* Original Form Styles */
+        /* Base Styles */
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { 
-            font-family: 'Cormorant', serif; 
-            background: linear-gradient(135deg, #FAF7F5 0%, #F5EFE7 100%);
-            color: #4A3933; 
-            line-height: 1.6;
-        }
-        .form-section {
-            margin-bottom: 30px;
-        }
-        .section-title {
-            font-family: 'Cormorant Unicase', serif;
-            color: #B59197;
-            font-size: 1.5em;
-            margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #F5EFE7;
-        }
-        .form-group {
-            margin-bottom: 20px;
-        }
-        label {
-            display: block;
-            color: #4A3933;
-            font-weight: 600;
-            margin-bottom: 8px;
-            font-size: 1.05em;
-        }
-        .required {
-            color: #B59197;
-            margin-left: 4px;
-        }
+
+    /* Remove tap highlight on mobile */
+    * {
+        -webkit-tap-highlight-color: transparent;
+        -webkit-touch-callout: none;
+    }
+    
+    body { 
+        font-family: 'Cormorant', serif; 
+        background: linear-gradient(135deg, #FAF7F5 0%, #F5EFE7 100%);
+        color: #4A3933; 
+        line-height: 1.6;
+        min-height: 100vh;
+    }
+
+    /* Progress Indicator */
+    .progress-container {
+        max-width: 800px;
+        margin: 0 auto 5px auto;
+        padding: 0 20px;
+        position: sticky;
+        top: 0;
+        background: linear-gradient(135deg, #FAF7F5 0%, #F5EFE7 100%);
+        z-index: 100;
+        padding-top: 20px;
+        padding-bottom: 10px;
+        margin-top: 0;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+    
+    .progress-bar {
+        display: flex;
+        justify-content: space-between;
+        position: relative;
+        margin-bottom: 10px;
+    }
+    
+    .progress-bar::before {
+        content: '';
+        position: absolute;
+        top: 20px;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: #E8D5D8;
+        z-index: 1;
+    }
+    
+    .progress-fill {
+        position: absolute;
+        top: 20px;
+        left: 0;
+        height: 2px;
+        background: #B59197;
+        z-index: 2;
+        transition: width 0.3s ease;
+    }
+    
+    .progress-step {
+        position: relative;
+        z-index: 3;
+        text-align: center;
+        flex: 1;
+        -webkit-tap-highlight-color: transparent;
+    }
+    
+    .progress-step-circle {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: white;
+        border: 2px solid #E8D5D8;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 8px auto;
+        font-weight: 600;
+        color: #B59197;
+        transition: all 0.3s ease;
+    }
+    
+    .progress-step.active .progress-step-circle {
+        background: #B59197;
+        color: white;
+        border-color: #B59197;
+    }
+    
+    .progress-step.completed .progress-step-circle {
+        background: #81C784;
+        border-color: #81C784;
+        color: white;
+    }
+    
+    .progress-step-label {
+        font-family: 'Cormorant', serif;
+        font-size: 0.85em;
+        color: #6B5D58;
+        font-weight: 500;
+    }
+    
+    .progress-step.active .progress-step-label {
+        color: #B59197;
+        font-weight: 600;
+    }
+
+    /* Page Header */
+    .page-header {
+        max-width: 800px;
+        margin: 40px auto 20px auto;
+        padding: 0 20px;
+        text-align: center;
+    }
+    
+    .page-title {
+        font-family: 'Cormorant Unicase', serif;
+        color: #B59197;
+        font-size: 2.5em;
+        margin-bottom: 20px;
+        font-weight: 700;
+    }
+    
+    .page-intro {
+        font-family: 'Cormorant', serif;
+        color: #6B5D58;
+        font-size: 1.15em;
+        line-height: 1.7;
+        margin-bottom: 20px;
+    }
+
+    /* Form Container */
+    .booking-section {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 0 20px;
+        padding-bottom: 60px;
+    }
+
+    .booking-form-card {
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(181, 145, 151, 0.15);
+        border: 2px solid #E8D5D8;
+        padding: 40px;
+        margin-bottom: 40px;
+    }
+
+    /* Form Steps */
+    .form-step {
+        display: none;
+    }
+    
+    .form-step.active {
+        display: block;
+    }
+
+    /* Form Sections */
+    .form-section {
+        margin-bottom: 30px;
+    }
+    
+    .section-title {
+        font-family: 'Cormorant Unicase', serif;
+        color: #B59197;
+        font-size: 1.5em;
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+        border-bottom: 2px solid #F5EFE7;
+    }
+
+    /* Form Elements */
+    .form-group {
+        margin-bottom: 20px;
+    }
+    
+    label {
+        display: block;
+        color: #4A3933;
+        font-weight: 600;
+        margin-bottom: 8px;
+        font-size: 1.05em;
+        -webkit-tap-highlight-color: transparent;
+    }
+    
+    .required {
+        color: #B59197;
+        margin-left: 4px;
+    }
+    
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    input[type="date"],
+    input[type="time"],
+    input[type="number"],
+    select,
+    textarea {
+        width: 100%;
+        padding: 12px 15px;
+        border: 2px solid #E8D5D8;
+        border-radius: 8px;
+        font-family: 'Cormorant', serif;
+        font-size: 1em;
+        color: #4A3933;
+        background: white;
+        transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        -webkit-appearance: none;
+        appearance: none;
+        caret-color: #B59197;
+        -webkit-tap-highlight-color: transparent;
+    }
+    
+    input:focus, select:focus, textarea:focus {
+        outline: none;
+        border-color: #B59197;
+        box-shadow: 0 0 0 3px rgba(181, 145, 151, 0.1);
+    }
+    
+    /* Mobile-specific styles for better text input */
+    @media (max-width: 768px) {
         input[type="text"],
         input[type="email"],
         input[type="tel"],
         input[type="date"],
         input[type="time"],
         input[type="number"],
-        select,
         textarea {
-            width: 100%;
-            padding: 12px 15px;
-            border: 2px solid #E8D5D8;
-            border-radius: 8px;
-            font-family: 'Cormorant', serif;
-            font-size: 1em;
-            color: #4A3933;
-            background: white;
-            transition: all 0.3s ease;
+            font-size: 16px; /* Prevents zoom on iOS */
         }
-        input:focus, select:focus, textarea:focus {
-            outline: none;
-            border-color: #B59197;
-            box-shadow: 0 0 0 3px rgba(181, 145, 151, 0.1);
+        
+        select {
+            font-size: 16px; /* Prevents zoom on iOS */
         }
-        textarea {
-            resize: vertical;
-            min-height: 100px;
+    }
+    
+    textarea {
+        resize: vertical;
+        min-height: 100px;
+    }
+    
+    .form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+    }
+
+    /* Radio and Checkbox Groups */
+    .checkbox-group, .radio-group {
+        background: rgba(181, 145, 151, 0.05);
+        padding: 15px;
+        border-radius: 8px;
+        border: 1px solid #E8D5D8;
+    }
+    
+    .checkbox-item, .radio-item {
+        margin-bottom: 12px;
+        display: flex;
+        align-items: center;
+        padding: 8px;
+        border-radius: 6px;
+        transition: none;
+        -webkit-tap-highlight-color: transparent;
+    }
+    
+    .checkbox-item:active, .radio-item:active {
+        background: rgba(181, 145, 151, 0.15);
+    }
+    
+    .checkbox-item:last-child, .radio-item:last-child {
+        margin-bottom: 0;
+    }
+    
+    .checkbox-item input[type="checkbox"],
+    .radio-item input[type="radio"] {
+        width: auto;
+        margin-right: 10px;
+        cursor: pointer;
+        min-width: 18px;
+        min-height: 18px;
+    }
+    
+    .checkbox-item label,
+    .radio-item label {
+        margin-bottom: 0;
+        font-weight: 500;
+        cursor: pointer;
+        flex: 1;
+    }
+
+    /* Helper Text */
+    .helper-text {
+        font-size: 0.9em;
+        color: #8B7355;
+        margin-top: 5px;
+        font-style: italic;
+    }
+    
+    /* Links */
+    a {
+        -webkit-tap-highlight-color: transparent;
+        transition: opacity 0.2s ease;
+    }
+    
+    a:active {
+        opacity: 0.7;
+    }
+
+    /* Highlight Boxes */
+    .highlight-box {
+        background: linear-gradient(135deg, rgba(181, 145, 151, 0.1) 0%, rgba(181, 145, 151, 0.05) 100%);
+        border: 2px solid #B59197;
+        padding: 20px;
+        border-radius: 10px;
+        margin: 20px 0;
+        -webkit-tap-highlight-color: transparent;
+    }
+    
+    .highlight-box h3 {
+        font-family: 'Cormorant Unicase', serif;
+        color: #B59197;
+        font-size: 1.3em;
+        margin-bottom: 10px;
+    }
+    
+    .highlight-box p {
+        color: #6B5D58;
+        line-height: 1.7;
+    }
+
+    /* Navigation Buttons */
+    .form-navigation {
+        display: flex;
+        justify-content: space-between;
+        gap: 15px;
+        margin-top: 30px;
+        padding-top: 20px;
+        border-top: 2px solid #E8D5D8;
+    }
+    
+    .nav-button {
+        flex: 1;
+        padding: 14px 24px;
+        border: 2px solid #B59197;
+        border-radius: 8px;
+        font-family: 'Cormorant Unicase', serif;
+        font-size: 1.2em;
+        font-weight: 600;
+        cursor: pointer;
+        transition: none;
+        background: white;
+        color: #B59197;
+        -webkit-tap-highlight-color: transparent;
+    }
+    
+    .nav-button:hover:not(:disabled) {
+        background: rgba(181, 145, 151, 0.08);
+        transform: translateY(-1px);
+    }
+    
+    .nav-button:active:not(:disabled) {
+        background: rgba(181, 145, 151, 0.2);
+        transform: translateY(0);
+    }
+    
+    .nav-button:disabled {
+        opacity: 0.4;
+        cursor: not-allowed;
+    }
+    
+    .nav-button.primary {
+        background: linear-gradient(135deg, #B59197 0%, #A37F85 100%);
+        color: white;
+        border-color: #B59197;
+    }
+    
+    .nav-button.primary:hover:not(:disabled) {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(181, 145, 151, 0.3);
+    }
+    
+    .nav-button.primary:active:not(:disabled) {
+        transform: translateY(0);
+        box-shadow: 0 1px 4px rgba(181, 145, 151, 0.3);
+        filter: brightness(0.95);
+    }
+
+    /* Validation Errors */
+    .error-message {
+        background: #FFEBEE;
+        border: 2px solid #EF5350;
+        color: #C62828;
+        padding: 15px;
+        border-radius: 8px;
+        margin: 20px 0;
+        display: none;
+    }
+    
+    .error-message.show {
+        display: block;
+    }
+    
+    .error-list {
+        margin: 10px 0 0 0;
+        padding-left: 20px;
+    }
+    
+    .error-list li {
+        margin: 5px 0;
+    }
+    
+    .field-error {
+        border-color: #EF5350 !important;
+        box-shadow: 0 0 0 3px rgba(239, 83, 80, 0.1) !important;
+    }
+
+    /* Success Message */
+    .success-message {
+        display: none;
+        background: linear-gradient(135deg, #B59197 0%, #A37F85 100%);
+        color: white;
+        padding: 40px;
+        border-radius: 12px;
+        text-align: center;
+        margin: 20px;
+    }
+    
+    .success-message h2 {
+        font-family: 'Cormorant Unicase', serif;
+        font-size: 2.2em;
+        margin-bottom: 15px;
+    }
+    
+    .success-message p {
+        font-size: 1.2em;
+        line-height: 1.8;
+    }
+    
+    .success-box {
+        background: rgba(255,255,255,0.2);
+        border: 2px solid rgba(255,255,255,0.3);
+        padding: 25px;
+        border-radius: 10px;
+        margin: 25px 0;
+    }
+
+    /* Expandable Summary Sections */
+    .summary-section {
+        margin-bottom: 20px;
+    }
+    
+    .summary-header {
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        border: 2px solid #E8D5D8;
+        cursor: pointer;
+        transition: none;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        -webkit-tap-highlight-color: transparent;
+    }
+    
+    .summary-header:hover {
+        background: rgba(181, 145, 151, 0.06);
+        border-color: #B59197;
+    }
+    
+    .summary-header:active {
+        background: rgba(181, 145, 151, 0.15);
+        border-color: #B59197;
+    }
+    
+    .summary-header.expanded {
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+        border-bottom: none;
+    }
+    
+    .summary-total {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex: 1;
+    }
+    
+    .summary-total-label {
+        font-family: 'Cormorant Unicase', serif;
+        font-size: 1.3em;
+        font-weight: 600;
+        color: #4A3933;
+    }
+    
+    .summary-total-amount {
+        font-size: 1.4em;
+        font-weight: 700;
+        color: #B59197;
+    }
+    
+    .summary-total-amount.discount {
+        color: #2E7D32;
+    }
+    
+    .expand-icon {
+        margin-left: 15px;
+        font-size: 1.2em;
+        color: #B59197;
+        transition: transform 0.2s ease;
+    }
+    
+    .summary-header.expanded .expand-icon {
+        transform: rotate(180deg);
+    }
+    
+    .summary-details {
+        background: white;
+        border: 2px solid #E8D5D8;
+        border-top: none;
+        border-bottom-left-radius: 8px;
+        border-bottom-right-radius: 8px;
+        padding: 0;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.2s ease, padding 0.2s ease;
+    }
+    
+    .summary-details.expanded {
+        max-height: 2000px;
+        padding: 20px;
+        padding-top: 15px;
+    }
+    
+    .detail-row {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
+        padding: 8px 0;
+    }
+    
+    .detail-row.subtotal {
+        border-top: 1px solid #E8D5D8;
+        padding-top: 12px;
+        margin-top: 8px;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        .form-row { 
+            grid-template-columns: 1fr; 
         }
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
+        .page-title { 
+            font-size: 2em; 
         }
-        .checkbox-group, .radio-group {
-            background: rgba(181, 145, 151, 0.05);
-            padding: 15px;
-            border-radius: 8px;
-            border: 1px solid #E8D5D8;
+        .booking-form-card {
+            padding: 25px;
         }
-        .checkbox-item, .radio-item {
-            margin-bottom: 12px;
-            display: flex;
-            align-items: center;
+        .progress-step-label {
+            font-size: 0.75em;
         }
-        .checkbox-item:last-child, .radio-item:last-child {
-            margin-bottom: 0;
+        
+        /* Fix Service Overview section on mobile */
+        .service-overview-section > div {
+            padding: 15px !important;
         }
-        .checkbox-item input[type="checkbox"],
-        .radio-item input[type="radio"] {
-            width: auto;
-            margin-right: 10px;
-            cursor: pointer;
+        
+        .service-overview-section div[style*="display: flex"] {
+            display: block !important;
         }
-        .checkbox-item label,
-        .radio-item label {
-            margin-bottom: 0;
-            font-weight: 500;
-            cursor: pointer;
+        
+        .service-overview-section div[style*="display: flex"] span {
+            display: block !important;
+            width: 100% !important;
+            text-align: left !important;
+            white-space: normal !important;
+            word-wrap: break-word !important;
         }
-        .helper-text {
-            font-size: 0.9em;
-            color: #8B7355;
-            margin-top: 5px;
-            font-style: italic;
+        
+        .service-overview-section div[style*="display: flex"] span:first-child {
+            margin-bottom: 6px;
         }
-        .highlight-box {
-            background: linear-gradient(135deg, rgba(181, 145, 151, 0.1) 0%, rgba(181, 145, 151, 0.05) 100%);
-            border: 2px solid #B59197;
-            padding: 20px;
-            border-radius: 10px;
-            margin: 20px 0;
-        }
-        .highlight-box h3 {
-            font-family: 'Cormorant Unicase', serif;
-            color: #B59197;
-            font-size: 1.3em;
-            margin-bottom: 10px;
-        }
-        .highlight-box p {
+        
+        .service-overview-section div[style*="display: flex"] span:last-child {
+            padding-left: 15px;
             color: #6B5D58;
-            line-height: 1.7;
         }
-        .submit-button {
-            width: 100%;
-            background: linear-gradient(135deg, #B59197 0%, #A37F85 100%);
-            color: white;
-            padding: 18px 30px;
-            border: none;
-            border-radius: 8px;
-            font-family: 'Cormorant Unicase', serif;
-            font-size: 1.3em;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 12px rgba(181, 145, 151, 0.3);
-            margin-top: 30px;
-        }
-        .submit-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(181, 145, 151, 0.4);
-        }
-        @media (max-width: 768px) {
-            .form-row { grid-template-columns: 1fr; }
-            .page-title { font-size: 2em; }
-        }
-    </style>
+    }
+</style>
 </head>
 <body>
-    <div class="booking-section">
-        <!-- RECURRING CARE FORM -->
-        <div style="background: white; border-radius: 12px; box-shadow: 0 4px 20px rgba(181, 145, 151, 0.15); border: 2px solid #E8D5D8; padding: 30px;">
-            <h2 style="font-family: 'Cormorant Unicase', serif; color: #B59197; font-size: 2em; margin-bottom: 10px;">Regular & Recurring Care</h2>
-            <p style="color: #6B5D58; font-size: 1.1em; margin-bottom: 30px;">Set up ongoing care with flexible scheduling options for regular visits.</p>
-            
-            <form id="recurringBookingForm" action="https://formspree.io/f/meorwwrd" method="POST">
-                    <!-- Hidden fields for Formspree -->
-                    <input type="hidden" name="_subject" value="New Recurring Care Booking Request">
-                    <input type="hidden" name="form_type" value="Recurring Care">
-                    
-                    <!-- CONTACT INFORMATION -->
-                    <div class="form-section">
-                        <h2 class="section-title">Contact Information</h2>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label>First Name <span class="required">*</span></label>
-                                <input type="text" name="firstName" required>
-                            </div>
-                            <div class="form-group">
-                                <label>Last Name <span class="required">*</span></label>
-                                <input type="text" name="lastName" required>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label>Email <span class="required">*</span></label>
-                                <input type="email" name="email" required>
-                            </div>
-                            <div class="form-group">
-                                <label>Phone Number <span class="required">*</span></label>
-                                <input type="tel" name="phone" required>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label>Street Address <span class="required">*</span></label>
-                            <input type="text" name="address" required>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label>City <span class="required">*</span></label>
-                                <input type="text" name="city" required>
-                            </div>
-                            <div class="form-group">
-                                <label>ZIP Code <span class="required">*</span></label>
-                                <input type="text" name="zip" required>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- COMMUNICATION PREFERENCES -->
-                    <div class="form-section">
-                        <h2 class="section-title">Communication Preferences</h2>
-                        <div class="form-group">
-                            <label>How would you like to receive confirmations, forms, and invoices? <span class="required">*</span></label>
-                            <p class="helper-text" style="margin-bottom: 12px;">We'll send all booking confirmations, pet information forms, and invoices using your preferred method</p>
-                            <div class="radio-group">
-                                <div class="radio-item">
-                                    <input type="radio" id="recurCommText" name="communicationMethod" value="text" required>
-                                    <label for="recurCommText">Text Message</label>
-                                </div>
-                                <div class="radio-item">
-                                    <input type="radio" id="recurCommEmail" name="communicationMethod" value="email">
-                                    <label for="recurCommEmail">Email</label>
-                                </div>
-                                <div class="radio-item">
-                                    <input type="radio" id="recurCommBoth" name="communicationMethod" value="both">
-                                    <label for="recurCommBoth">Both Text & Email</label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- CLIENT STATUS -->
-                    <div class="form-section">
-                        <h2 class="section-title">Client Status</h2>
-                        <div class="form-group">
-                            <label>Are you a new or returning client? <span class="required">*</span></label>
-                            <div class="radio-group">
-                                <div class="radio-item">
-                                    <input type="radio" id="recurNewClient" name="clientStatus" value="new" required onchange="handleRecurringClientStatus()">
-                                    <label for="recurNewClient">New Client</label>
-                                </div>
-                                <div class="radio-item">
-                                    <input type="radio" id="recurReturningClient" name="clientStatus" value="returning" onchange="handleRecurringClientStatus()">
-                                    <label for="recurReturningClient">Returning Client</label>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <!-- NEW CLIENT OPTIONS -->
-                        <div id="recurringNewClientOptions" style="display: none;">
-                            <div class="highlight-box">
-                                <h3>Welcome! Choose Your New Client Option:</h3>
-                                <div class="form-group" style="margin-top: 15px;">
-                                    <div class="radio-group">
-                                        <div class="radio-item">
-                                            <input type="radio" id="recurMeetGreet" name="recurNewClientOption" value="meet-greet" onchange="handleRecurringNewClientOption()">
-                                            <label for="recurMeetGreet">Free Meet & Greet (20-minute intro, no commitment)</label>
-                                        </div>
-                                        <div class="radio-item">
-                                            <input type="radio" id="recurDiscount" name="recurNewClientOption" value="10-percent-off" onchange="handleRecurringNewClientOption()">
-                                            <label for="recurDiscount">10% Off First Day of Services</label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <!-- MEET & GREET SCHEDULING -->
-                            <div id="recurMeetGreetScheduling" style="display: none; margin-top: 20px; background: rgba(181, 145, 151, 0.05); padding: 20px; border-radius: 8px; border: 1px solid #E8D5D8;">
-                                <h3 style="color: #B59197; font-family: 'Cormorant Unicase', serif; font-size: 1.3em; margin-bottom: 15px;">Schedule Your Meet & Greet</h3>
-                                <div class="form-group">
-                                    <label>Preferred date and time(s) <span class="required">*</span></label>
-                                    <textarea name="recurMeetGreetTimes" id="recurMeetGreetTimes" rows="4" placeholder="Please provide a few date/time options that work for you"></textarea>
-                                    <p class="helper-text">We're available Monday-Sunday between 8am and 8pm</p>
-                                </div>
-                                
-                                <div class="form-group">
-                                    <label>Would you like to book recurring services after the meet & greet?</label>
-                                    <div class="radio-group">
-                                        <div class="radio-item">
-                                            <input type="radio" id="recurBookAfterYes" name="recurBookAfterMeetGreet" value="yes" onchange="handleRecurringBookAfter()">
-                                            <label for="recurBookAfterYes">Yes, I'd like to set up recurring services now</label>
-                                        </div>
-                                        <div class="radio-item">
-                                            <input type="radio" id="recurBookAfterNo" name="recurBookAfterMeetGreet" value="no" onchange="handleRecurringBookAfter()">
-                                            <label for="recurBookAfterNo">No, just the meet & greet for now</label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- SERVICE DETAILS -->
-                    <div class="form-section" id="recurringServiceSection">
-                        <h2 class="section-title">Service Details</h2>
-                        
-                        <div class="form-group">
-                            <label>Primary Service <span class="required">*</span></label>
-                            <select name="primaryService" required onchange="handleRecurringService()">
-                                <option value="">Select your main service...</option>
-                                <option value="pet-visit">In-Home Pet Visit</option>
-                                <option value="reset-cleaning">Pet Reset Cleaning</option>
-                                <option value="weekly-refresh">Weekly Refresh Package (30min visit + reset cleaning + dog bath)</option>
-                            </select>
-                        </div>
-                        
-                        <div class="form-group" id="recurDurationGroup" style="display: none;">
-                            <label>Visit Duration <span class="required">*</span></label>
-                            <select name="duration" id="recurDuration">
-                                <option value="">Select duration...</option>
-                                <option value="30min">30 minutes</option>
-                                <option value="1hr">1 hour</option>
-                                <option value="90min">90 minutes</option>
-                                <option value="2hr">2 hours</option>
-                            </select>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label>Add-On Services (Optional)</label>
-                            <div class="checkbox-group">
-                                <div class="checkbox-item">
-                                    <input type="checkbox" id="recurDogBath" name="addons" value="Dog Bath">
-                                    <label for="recurDogBath">Dog Bath</label>
-                                </div>
-                                <div class="checkbox-item">
-                                    <input type="checkbox" id="recurResetCleaningAddon" name="addons" value="Pet Reset Cleaning (Add-On)">
-                                    <label for="recurResetCleaningAddon">Pet Reset Cleaning (discounted as add-on)</label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+    <!-- Page Header -->
+    <div class="page-header">
+        <h1 class="page-title">Recurring, Ongoing Care</h1>
+        <p class="page-intro">Weekly, bi-weekly, and monthly schedules available</p>
+    </div>
 
-                    <!-- SERVICE SCHEDULE -->
-                    <div class="form-section" id="recurringScheduleSection">
-                        <h2 class="section-title">Service Schedule</h2>
-                        
-                        <div class="form-group">
-                            <label>Service Frequency <span class="required">*</span></label>
-                            <select name="frequency" id="recurringFrequency" required onchange="handleFrequency()">
-                                <option value="">Select frequency...</option>
-                                <option value="multiple-weekly">Multiple Days Per Week</option>
-                                <option value="weekly">Weekly (once per week)</option>
-                                <option value="biweekly">Bi-Weekly (every other week)</option>
-                                <option value="monthly">Monthly</option>
-                                <option value="custom">Custom Schedule</option>
-                            </select>
-                        </div>
-                        
-                        <!-- Frequency-specific sections will be inserted here dynamically -->
-                        <div id="frequencyDetails"></div>
-                        
-                        <div class="form-row" style="margin-top: 20px;">
-                            <div class="form-group">
-                                <label>Start Date <span class="required">*</span></label>
-                                <input type="date" name="startDate" required>
-                                <p class="helper-text">When would you like services to begin?</p>
-                            </div>
-                            <div class="form-group">
-                                <label>Service Duration</label>
-                                <select name="serviceDuration" onchange="handleServiceDuration()">
-                                    <option value="">Select duration...</option>
-                                    <option value="1-3months">1-3 months</option>
-                                    <option value="3-6months">3-6 months</option>
-                                    <option value="6-12months">6-12 months</option>
-                                    <option value="ongoing">Ongoing (no end date)</option>
-                                    <option value="specific">Specific end date</option>
-                                </select>
-                            </div>
-                        </div>
-                        
-                        <div class="form-group" id="specificEndDate" style="display: none;">
-                            <label>End Date</label>
-                            <input type="date" name="endDate">
-                        </div>
-                    </div>
-                    
-                    
-                    <!-- PET INFORMATION -->
-                    <div class="form-section" id="recurringPetSection">
-                        <h2 class="section-title">Pet Information</h2>
-                        
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label>Number of Dogs</label>
-                                <input type="number" name="numDogs" min="0" value="0">
-                            </div>
-                            <div class="form-group">
-                                <label>Number of Cats</label>
-                                <input type="number" name="numCats" min="0" value="0">
-                            </div>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label>Other Pets (birds, rabbits, etc.)</label>
-                            <input type="text" name="otherPets" placeholder="Please specify type and quantity">
-                        </div>
-                        
-                        <div class="form-group">
-                            <label>Pet Names & Breeds</label>
-                            <textarea name="petDetails" placeholder="Please list your pets' names and breeds (e.g., Max - Golden Retriever, Luna - Siamese Cat)"></textarea>
-                            <p class="helper-text">We'll send a detailed pet information form once your booking is confirmed</p>
-                        </div>
-                    </div>
-                    
-                    <!-- ADDITIONAL INFORMATION -->
-                    <div class="form-section" id="recurringAdditionalSection">
-                        <h2 class="section-title">Additional Information</h2>
-                        
-                        <div class="form-group">
-                            <label>Special Notes or Questions</label>
-                            <textarea name="specialNotes" placeholder="Any questions for us or special notes about your needs? We're here to help!"></textarea>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label>How did you hear about us?</label>
-                            <select name="referralSource">
-                                <option value="">Select...</option>
-                                <option value="google">Google Search</option>
-                                <option value="social">Social Media</option>
-                                <option value="friend">Friend/Family Referral</option>
-                                <option value="vet">Veterinarian</option>
-                                <option value="magazine-podcast">Magazine or Podcast</option>
-                                <option value="existing">I'm an existing client</option>
-                                <option value="other">Other</option>
-                            </select>
-                        </div>
-                    </div>
-                    
-                    <!-- BILLING PREFERENCES -->
-                    <div class="form-section" id="recurringBillingSection">
-                        <h2 class="section-title">Billing Preferences</h2>
-                        
-                        <div class="form-group">
-                            <label>Preferred Billing Cycle <span class="required">*</span></label>
-                            <div class="radio-group">
-                                <div class="radio-item">
-                                    <input type="radio" id="recurWeeklyBilling" name="billingCycle" value="weekly" required>
-                                    <label for="recurWeeklyBilling">Weekly</label>
-                                </div>
-                                <div class="radio-item">
-                                    <input type="radio" id="recurBiweeklyBilling" name="billingCycle" value="biweekly">
-                                    <label for="recurBiweeklyBilling">Bi-Weekly</label>
-                                </div>
-                                <div class="radio-item">
-                                    <input type="radio" id="recurMonthlyBilling" name="billingCycle" value="monthly">
-                                    <label for="recurMonthlyBilling">Monthly</label>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label>Preferred Payment Method <span class="required">*</span></label>
-                            <div class="radio-group">
-                                <div class="radio-item">
-                                    <input type="radio" id="recurCardInvoice" name="paymentMethod" value="card-invoice" required>
-                                    <label for="recurCardInvoice">Credit/Debit Card via Invoice</label>
-                                </div>
-                                <div class="radio-item">
-                                    <input type="radio" id="recurCardOnline" name="paymentMethod" value="card-online">
-                                    <label for="recurCardOnline">Credit/Debit Card via Online Bill Pay</label>
-                                </div>
-                                <div class="radio-item">
-                                    <input type="radio" id="recurVenmo" name="paymentMethod" value="venmo">
-                                    <label for="recurVenmo">Venmo</label>
-                                </div>
-                                <div class="radio-item">
-                                    <input type="radio" id="recurCashApp" name="paymentMethod" value="cashapp">
-                                    <label for="recurCashApp">Cash App</label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- TERMS -->
-                    <div class="form-section" id="recurringTermsSection">
-                        <div class="checkbox-item" style="background: rgba(181, 145, 151, 0.05); padding: 15px; border-radius: 8px; border: 1px solid #E8D5D8;">
-                            <input type="checkbox" id="recurTermsAccept" name="termsAccept" value="accepted" required style="width: auto; margin-right: 10px;">
-                            <label for="recurTermsAccept" style="margin-bottom: 0; font-weight: 500; display: inline;">
-                                I agree to the MyReliaCare Terms of Service and understand that services are subject to availability <span class="required">*</span>
-                            </label>
-                        </div>
-                    </div>
-                    
-                    <button type="submit" class="submit-button" style="display: none;">Submit Recurring Care Request</button>
-                </form>
-                
-                <!-- Success Message -->
-                <div id="recurringSuccessMessage" style="display: none; background: linear-gradient(135deg, #B59197 0%, #A37F85 100%); color: white; padding: 30px; border-radius: 12px; text-align: center; margin-top: 30px;">
-                    <h2 style="font-family: 'Cormorant Unicase', serif; font-size: 2em; margin-bottom: 15px;">Request Received!</h2>
-                    <p style="font-size: 1.2em; margin-bottom: 20px;">Thank you for choosing regular care services</p>
-                    
-                    <div style="background: rgba(255,255,255,0.2); border: 2px solid rgba(255,255,255,0.3); padding: 20px; border-radius: 10px; margin: 20px 0;">
-                        <p style="font-size: 1.1em; margin-bottom: 10px;"><strong>Next Steps:</strong></p>
-                        <p>We'll review your request and send you a customized service agreement within 24 hours.</p>
-                    </div>
-                    
-                    <p style="margin-top: 20px;">Questions? Call or text: (859) 346-0605</p>
-                </div>
+<!-- Progress Indicator -->
+<div class="progress-container">
+    <div class="progress-bar">
+        <div class="progress-fill" id="progressFill"></div>
+        <div class="progress-step active" data-step="1">
+            <div class="progress-step-circle">1</div>
+            <div class="progress-step-label">Contact</div>
+        </div>
+        <div class="progress-step" data-step="2">
+            <div class="progress-step-circle">2</div>
+            <div class="progress-step-label">Client Status</div>
+        </div>
+        <div class="progress-step" data-step="3">
+            <div class="progress-step-circle">3</div>
+            <div class="progress-step-label">Service & Schedule</div>
+        </div>
+        <div class="progress-step" data-step="4">
+            <div class="progress-step-circle">4</div>
+            <div class="progress-step-label">Pet Info</div>
+        </div>
+        <div class="progress-step" data-step="5">
+            <div class="progress-step-circle">5</div>
+            <div class="progress-step-label">Billing</div>
+        </div>
+        <div class="progress-step" data-step="6">
+            <div class="progress-step-circle">6</div>
+            <div class="progress-step-label">Review</div>
         </div>
     </div>
-            
-            <script type="text/javascript">
-        // RECURRING FORM SUBMISSION
-        var recurringForm = document.getElementById('recurringBookingForm');
-        if (recurringForm) {
-            recurringForm.addEventListener('submit', function(event) {
-                event.preventDefault();
-                
-                var submitBtn = recurringForm.querySelector('.submit-button');
-                var originalText = submitBtn.textContent;
-                submitBtn.textContent = 'Submitting...';
-                submitBtn.disabled = true;
-                
-                var formData = new FormData(recurringForm);
-                
-                fetch('https://formspree.io/f/meorwwrd', {
-                    method: 'POST',
-                    body: formData,
-                    headers: {
-                        'Accept': 'application/json'
-                    }
-                })
-                .then(function(response) {
-                    if (response.ok) {
-                        recurringForm.style.display = 'none';
-                        document.getElementById('recurringSuccessMessage').style.display = 'block';
-                        document.getElementById('recurringSuccessMessage').scrollIntoView({ behavior: 'smooth' });
-                    } else {
-                        throw new Error('Form submission failed');
-                    }
-                })
-                .catch(function(error) {
-                    alert('There was an error submitting your request. Please try again or call us at (859) 346-0605');
-                    submitBtn.textContent = originalText;
-                    submitBtn.disabled = false;
-                });
-            });
-        }
+</div>
 
-        function toggleRecurringSection() {
-            const content = document.getElementById('recurringFormSection');
-            const icon = document.getElementById('recurringExpandIcon');
-            
-            if (content.style.display === 'none' || content.style.display === '') {
-                content.style.display = 'block';
-                icon.style.transform = 'rotate(180deg)';
+<!-- Validation Errors -->
+<div class="booking-section">
+    <div class="error-message" id="validationErrors">
+        <strong>Please correct the following:</strong>
+        <ul class="error-list" id="errorList"></ul>
+    </div>
+</div>
+
+<!-- Success Message -->
+<div class="success-message" id="successMessage">
+    <h2>Request Received!</h2>
+    <p style="font-size: 1.2em; margin-bottom: 20px;">Thank you for choosing regular care services</p>
+    
+    <div class="success-box">
+        <p style="font-size: 1.1em; margin-bottom: 10px;"><strong>Next Steps:</strong></p>
+        <p>We'll review your request and send you a customized service agreement within 24 hours.</p>
+    </div>
+    
+    <p style="margin-top: 20px;">Questions? Call or text: (859) 346-0605</p>
+</div>
+
+<!-- Main Booking Form -->
+<div class="booking-section" id="bookingFormContainer">
+    <div class="booking-form-card">
+        <form id="recurringBookingForm">
+            <!-- Hidden Fields -->
+            <input type="hidden" name="_subject" value="New Recurring Care Booking Request">
+            <input type="hidden" name="form_type" value="Recurring Care">
+
+            <!-- STEP 1: Contact Information -->
+            <div class="form-step active" data-step="1">
+                <div class="form-section">
+                    <h2 class="section-title">Contact Information</h2>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>First Name <span class="required">*</span></label>
+                            <input type="text" name="firstName" id="firstName" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Last Name <span class="required">*</span></label>
+                            <input type="text" name="lastName" id="lastName" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Email <span class="required">*</span></label>
+                            <input type="email" name="email" id="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Phone Number <span class="required">*</span></label>
+                            <input type="tel" name="phone" id="phone" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Street Address <span class="required">*</span></label>
+                        <input type="text" name="address" id="address" required>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>City <span class="required">*</span></label>
+                            <input type="text" name="city" id="city" required>
+                        </div>
+                        <div class="form-group">
+                            <label>ZIP Code <span class="required">*</span></label>
+                            <input type="text" name="zip" id="zip" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h2 class="section-title">Communication Preferences</h2>
+                    <div class="form-group">
+                        <label>How would you like to receive confirmations, forms, and invoices? <span class="required">*</span></label>
+                        <p class="helper-text" style="margin-bottom: 12px;">We'll send all booking confirmations, pet information forms, and invoices using your preferred method</p>
+                        <div class="radio-group">
+                            <div class="radio-item">
+                                <input type="radio" id="commText" name="communicationMethod" value="text" required>
+                                <label for="commText">Text Message</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="commEmail" name="communicationMethod" value="email">
+                                <label for="commEmail">Email</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="commBoth" name="communicationMethod" value="both">
+                                <label for="commBoth">Both Text & Email</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-navigation">
+                    <button type="button" class="nav-button" disabled>Back</button>
+                    <button type="button" class="nav-button primary" onclick="nextStep()">Next</button>
+                </div>
+            </div>
+
+            <!-- STEP 2: Client Status -->
+            <div class="form-step" data-step="2">
+                <div class="form-section">
+                    <h2 class="section-title">Client Status</h2>
+                    <div class="form-group">
+                        <label>Are you a new or returning client? <span class="required">*</span></label>
+                        <div class="radio-group">
+                            <div class="radio-item">
+                                <input type="radio" id="newClient" name="clientStatus" value="new" required onchange="handleClientStatus()">
+                                <label for="newClient">New Client</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="returningClient" name="clientStatus" value="returning" onchange="handleClientStatus()">
+                                <label for="returningClient">Returning Client</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- New Client Options -->
+                    <div id="newClientOptions" style="display: none;">
+                        <div class="highlight-box">
+                            <h3>Welcome! Choose Your New Client Option:</h3>
+                            <div class="form-group" style="margin-top: 15px;">
+                                <div class="radio-group">
+                                    <div class="radio-item">
+                                        <input type="radio" id="meetGreet" name="newClientOption" value="meet-greet" onchange="handleNewClientOption()">
+                                        <label for="meetGreet">Free Meet & Greet (20-minute intro, no commitment)</label>
+                                    </div>
+                                    <div class="radio-item">
+                                        <input type="radio" id="discount" name="newClientOption" value="10-percent-off" onchange="handleNewClientOption()">
+                                        <label for="discount">10% Off First Day of Services</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Meet & Greet Scheduling -->
+                        <div id="meetGreetScheduling" style="display: none; margin-top: 20px; background: rgba(181, 145, 151, 0.05); padding: 20px; border-radius: 8px; border: 1px solid #E8D5D8;">
+                            <h3 style="color: #B59197; font-family: 'Cormorant Unicase', serif; font-size: 1.3em; margin-bottom: 15px;">Schedule Your Meet & Greet</h3>
+                            
+                            <!-- Available Times -->
+                            <div class="form-group">
+                                <label for="meetGreetTimes">When are you available? <span class="required">*</span></label>
+                                <textarea name="meetGreetTimes" id="meetGreetTimes" rows="3" placeholder="Please provide a few date/time options that work for you"></textarea>
+                                <p class="helper-text">We offer meet & greets daily, 9am-9pm (subject to availability)</p>
+                            </div>
+                            
+                            <!-- Who We Can Expect to Meet -->
+                            <div class="form-group">
+                                <label for="meetGreetAttendees">Who can we expect to meet? <span class="required">*</span></label>
+                                <textarea id="meetGreetAttendees" name="meetGreetAttendees" rows="3" placeholder="List all people & pets that will be present"></textarea>
+                            </div>
+                            
+                            <!-- Special Notes -->
+                            <div class="form-group">
+                                <label for="meetGreetNotes">Anything we should know before we arrive?</label>
+                                <textarea id="meetGreetNotes" name="meetGreetNotes" rows="3" placeholder="Examples: park across the street, knock when you arrive, dogs can be protective of our home, gate code, etc."></textarea>
+                            </div>
+                            
+                            <!-- Book More Services Question -->
+                            <div class="form-group">
+                                <label>Would you like to book services now? <span class="required">*</span></label>
+                                <div class="radio-group">
+                                    <div class="radio-item">
+                                        <input type="radio" id="bookAfterYes" name="bookAfterMeetGreet" value="yes" onchange="handleBookAfter()">
+                                        <label for="bookAfterYes">Yes, I'd like to set up services now</label>
+                                    </div>
+                                    <div class="radio-item">
+                                        <input type="radio" id="bookAfterNo" name="bookAfterMeetGreet" value="no" onchange="handleBookAfter()">
+                                        <label for="bookAfterNo">No, just the meet & greet for now</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-navigation">
+                    <button type="button" class="nav-button" onclick="prevStep()">Back</button>
+                    <button type="button" class="nav-button primary" onclick="nextStep()">Next</button>
+                </div>
+            </div>
+
+            <!-- STEP 3: Service Details & Schedule -->
+            <div class="form-step" data-step="3">
+                <div class="form-section">
+                    <h2 class="section-title">Service Details</h2>
+                    
+                    <div class="form-group">
+                        <label>Primary Service <span class="required">*</span></label>
+                        <select name="primaryService" id="primaryService" required onchange="handleService()">
+                            <option value="">Select your main service...</option>
+                            <option value="pet-visit">In-Home Pet Visit</option>
+                            <option value="reset-cleaning">Pet Reset Cleaning</option>
+                            <option value="weekly-refresh">Weekly Refresh Package (30min visit + reset cleaning + dog bath)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group" id="durationGroup" style="display: none;">
+                        <label>Visit Duration <span class="required">*</span></label>
+                        <select name="duration" id="duration">
+                            <option value="">Select duration...</option>
+                            <option value="30min">30 minutes</option>
+                            <option value="1hr">1 hour</option>
+                            <option value="90min">90 minutes</option>
+                            <option value="2hr">2 hours</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h2 class="section-title">Service Schedule</h2>
+                    
+                    <div class="form-group">
+                        <label>Service Frequency <span class="required">*</span></label>
+                        <select name="frequency" id="frequency" required onchange="handleFrequency()">
+                            <option value="">Select frequency...</option>
+                            <option value="weekly">Weekly (once per week)</option>
+                            <option value="biweekly">Bi-Weekly (every other week)</option>
+                            <option value="multiple-weekly">Multiple Days Per Week</option>
+                            <option value="monthly">Monthly</option>
+                            <option value="custom">Custom Schedule</option>
+                        </select>
+                    </div>
+                    
+                    <!-- Frequency-specific sections will be inserted here dynamically -->
+                    <div id="frequencyDetails"></div>
+                    
+                    <div class="form-row" style="margin-top: 20px;">
+                        <div class="form-group">
+                            <label>Start Date <span class="required">*</span></label>
+                            <input type="date" name="startDate" id="startDate" required>
+                            <p class="helper-text">When would you like services to begin?</p>
+                        </div>
+                        <div class="form-group">
+                            <label>Service Duration</label>
+                            <select name="serviceDuration" id="serviceDuration" onchange="handleServiceDuration()">
+                                <option value="">Select duration...</option>
+                                <option value="1-3months">1-3 months</option>
+                                <option value="3-6months">3-6 months</option>
+                                <option value="6-12months">6-12 months</option>
+                                <option value="ongoing">Ongoing (no end date)</option>
+                                <option value="specific">Specific end date</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group" id="specificEndDate" style="display: none;">
+                        <label>End Date</label>
+                        <input type="date" name="endDate" id="endDate">
+                    </div>
+                </div>
+
+                <!-- Add-Ons Section -->
+                <div class="form-section">
+                    <h2 class="section-title">Add-On Services (Optional)</h2>
+                    
+                    <!-- First Day Add-Ons for New Clients (shown first) -->
+                    <div id="firstDayAddOns" style="display: none; margin-bottom: 25px;">
+                        <div class="highlight-box">
+                            <h3>Maximize Your New Client Discount!</h3>
+                            <p style="margin-bottom: 15px;">Would you like to include any add-ons on your first day of service to take advantage of your 10% new client discount?</p>
+                            <div class="checkbox-group">
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="firstDayBath" name="firstDayAddOns" value="Dog Bath">
+                                    <label for="firstDayBath">Dog Bath on First Day - <span style="text-decoration: line-through; color: #8B7355;">$35</span> <span style="color: #2E7D32; font-weight: 600;">$31.50</span> per bath</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="firstDayCleaning" name="firstDayAddOns" value="Pet Reset Cleaning">
+                                    <label for="firstDayCleaning">Pet Reset Cleaning on First Day - <span style="text-decoration: line-through; color: #8B7355;">$75</span> <span style="color: #2E7D32; font-weight: 600;">$67.50</span></label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <p class="helper-text" style="margin-bottom: 15px;">Would you like to schedule recurring add-ons, or add them as needed?</p>
+                    
+                    <div class="form-group">
+                        <div class="radio-group">
+                            <div class="radio-item">
+                                <input type="radio" id="recurringAddOns" name="addOnChoice" value="recurring" onchange="handleAddOnChoice()">
+                                <label for="recurringAddOns">Schedule recurring add-ons on a consistent schedule</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="asNeededAddOns" name="addOnChoice" value="as-needed" onchange="handleAddOnChoice()">
+                                <label for="asNeededAddOns">I'll schedule add-ons as-needed once service begins</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- As-Needed Confirmation -->
+                    <div id="asNeededConfirmation" style="display: none; margin-top: 20px; background: rgba(181, 145, 151, 0.05); padding: 20px; border-radius: 8px; border: 1px solid #E8D5D8;">
+                        <p style="color: #6B5D58; margin: 0; line-height: 1.7;">Sounds good! Once your service begins, we can talk more about when you'd like to schedule add ons.</p>
+                    </div>
+
+                    <!-- Recurring Add-Ons Options -->
+                    <div id="recurringAddOnsSection" style="display: none; margin-top: 20px;">
+                        <div class="form-group">
+                            <label style="font-size: 1.1em; margin-bottom: 15px;">Select Add-Ons:</label>
+                            <div class="checkbox-group">
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="dogBath" name="addons" value="Dog Bath" onchange="handleAddOns()">
+                                    <label for="dogBath">Dog Bath - $35 per bath</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="resetCleaningAddon" name="addons" value="Pet Reset Cleaning (Add-On)" onchange="handleAddOns()">
+                                    <label for="resetCleaningAddon">Pet Reset Cleaning (discounted as add-on) - $75 per cleaning</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Add-on Details -->
+                        <div id="addOnDetails" style="display: none; margin-top: 20px;">
+                            <div style="background: rgba(181, 145, 151, 0.05); padding: 20px; border-radius: 8px; border: 1px solid #E8D5D8;">
+                                <div id="dogBathDetails" style="display: none; margin-bottom: 20px;">
+                                    <!-- Will be populated dynamically based on frequency -->
+                                </div>
+
+                                <div id="cleaningDetails" style="display: none;">
+                                    <!-- Will be populated dynamically based on frequency -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-navigation">
+                    <button type="button" class="nav-button" onclick="prevStep()">Back</button>
+                    <button type="button" class="nav-button primary" onclick="nextStep()">Next</button>
+                </div>
+            </div>
+
+            <!-- STEP 4: Pet Information -->
+            <div class="form-step" data-step="4">
+                <div class="form-section">
+                    <h2 class="section-title">Pet Information</h2>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Number of Dogs</label>
+                            <input type="number" name="numDogs" id="numDogs" min="0" value="0">
+                        </div>
+                        <div class="form-group">
+                            <label>Number of Cats</label>
+                            <input type="number" name="numCats" id="numCats" min="0" value="0">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Other Pets (birds, rabbits, etc.)</label>
+                        <input type="text" name="otherPets" id="otherPets" placeholder="Please specify type and quantity">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Pet Names & Breeds <span class="required">*</span></label>
+                        <textarea name="petDetails" id="petDetails" required placeholder="Please list your pets' names and breeds (e.g., Max - Golden Retriever, Luna - Siamese Cat)"></textarea>
+                        <p class="helper-text">We'll send a detailed pet information form once your booking is confirmed</p>
+                    </div>
+                </div>
+
+                <div class="form-navigation">
+                    <button type="button" class="nav-button" onclick="prevStep()">Back</button>
+                    <button type="button" class="nav-button primary" onclick="nextStep()">Next</button>
+                </div>
+            </div>
+
+            <!-- STEP 5: Additional Information & Billing -->
+            <div class="form-step" data-step="5">
+                <div class="form-section">
+                    <h2 class="section-title">Additional Information</h2>
+                    
+                    <div class="form-group">
+                        <label>Special Notes or Questions</label>
+                        <textarea name="specialNotes" id="specialNotes" placeholder="Any questions for us or special notes about your needs? We're here to help!"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>How did you hear about us?</label>
+                        <select name="referralSource" id="referralSource" onchange="handleReferralSource()">
+                            <option value="">Please select</option>
+                            <option value="Friend/Family">Friend or Family Member</option>
+                            <option value="Magazine">Magazine</option>
+                            <option value="Podcast">Podcast</option>
+                            <option value="Google">Google Search</option>
+                            <option value="Facebook">Facebook</option>
+                            <option value="Instagram">Instagram</option>
+                            <option value="Nextdoor">Nextdoor</option>
+                            <option value="Other">Other</option>
+                        </select>
+                        
+                        <div id="referralNameField" style="display: none; margin-top: 15px;">
+                            <label for="referralFirstName">Who referred you?</label>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <input type="text" id="referralFirstName" name="referralFirstName" placeholder="First name">
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" id="referralLastInitial" name="referralLastInitial" placeholder="Last initial" maxlength="1" style="text-transform: uppercase;">
+                                </div>
+                            </div>
+                            <p class="helper-text">If you name one of our current clients, they'll receive a special thank-you discount on their next service!</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h2 class="section-title">Billing Preferences</h2>
+                    
+                    <div class="form-group">
+                        <label>Preferred Billing Cycle <span class="required">*</span></label>
+                        <div class="radio-group">
+                            <div class="radio-item">
+                                <input type="radio" id="weeklyBilling" name="billingCycle" value="weekly" required>
+                                <label for="weeklyBilling">Weekly</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="biweeklyBilling" name="billingCycle" value="biweekly">
+                                <label for="biweeklyBilling">Bi-Weekly</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="monthlyBilling" name="billingCycle" value="monthly">
+                                <label for="monthlyBilling">Monthly</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Preferred Payment Method <span class="required">*</span></label>
+                        <div class="radio-group">
+                            <div class="radio-item">
+                                <input type="radio" id="secureInvoice" name="paymentMethod" value="secure-invoice" required onchange="handlePaymentMethod()">
+                                <label for="secureInvoice">Secure Invoice</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="onlineBillPay" name="paymentMethod" value="online-bill-pay" onchange="handlePaymentMethod()">
+                                <label for="onlineBillPay">Online Bill Pay</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="cashappVenmo" name="paymentMethod" value="cashapp-venmo" onchange="handlePaymentMethod()">
+                                <label for="cashappVenmo">CashApp/Venmo</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="cash" name="paymentMethod" value="cash" onchange="handlePaymentMethod()">
+                                <label for="cash">Cash (must be home)</label>
+                            </div>
+                        </div>
+                        
+                        <div id="cashPaymentNotice" style="display: none; background: #E8F5E9; border: 2px solid #81C784; padding: 15px; border-radius: 8px; margin-top: 15px;">
+                            <p style="color: #1B5E20; margin: 0;">Cash payment will be collected prior to the service starting.</p>
+                        </div>
+                        
+                        <div id="onlineBillPayLink" style="display: none; background: rgba(181, 145, 151, 0.05); border: 1px solid #E8D5D8; padding: 15px; border-radius: 8px; margin-top: 15px;">
+                            <p style="color: #6B5D58; margin: 0;">
+                                <strong style="color: #B59197;">Online Bill Pay Portal:</strong> 
+                                <a href="https://myreliacare.com/online-bill-pay" target="_blank" style="color: #B59197; text-decoration: underline; font-weight: 600;">myreliacare.com/online-bill-pay</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-navigation">
+                    <button type="button" class="nav-button" onclick="prevStep()">Back</button>
+                    <button type="button" class="nav-button primary" onclick="nextStep()">Next</button>
+                </div>
+            </div>
+
+            <!-- STEP 6: Review & Submit -->
+            <div class="form-step" data-step="6">
+                <div id="bookingSummary">
+                    <div id="summaryContent"></div>
+                </div>
+                
+                <div class="form-section" style="margin-top: 40px;">
+                    <div class="checkbox-item" style="background: rgba(181, 145, 151, 0.05); padding: 15px; border-radius: 8px; border: 1px solid #E8D5D8; margin-bottom: 15px;">
+                        <input type="checkbox" id="subscribeEmail" name="subscribeEmail" value="yes" style="width: auto; margin-right: 10px;">
+                        <label for="subscribeEmail" style="margin-bottom: 0; font-weight: 500; display: inline;">
+                            Subscribe to our email list for updates and special offers
+                        </label>
+                    </div>
+                    
+                    <div class="checkbox-item" style="background: rgba(181, 145, 151, 0.05); padding: 15px; border-radius: 8px; border: 1px solid #E8D5D8;">
+                        <input type="checkbox" id="termsAccept" name="termsAccept" value="accepted" required style="width: auto; margin-right: 10px;">
+                        <label for="termsAccept" style="margin-bottom: 0; font-weight: 500; display: inline;">
+                            I have reviewed and agree to MyReliaCare's <a href="https://myreliacare.com/terms-%26-privacy" target="_blank" style="color: #B59197; text-decoration: underline; font-weight: 600;">Terms of Service</a> <span class="required">*</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-navigation">
+                    <button type="button" class="nav-button" onclick="prevStep()">Back</button>
+                    <button type="submit" class="nav-button primary">Submit Booking Request</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    let currentStep = 1;
+    const totalSteps = 6;
+
+    // Pricing constants
+    const PRICING = {
+        VISIT_30MIN: 22,
+        VISIT_1HR: 32,
+        VISIT_90MIN: 45,
+        VISIT_2HR: 57,
+        DOG_BATH: 35,
+        CLEANING_ADDON: 75,
+        CLEANING_STANDALONE: 80,
+        WEEKLY_REFRESH: 115,
+        ADDITIONAL_DOG: 5,
+        STATE_TAX_RATE: 0.06,
+        MULTI_SERVICE_DISCOUNT: 0.05,
+        NEW_CLIENT_DISCOUNT: 0.10
+    };
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', function() {
+        updateProgressIndicator();
+    });
+
+    // Toggle expandable sections
+    function toggleSummarySection(sectionId) {
+        const header = document.getElementById(sectionId + '-header');
+        const details = document.getElementById(sectionId + '-details');
+        
+        header.classList.toggle('expanded');
+        details.classList.toggle('expanded');
+    }
+
+    // Progress indicator update
+    function updateProgressIndicator() {
+        const steps = document.querySelectorAll('.progress-step');
+        const progressFill = document.getElementById('progressFill');
+        
+        steps.forEach((step, index) => {
+            const stepNumber = index + 1;
+            if (stepNumber < currentStep) {
+                step.classList.add('completed');
+                step.classList.remove('active');
+            } else if (stepNumber === currentStep) {
+                step.classList.add('active');
+                step.classList.remove('completed');
             } else {
-                content.style.display = 'none';
-                icon.style.transform = 'rotate(0deg)';
+                step.classList.remove('active', 'completed');
+            }
+        });
+        
+        const progress = ((currentStep - 1) / (totalSteps - 1)) * 100;
+        progressFill.style.width = progress + '%';
+    }
+
+    // Navigation functions
+    function nextStep() {
+        if (!validateCurrentStep()) {
+            return;
+        }
+        
+        // Check if we're on Step 2 and user only wants meet & greet
+        if (currentStep === 2) {
+            const clientStatus = document.querySelector('input[name="clientStatus"]:checked');
+            const newClientOption = document.querySelector('input[name="newClientOption"]:checked');
+            const bookAfter = document.querySelector('input[name="bookAfterMeetGreet"]:checked');
+            
+            // If new client chose meet & greet only, skip to summary (Step 6)
+            if (clientStatus && clientStatus.value === 'new' && 
+                newClientOption && newClientOption.value === 'meet-greet' && 
+                bookAfter && bookAfter.value === 'no') {
+                
+                // Hide current step
+                document.querySelector(`.form-step[data-step="${currentStep}"]`).classList.remove('active');
+                
+                // Jump to Step 6 (summary)
+                currentStep = 6;
+                
+                // Show summary step
+                document.querySelector(`.form-step[data-step="${currentStep}"]`).classList.add('active');
+                
+                updateProgressIndicator();
+                generateBookingSummary();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                return;
             }
         }
         
-        // RECURRING FORM HANDLERS
-        function handleRecurringClientStatus() {
-            const status = document.querySelector('input[name="clientStatus"][id^="recur"]:checked');
-            const newOptions = document.getElementById('recurringNewClientOptions');
-            const restOfForm = document.querySelectorAll('#recurringScheduleSection, #recurringServiceSection, #recurringPetSection, #recurringAdditionalSection, #recurringBillingSection, #recurringTermsSection, #recurringBookingForm .submit-button');
+        if (currentStep < totalSteps) {
+            // Hide current step
+            document.querySelector(`.form-step[data-step="${currentStep}"]`).classList.remove('active');
             
-            if (!status) return;
+            currentStep++;
             
-            if (status.value === 'new') {
-                newOptions.style.display = 'block';
-                restOfForm.forEach(section => {
-                    if (section.classList && section.classList.contains('submit-button')) {
-                        section.style.display = 'none';
-                    } else if (section.id) {
-                        section.style.display = 'none';
-                    }
-                });
-            } else {
-                newOptions.style.display = 'none';
-                restOfForm.forEach(section => {
-                    if (section.classList && section.classList.contains('submit-button')) {
-                        section.style.display = 'block';
-                    } else if (section.id) {
-                        section.style.display = 'block';
-                    }
-                });
+            // Show next step
+            document.querySelector(`.form-step[data-step="${currentStep}"]`).classList.add('active');
+            
+            updateProgressIndicator();
+            
+            // Generate summary on last step
+            if (currentStep === 6) {
+                generateBookingSummary();
             }
+            
+            // Update first day add-ons visibility when entering Step 3
+            if (currentStep === 3) {
+                updateFirstDayAddOns();
+            }
+            
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
-        
-        function handleRecurringNewClientOption() {
-            const option = document.querySelector('input[name="recurNewClientOption"]:checked');
-            const meetGreet = document.getElementById('recurMeetGreetScheduling');
-            const meetGreetTimes = document.getElementById('recurMeetGreetTimes');
-            const restOfForm = document.querySelectorAll('#recurringScheduleSection, #recurringServiceSection, #recurringPetSection, #recurringAdditionalSection, #recurringBillingSection, #recurringTermsSection, #recurringBookingForm .submit-button');
-            
-            if (!option) return;
-            
-            if (option.value === 'meet-greet') {
-                meetGreet.style.display = 'block';
-                meetGreetTimes.required = true;
-                const bookAfter = document.querySelector('input[name="recurBookAfterMeetGreet"]:checked');
-                if (bookAfter && bookAfter.value === 'yes') {
-                    restOfForm.forEach(section => {
-                        if (section.classList && section.classList.contains('submit-button')) {
-                            section.style.display = 'block';
-                        } else if (section.id) {
-                            section.style.display = 'block';
-                        }
-                    });
-                } else {
-                    restOfForm.forEach(section => {
-                        if (section.classList && section.classList.contains('submit-button')) {
-                            section.style.display = 'block';
-                        } else if (section.id) {
-                            section.style.display = 'none';
-                        }
-                    });
+    }
+
+    function prevStep() {
+        if (currentStep > 1) {
+            // Check if we're on Step 6 and came from meet & greet only path
+            if (currentStep === 6) {
+                const clientStatus = document.querySelector('input[name="clientStatus"]:checked');
+                const newClientOption = document.querySelector('input[name="newClientOption"]:checked');
+                const bookAfter = document.querySelector('input[name="bookAfterMeetGreet"]:checked');
+                
+                // If this was meet & greet only, go back to Step 2
+                if (clientStatus && clientStatus.value === 'new' && 
+                    newClientOption && newClientOption.value === 'meet-greet' && 
+                    bookAfter && bookAfter.value === 'no') {
+                    
+                    // Hide current step
+                    document.querySelector(`.form-step[data-step="${currentStep}"]`).classList.remove('active');
+                    
+                    // Jump back to Step 2
+                    currentStep = 2;
+                    
+                    // Show Step 2
+                    document.querySelector(`.form-step[data-step="${currentStep}"]`).classList.add('active');
+                    
+                    updateProgressIndicator();
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                    return;
                 }
-            } else {
-                meetGreet.style.display = 'none';
-                meetGreetTimes.required = false;
-                restOfForm.forEach(section => {
-                    if (section.classList && section.classList.contains('submit-button')) {
-                        section.style.display = 'block';
-                    } else if (section.id) {
-                        section.style.display = 'block';
+            }
+            
+            // Normal back progression
+            // Hide current step
+            document.querySelector(`.form-step[data-step="${currentStep}"]`).classList.remove('active');
+            
+            currentStep--;
+            
+            // Show previous step
+            document.querySelector(`.form-step[data-step="${currentStep}"]`).classList.add('active');
+            
+            updateProgressIndicator();
+            
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    }
+
+    // Validation
+    function validateCurrentStep() {
+        const currentStepElement = document.querySelector(`.form-step[data-step="${currentStep}"]`);
+        const requiredFields = currentStepElement.querySelectorAll('[required]');
+        const errorList = document.getElementById('errorList');
+        const errorMessage = document.getElementById('validationErrors');
+        let errors = [];
+        
+        // Clear previous errors
+        errorList.innerHTML = '';
+        errorMessage.classList.remove('show');
+        document.querySelectorAll('.field-error').forEach(field => {
+            field.classList.remove('field-error');
+        });
+        
+        requiredFields.forEach(field => {
+            if (field.type === 'radio') {
+                const radioGroup = currentStepElement.querySelectorAll(`input[name="${field.name}"]`);
+                const isChecked = Array.from(radioGroup).some(radio => radio.checked);
+                if (!isChecked) {
+                    errors.push('Please select an option for: ' + getFieldLabel(field));
+                    radioGroup[0].closest('.radio-group').classList.add('field-error');
+                }
+            } else if (field.type === 'checkbox' && field.required) {
+                if (!field.checked) {
+                    errors.push('Please check: ' + getFieldLabel(field));
+                    field.classList.add('field-error');
+                }
+            } else if (!field.value.trim()) {
+                errors.push('Please fill out: ' + getFieldLabel(field));
+                field.classList.add('field-error');
+            }
+        });
+        
+        // Additional validation for Step 2
+        if (currentStep === 2) {
+            const clientStatus = document.querySelector('input[name="clientStatus"]:checked');
+            if (clientStatus && clientStatus.value === 'new') {
+                const newClientOption = document.querySelector('input[name="newClientOption"]:checked');
+                if (!newClientOption) {
+                    errors.push('Please select a new client option');
+                } else if (newClientOption.value === 'meet-greet') {
+                    const meetGreetTimes = document.getElementById('meetGreetTimes');
+                    const meetGreetAttendees = document.getElementById('meetGreetAttendees');
+                    const bookAfter = document.querySelector('input[name="bookAfterMeetGreet"]:checked');
+                    
+                    if (!meetGreetTimes.value.trim()) {
+                        errors.push('Please provide your available times for the meet & greet');
+                        meetGreetTimes.classList.add('field-error');
                     }
-                });
-            }
-        }
-        
-        function handleRecurringBookAfter() {
-            const bookAfter = document.querySelector('input[name="recurBookAfterMeetGreet"]:checked');
-            const restOfForm = document.querySelectorAll('#recurringScheduleSection, #recurringServiceSection, #recurringPetSection, #recurringAdditionalSection, #recurringBillingSection, #recurringTermsSection, #recurringBookingForm .submit-button');
-            
-            if (!bookAfter) return;
-            
-            if (bookAfter.value === 'yes') {
-                restOfForm.forEach(section => {
-                    if (section.classList && section.classList.contains('submit-button')) {
-                        section.style.display = 'block';
-                    } else if (section.id) {
-                        section.style.display = 'block';
+                    if (!meetGreetAttendees.value.trim()) {
+                        errors.push('Please let us know who we can expect to meet');
+                        meetGreetAttendees.classList.add('field-error');
                     }
-                });
-            } else {
-                restOfForm.forEach(section => {
-                    if (section.classList && section.classList.contains('submit-button')) {
-                        section.style.display = 'block';
-                    } else if (section.id) {
-                        section.style.display = 'none';
+                    if (!bookAfter) {
+                        errors.push('Please indicate if you want to book services now or just the meet & greet');
                     }
-                });
+                }
             }
         }
         
-        function handleFrequency() {
-            const frequency = document.getElementById('recurringFrequency').value;
-            const container = document.getElementById('frequencyDetails');
+        // Additional validation for Step 3 (frequency and add-ons) - skip if meet & greet only
+        if (currentStep === 3) {
+            const clientStatus = document.querySelector('input[name="clientStatus"]:checked');
+            const newClientOption = document.querySelector('input[name="newClientOption"]:checked');
+            const bookAfter = document.querySelector('input[name="bookAfterMeetGreet"]:checked');
             
-            if (!frequency) {
-                container.innerHTML = '';
-                return;
+            // Skip validation if this is meet & greet only (shouldn't reach this step anyway)
+            const isMeetGreetOnly = clientStatus && clientStatus.value === 'new' && 
+                                    newClientOption && newClientOption.value === 'meet-greet' && 
+                                    bookAfter && bookAfter.value === 'no';
+            
+            if (!isMeetGreetOnly) {
+                const frequency = document.getElementById('frequency').value;
+                if (!frequency) {
+                    errors.push('Please select a service frequency');
+                    document.getElementById('frequency').classList.add('field-error');
+                }
+                
+                // Check add-on requirements based on frequency type
+                const addOnChoice = document.querySelector('input[name="addOnChoice"]:checked');
+                const dogBath = document.getElementById('dogBath').checked;
+                const cleaning = document.getElementById('resetCleaningAddon').checked;
+                
+                if (addOnChoice && addOnChoice.value === 'recurring') {
+                    // Only validate if checkbox is CURRENTLY checked
+                    if (dogBath) {
+                        // Check for number of dogs
+                        const dogBathNumDogs = document.getElementById('dogBathNumDogs');
+                        if (dogBathNumDogs && (!dogBathNumDogs.value || parseInt(dogBathNumDogs.value) < 1)) {
+                            errors.push('Please specify how many dogs will receive baths');
+                            dogBathNumDogs.classList.add('field-error');
+                        }
+                        
+                        // Check for the dynamically created fields
+                        const dogBathSchedule = document.getElementById('dogBathSchedule');
+                        const dogBathCount = document.getElementById('dogBathCount');
+                        
+                        if (dogBathSchedule && !dogBathSchedule.value.trim()) {
+                            errors.push('Please specify when you\'d like dog baths');
+                            dogBathSchedule.classList.add('field-error');
+                        } else if (dogBathCount && (!dogBathCount.value || parseInt(dogBathCount.value) < 1)) {
+                            errors.push('Please specify how many dog baths per month');
+                            dogBathCount.classList.add('field-error');
+                        }
+                    }
+                
+                    // Only validate if checkbox is CURRENTLY checked
+                    if (cleaning) {
+                        const cleaningSchedule = document.getElementById('cleaningSchedule');
+                        const cleaningCount = document.getElementById('cleaningCount');
+                        
+                        if (cleaningSchedule && !cleaningSchedule.value.trim()) {
+                            errors.push('Please specify when you\'d like cleanings');
+                            cleaningSchedule.classList.add('field-error');
+                        } else if (cleaningCount && (!cleaningCount.value || parseInt(cleaningCount.value) < 1)) {
+                            errors.push('Please specify how many cleanings per month');
+                            cleaningCount.classList.add('field-error');
+                        }
+                    }
+                }
             }
-            
-            let html = '';
-            
-            if (frequency === 'multiple-weekly') {
-                html = '<div class="checkbox-group">' +
-                    '<p style="margin-bottom: 12px; font-weight: 600;">Select Days:</p>' +
-                    '<div class="checkbox-item"><input type="checkbox" id="recurMon" name="days" value="Monday"><label for="recurMon">Monday</label></div>' +
-                    '<div class="checkbox-item"><input type="checkbox" id="recurTue" name="days" value="Tuesday"><label for="recurTue">Tuesday</label></div>' +
-                    '<div class="checkbox-item"><input type="checkbox" id="recurWed" name="days" value="Wednesday"><label for="recurWed">Wednesday</label></div>' +
-                    '<div class="checkbox-item"><input type="checkbox" id="recurThu" name="days" value="Thursday"><label for="recurThu">Thursday</label></div>' +
-                    '<div class="checkbox-item"><input type="checkbox" id="recurFri" name="days" value="Friday"><label for="recurFri">Friday</label></div>' +
-                    '<div class="checkbox-item"><input type="checkbox" id="recurSat" name="days" value="Saturday"><label for="recurSat">Saturday</label></div>' +
-                    '<div class="checkbox-item"><input type="checkbox" id="recurSun" name="days" value="Sunday"><label for="recurSun">Sunday</label></div>' +
-                    '</div>' +
-                    '<div class="form-group" style="margin-top: 20px;">' +
-                    '<label>Visits Per Day <span class="required">*</span></label>' +
-                    '<select name="recurDailyVisitCount" id="recurDailyVisitCount" onchange="handleRecurDailyVisits()">' +
-                    '<option value="">Select...</option>' +
-                    '<option value="1">1 visit per day</option>' +
-                    '<option value="2">2 visits per day</option>' +
-                    '<option value="3">3 visits per day</option>' +
-                    '</select>' +
-                    '</div>' +
-                    '<div id="recurDailyVisitTimes" style="display: none;"></div>';
-            } else if (frequency === 'weekly' || frequency === 'biweekly') {
-                html = '<div class="form-group">' +
-                    '<label>Day of the Week <span class="required">*</span></label>' +
-                    '<select name="weeklyDay" id="weeklyDay">' +
-                    '<option value="">Select day...</option>' +
-                    '<option value="Monday">Monday</option>' +
-                    '<option value="Tuesday">Tuesday</option>' +
-                    '<option value="Wednesday">Wednesday</option>' +
-                    '<option value="Thursday">Thursday</option>' +
-                    '<option value="Friday">Friday</option>' +
-                    '<option value="Saturday">Saturday</option>' +
-                    '<option value="Sunday">Sunday</option>' +
-                    '<option value="flexible">Flexible - Any Day</option>' +
-                    '</select>' +
-                    '</div>' +
-                    '<div class="form-group">' +
-                    '<label>Preferred Time</label>' +
-                    '<select name="weeklyTime">' +
-                    '<option value="">Select time...</option>' +
-                    '<option value="anytime">Anytime</option>' +
-                    '<option value="morning">Morning (8am-12pm)</option>' +
-                    '<option value="afternoon">Afternoon (12pm-5pm)</option>' +
-                    '<option value="evening">Evening (5pm-8pm)</option>' +
-                    '<option value="8am-9am">8am - 9am</option>' +
-                    '<option value="9am-10am">9am - 10am</option>' +
-                    '<option value="10am-11am">10am - 11am</option>' +
-                    '<option value="11am-12pm">11am - 12pm</option>' +
-                    '<option value="12pm-1pm">12pm - 1pm</option>' +
-                    '<option value="1pm-2pm">1pm - 2pm</option>' +
-                    '<option value="2pm-3pm">2pm - 3pm</option>' +
-                    '<option value="3pm-4pm">3pm - 4pm</option>' +
-                    '<option value="4pm-5pm">4pm - 5pm</option>' +
-                    '<option value="5pm-6pm">5pm - 6pm</option>' +
-                    '<option value="6pm-7pm">6pm - 7pm</option>' +
-                    '<option value="7pm-8pm">7pm - 8pm</option>' +
-                    '</select>' +
-                    '</div>';
-            } else if (frequency === 'monthly') {
-                html = '<div class="form-group">' +
-                    '<label>Describe Your Monthly Schedule <span class="required">*</span></label>' +
-                    '<textarea name="monthlySchedule" id="monthlySchedule" rows="4" placeholder="Example: First Monday of each month at 10am, or 15th of each month in the afternoon"></textarea>' +
-                    '</div>';
-            } else if (frequency === 'custom') {
-                html = '<div class="form-group">' +
-                    '<label>Describe Your Custom Schedule <span class="required">*</span></label>' +
-                    '<textarea name="customSchedule" id="customSchedule" rows="4" placeholder="Example: Every Tuesday and Thursday, plus the first Saturday of each month"></textarea>' +
-                    '</div>';
-            }
-            
-            container.innerHTML = html;
         }
         
-        function handleRecurDailyVisits() {
-            const count = document.getElementById('recurDailyVisitCount').value;
-            const container = document.getElementById('recurDailyVisitTimes');
-            
-            if (!count) {
-                container.style.display = 'none';
-                return;
-            }
-            
-            container.style.display = 'block';
-            let html = '<div style="margin-top: 15px;">';
-            for (let i = 1; i <= parseInt(count); i++) {
-                html += createTimeSelect('recurDailyVisit' + i + 'Time', 'Visit ' + i + ' - Preferred Time:');
-            }
-            html += '</div>';
-            container.innerHTML = html;
+        if (errors.length > 0) {
+            errors.forEach(error => {
+                const li = document.createElement('li');
+                li.textContent = error;
+                errorList.appendChild(li);
+            });
+            errorMessage.classList.add('show');
+            errorMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            return false;
         }
         
-        function createTimeSelect(name, label) {
-            return '<div class="form-group">' +
-                '<label>' + label + '</label>' +
-                '<select name="' + name + '">' +
+        return true;
+    }
+
+    function getFieldLabel(field) {
+        const label = field.closest('.form-group')?.querySelector('label');
+        if (label) {
+            return label.textContent.replace('*', '').trim();
+        }
+        return field.name;
+    }
+
+    // Form handlers
+    function handleClientStatus() {
+        const status = document.querySelector('input[name="clientStatus"]:checked');
+        const newOptions = document.getElementById('newClientOptions');
+        
+        if (!status) return;
+        
+        if (status.value === 'new') {
+            newOptions.style.display = 'block';
+        } else {
+            newOptions.style.display = 'none';
+            // Clear new client selections
+            document.querySelectorAll('input[name="newClientOption"]').forEach(radio => radio.checked = false);
+            document.getElementById('meetGreetScheduling').style.display = 'none';
+            // Clear meet & greet fields
+            document.getElementById('meetGreetTimes').value = '';
+            document.getElementById('meetGreetAttendees').value = '';
+            document.getElementById('meetGreetNotes').value = '';
+            document.querySelectorAll('input[name="bookAfterMeetGreet"]').forEach(radio => radio.checked = false);
+        }
+    }
+
+    function handleNewClientOption() {
+        const option = document.querySelector('input[name="newClientOption"]:checked');
+        const meetGreet = document.getElementById('meetGreetScheduling');
+        const meetGreetTimes = document.getElementById('meetGreetTimes');
+        const meetGreetAttendees = document.getElementById('meetGreetAttendees');
+        
+        if (!option) return;
+        
+        if (option.value === 'meet-greet') {
+            meetGreet.style.display = 'block';
+            meetGreetTimes.required = true;
+            meetGreetAttendees.required = true;
+        } else {
+            meetGreet.style.display = 'none';
+            meetGreetTimes.required = false;
+            meetGreetAttendees.required = false;
+            meetGreetTimes.value = '';
+            meetGreetAttendees.value = '';
+            document.getElementById('meetGreetNotes').value = '';
+        }
+    }
+    
+    function updateFirstDayAddOns() {
+        const clientStatus = document.querySelector('input[name="clientStatus"]:checked');
+        const newClientOption = document.querySelector('input[name="newClientOption"]:checked');
+        const firstDayAddOns = document.getElementById('firstDayAddOns');
+        
+        // Show if new client with 10% discount option
+        if (clientStatus && clientStatus.value === 'new' && 
+            newClientOption && newClientOption.value === '10-percent-off') {
+            firstDayAddOns.style.display = 'block';
+        } else {
+            firstDayAddOns.style.display = 'none';
+            // Clear selections if hiding
+            const firstDayBath = document.getElementById('firstDayBath');
+            const firstDayCleaning = document.getElementById('firstDayCleaning');
+            if (firstDayBath) firstDayBath.checked = false;
+            if (firstDayCleaning) firstDayCleaning.checked = false;
+        }
+    }
+
+    function handleBookAfter() {
+        const bookAfter = document.querySelector('input[name="bookAfterMeetGreet"]:checked');
+        
+        if (!bookAfter) return;
+        
+        // If they choose "No" (just meet & greet), remove required from service fields
+        if (bookAfter.value === 'no') {
+            // Remove required from all service-related fields
+            document.getElementById('primaryService').required = false;
+            document.getElementById('frequency').required = false;
+            document.getElementById('startDate').required = false;
+            document.getElementById('numDogs').required = false;
+            document.getElementById('numCats').required = false;
+            document.querySelectorAll('input[name="billingCycle"]').forEach(input => input.required = false);
+            document.querySelectorAll('input[name="paymentMethod"]').forEach(input => input.required = false);
+        } else {
+            // If they choose "Yes", make service fields required again
+            document.getElementById('primaryService').required = true;
+            document.getElementById('frequency').required = true;
+            document.getElementById('startDate').required = true;
+            document.querySelectorAll('input[name="billingCycle"]').forEach(input => input.required = true);
+            document.querySelectorAll('input[name="paymentMethod"]').forEach(input => input.required = true);
+        }
+    }
+
+    function handleService() {
+        const service = document.getElementById('primaryService').value;
+        const durationGroup = document.getElementById('durationGroup');
+        const duration = document.getElementById('duration');
+        
+        if (service === 'pet-visit') {
+            durationGroup.style.display = 'block';
+            duration.required = true;
+        } else {
+            durationGroup.style.display = 'none';
+            duration.required = false;
+            duration.value = '';
+        }
+    }
+
+    function handleFrequency() {
+        const frequency = document.getElementById('frequency').value;
+        const container = document.getElementById('frequencyDetails');
+        
+        if (!frequency) {
+            container.innerHTML = '';
+            return;
+        }
+        
+        let html = '';
+        
+        if (frequency === 'multiple-weekly') {
+            html = '<div class="checkbox-group">' +
+                '<p style="margin-bottom: 12px; font-weight: 600;">Select Days:</p>' +
+                '<div class="checkbox-item"><input type="checkbox" id="mon" name="days" value="Monday" onchange="handleMultipleDays()"><label for="mon">Monday</label></div>' +
+                '<div class="checkbox-item"><input type="checkbox" id="tue" name="days" value="Tuesday" onchange="handleMultipleDays()"><label for="tue">Tuesday</label></div>' +
+                '<div class="checkbox-item"><input type="checkbox" id="wed" name="days" value="Wednesday" onchange="handleMultipleDays()"><label for="wed">Wednesday</label></div>' +
+                '<div class="checkbox-item"><input type="checkbox" id="thu" name="days" value="Thursday" onchange="handleMultipleDays()"><label for="thu">Thursday</label></div>' +
+                '<div class="checkbox-item"><input type="checkbox" id="fri" name="days" value="Friday" onchange="handleMultipleDays()"><label for="fri">Friday</label></div>' +
+                '<div class="checkbox-item"><input type="checkbox" id="sat" name="days" value="Saturday" onchange="handleMultipleDays()"><label for="sat">Saturday</label></div>' +
+                '<div class="checkbox-item"><input type="checkbox" id="sun" name="days" value="Sunday" onchange="handleMultipleDays()"><label for="sun">Sunday</label></div>' +
+                '</div>' +
+                '<div id="multipleDayTimes" style="margin-top: 20px;"></div>';
+        } else if (frequency === 'weekly') {
+            html = '<div class="form-group">' +
+                '<label>Day of the Week <span class="required">*</span></label>' +
+                '<select name="weeklyDay" id="weeklyDay">' +
+                '<option value="">Select day...</option>' +
+                '<option value="Monday">Monday</option>' +
+                '<option value="Tuesday">Tuesday</option>' +
+                '<option value="Wednesday">Wednesday</option>' +
+                '<option value="Thursday">Thursday</option>' +
+                '<option value="Friday">Friday</option>' +
+                '<option value="Saturday">Saturday</option>' +
+                '<option value="Sunday">Sunday</option>' +
+                '<option value="flexible">Flexible - Any Day</option>' +
+                '</select>' +
+                '</div>' +
+                '<div class="form-group">' +
+                '<label>Preferred Arrival Window</label>' +
+                '<select name="weeklyTime">' +
                 '<option value="">Select time...</option>' +
                 '<option value="anytime">Anytime</option>' +
-                '<option value="morning">Morning (8am-12pm)</option>' +
+                '<option value="morning">Morning (9am-12pm)</option>' +
                 '<option value="afternoon">Afternoon (12pm-5pm)</option>' +
-                '<option value="evening">Evening (5pm-8pm)</option>' +
-                '<option value="8am-9am">8am - 9am</option>' +
+                '<option value="evening">Evening (5pm-9pm)</option>' +
                 '<option value="9am-10am">9am - 10am</option>' +
                 '<option value="10am-11am">10am - 11am</option>' +
                 '<option value="11am-12pm">11am - 12pm</option>' +
@@ -851,35 +1593,997 @@
                 '<option value="5pm-6pm">5pm - 6pm</option>' +
                 '<option value="6pm-7pm">6pm - 7pm</option>' +
                 '<option value="7pm-8pm">7pm - 8pm</option>' +
+                '<option value="8pm-9pm">8pm - 9pm</option>' +
                 '</select>' +
+                '</div>';
+        } else if (frequency === 'biweekly') {
+            html = '<div class="checkbox-group">' +
+                '<p style="margin-bottom: 12px; font-weight: 600;">Select Days (for each bi-weekly period):</p>' +
+                '<div class="checkbox-item"><input type="checkbox" id="biweekMon" name="biweekDays" value="Monday" onchange="handleBiweeklyDays()"><label for="biweekMon">Monday</label></div>' +
+                '<div class="checkbox-item"><input type="checkbox" id="biweekTue" name="biweekDays" value="Tuesday" onchange="handleBiweeklyDays()"><label for="biweekTue">Tuesday</label></div>' +
+                '<div class="checkbox-item"><input type="checkbox" id="biweekWed" name="biweekDays" value="Wednesday" onchange="handleBiweeklyDays()"><label for="biweekWed">Wednesday</label></div>' +
+                '<div class="checkbox-item"><input type="checkbox" id="biweekThu" name="biweekDays" value="Thursday" onchange="handleBiweeklyDays()"><label for="biweekThu">Thursday</label></div>' +
+                '<div class="checkbox-item"><input type="checkbox" id="biweekFri" name="biweekDays" value="Friday" onchange="handleBiweeklyDays()"><label for="biweekFri">Friday</label></div>' +
+                '<div class="checkbox-item"><input type="checkbox" id="biweekSat" name="biweekDays" value="Saturday" onchange="handleBiweeklyDays()"><label for="biweekSat">Saturday</label></div>' +
+                '<div class="checkbox-item"><input type="checkbox" id="biweekSun" name="biweekDays" value="Sunday" onchange="handleBiweeklyDays()"><label for="biweekSun">Sunday</label></div>' +
+                '</div>' +
+                '<div id="biweeklyDayTimes" style="margin-top: 20px;"></div>';
+        } else if (frequency === 'monthly') {
+            html = '<div class="form-group">' +
+                '<label>Describe Your Monthly Schedule <span class="required">*</span></label>' +
+                '<textarea name="monthlySchedule" id="monthlySchedule" rows="4" placeholder="Example: First Monday of each month at 10am, or 15th of each month in the afternoon"></textarea>' +
+                '</div>';
+        } else if (frequency === 'custom') {
+            html = '<div class="form-group">' +
+                '<label>Describe Your Custom Schedule <span class="required">*</span></label>' +
+                '<textarea name="customSchedule" id="customSchedule" rows="4" placeholder="Example: Every Tuesday and Thursday, plus the first Saturday of each month"></textarea>' +
                 '</div>';
         }
         
-        function handleServiceDuration() {
-            const duration = document.querySelector('select[name="serviceDuration"]').value;
-            const endDateGroup = document.getElementById('specificEndDate');
+        container.innerHTML = html;
+        
+        // Update add-on UI if add-ons are already selected
+        handleAddOns();
+    }
+
+    function handleDailyVisits() {
+        const count = document.getElementById('dailyVisitCount').value;
+        const container = document.getElementById('dailyVisitTimes');
+        
+        if (!count) {
+            container.style.display = 'none';
+            return;
+        }
+        
+        container.style.display = 'block';
+        let html = '<div style="margin-top: 15px;">';
+        for (let i = 1; i <= parseInt(count); i++) {
+            html += createTimeSelect('dailyVisit' + i + 'Time', 'Visit ' + i + ' - Preferred Arrival Window:');
+        }
+        html += '</div>';
+        container.innerHTML = html;
+    }
+    
+    function handleMultipleDays() {
+        const selectedDays = document.querySelectorAll('input[name="days"]:checked');
+        const container = document.getElementById('multipleDayTimes');
+        
+        if (selectedDays.length === 0) {
+            container.innerHTML = '';
+            return;
+        }
+        
+        let html = '<div style="background: rgba(181, 145, 151, 0.05); padding: 15px; border-radius: 8px; border: 1px solid #E8D5D8;">';
+        html += '<p style="margin-bottom: 15px; font-weight: 600; color: #4A3933;">Set arrival window for each day:</p>';
+        
+        selectedDays.forEach(function(dayCheckbox) {
+            const dayValue = dayCheckbox.value;
+            html += createTimeSelect(dayValue.toLowerCase() + 'Time', dayValue + ' - Preferred Arrival Window:');
+        });
+        
+        html += '</div>';
+        container.innerHTML = html;
+        
+        // Also trigger handleAddOns since days changed
+        handleAddOns();
+    }
+
+    function handleBiweeklyDays() {
+        const selectedDays = document.querySelectorAll('input[name="biweekDays"]:checked');
+        const container = document.getElementById('biweeklyDayTimes');
+        
+        if (selectedDays.length === 0) {
+            container.innerHTML = '';
+            return;
+        }
+        
+        let html = '<div style="background: rgba(181, 145, 151, 0.05); padding: 15px; border-radius: 8px; border: 1px solid #E8D5D8;">';
+        html += '<p style="margin-bottom: 15px; font-weight: 600; color: #4A3933;">Set arrival window for each day:</p>';
+        
+        selectedDays.forEach(function(dayCheckbox) {
+            const dayValue = dayCheckbox.value;
+            html += createTimeSelect('biweek' + dayValue + 'Time', dayValue + ' - Preferred Arrival Window:');
+        });
+        
+        html += '</div>';
+        container.innerHTML = html;
+    }
+
+    function createTimeSelect(name, label) {
+        return '<div class="form-group">' +
+            '<label>' + label + '</label>' +
+            '<select name="' + name + '">' +
+            '<option value="">Select time...</option>' +
+            '<option value="anytime">Anytime</option>' +
+            '<option value="morning">Morning (9am-12pm)</option>' +
+            '<option value="afternoon">Afternoon (12pm-5pm)</option>' +
+            '<option value="evening">Evening (5pm-9pm)</option>' +
+            '<option value="9am-10am">9am - 10am</option>' +
+            '<option value="10am-11am">10am - 11am</option>' +
+            '<option value="11am-12pm">11am - 12pm</option>' +
+            '<option value="12pm-1pm">12pm - 1pm</option>' +
+            '<option value="1pm-2pm">1pm - 2pm</option>' +
+            '<option value="2pm-3pm">2pm - 3pm</option>' +
+            '<option value="3pm-4pm">3pm - 4pm</option>' +
+            '<option value="4pm-5pm">4pm - 5pm</option>' +
+            '<option value="5pm-6pm">5pm - 6pm</option>' +
+            '<option value="6pm-7pm">6pm - 7pm</option>' +
+            '<option value="7pm-8pm">7pm - 8pm</option>' +
+            '<option value="8pm-9pm">8pm - 9pm</option>' +
+            '</select>' +
+            '</div>';
+    }
+
+    function handleServiceDuration() {
+        const duration = document.getElementById('serviceDuration').value;
+        const endDateGroup = document.getElementById('specificEndDate');
+        const endDate = document.getElementById('endDate');
+        
+        if (duration === 'specific') {
+            endDateGroup.style.display = 'block';
+            endDate.required = true;
+        } else {
+            endDateGroup.style.display = 'none';
+            endDate.required = false;
+            endDate.value = '';
+        }
+    }
+
+    function handleReferralSource() {
+        const referralSource = document.getElementById('referralSource').value;
+        const referralNameField = document.getElementById('referralNameField');
+        
+        if (referralSource === 'Friend/Family') {
+            referralNameField.style.display = 'block';
+        } else {
+            referralNameField.style.display = 'none';
+            document.getElementById('referralFirstName').value = '';
+            document.getElementById('referralLastInitial').value = '';
+        }
+    }
+
+    function handlePaymentMethod() {
+        const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked');
+        const cashNotice = document.getElementById('cashPaymentNotice');
+        const billPayLink = document.getElementById('onlineBillPayLink');
+        
+        // Hide all notices first
+        cashNotice.style.display = 'none';
+        billPayLink.style.display = 'none';
+        
+        if (paymentMethod) {
+            if (paymentMethod.value === 'cash') {
+                cashNotice.style.display = 'block';
+            } else if (paymentMethod.value === 'online-bill-pay') {
+                billPayLink.style.display = 'block';
+            }
+        }
+    }
+
+    function handleAddOnChoice() {
+        const addOnChoice = document.querySelector('input[name="addOnChoice"]:checked');
+        const asNeededConfirmation = document.getElementById('asNeededConfirmation');
+        const recurringAddOnsSection = document.getElementById('recurringAddOnsSection');
+        
+        if (!addOnChoice) return;
+        
+        if (addOnChoice.value === 'as-needed') {
+            asNeededConfirmation.style.display = 'block';
+            recurringAddOnsSection.style.display = 'none';
+            // Clear any recurring add-on selections
+            document.getElementById('dogBath').checked = false;
+            document.getElementById('resetCleaningAddon').checked = false;
+            document.getElementById('addOnDetails').style.display = 'none';
+        } else if (addOnChoice.value === 'recurring') {
+            asNeededConfirmation.style.display = 'none';
+            recurringAddOnsSection.style.display = 'block';
+            // Trigger handleAddOns in case add-ons were already selected
+            handleAddOns();
+        }
+    }
+
+    function handleAddOns() {
+        const dogBath = document.getElementById('dogBath').checked;
+        const cleaning = document.getElementById('resetCleaningAddon').checked;
+        const addOnSection = document.getElementById('addOnDetails');
+        const dogBathDetails = document.getElementById('dogBathDetails');
+        const cleaningDetails = document.getElementById('cleaningDetails');
+        const frequency = document.getElementById('frequency').value;
+        
+        if (dogBath || cleaning) {
+            addOnSection.style.display = 'block';
             
-            if (duration === 'specific') {
-                endDateGroup.style.display = 'block';
+            if (dogBath) {
+                dogBathDetails.style.display = 'block';
+                dogBathDetails.innerHTML = generateAddOnScheduleUI('dogBath', 'Dog Bath', frequency);
             } else {
-                endDateGroup.style.display = 'none';
+                dogBathDetails.style.display = 'none';
+                dogBathDetails.innerHTML = ''; // Clear fields when unchecked
+            }
+            
+            if (cleaning) {
+                cleaningDetails.style.display = 'block';
+                cleaningDetails.innerHTML = generateAddOnScheduleUI('cleaning', 'Pet Reset Cleaning', frequency);
+            } else {
+                cleaningDetails.style.display = 'none';
+                cleaningDetails.innerHTML = ''; // Clear fields when unchecked
+            }
+        } else {
+            addOnSection.style.display = 'none';
+            dogBathDetails.style.display = 'none';
+            cleaningDetails.style.display = 'none';
+            dogBathDetails.innerHTML = ''; // Clear all fields
+            cleaningDetails.innerHTML = ''; // Clear all fields
+        }
+    }
+
+    function generateAddOnScheduleUI(type, serviceName, frequency) {
+        let html = '<h3 style="color: #B59197; font-family: \'Cormorant Unicase\', serif; font-size: 1.2em; margin-bottom: 15px;">' + serviceName + ' Schedule</h3>';
+        
+        // If this is a dog bath, ask about number of dogs
+        if (type === 'dogBath') {
+            html += '<div class="form-group">';
+            html += '<label>How many dogs will receive baths? <span class="required">*</span></label>';
+            html += '<input type="number" name="dogBathNumDogs" id="dogBathNumDogs" min="1" required placeholder="Number of dogs">';
+            html += '<p class="helper-text">This helps us calculate your total pricing</p>';
+            html += '</div>';
+            
+            html += '<div class="form-group">';
+            html += '<label>Which dogs? (optional)</label>';
+            html += '<textarea name="dogBathWhichDogs" id="dogBathWhichDogs" rows="2" placeholder="List dog names if you have specific preferences"></textarea>';
+            html += '</div>';
+        }
+        
+        if (frequency === 'weekly') {
+            // Weekly - simple text field
+            html += '<div class="form-group">';
+            html += '<label>When would you like ' + serviceName.toLowerCase() + 's? <span class="required">*</span></label>';
+            html += '<input type="text" name="' + type + 'Schedule" id="' + type + 'Schedule" required placeholder="Example: Every visit, Every other week, etc.">';
+            html += '<p class="helper-text">We\'ll be visiting once per week - let us know your preference</p>';
+            html += '</div>';
+            
+        } else if (frequency === 'biweekly') {
+            // Bi-weekly - simple text field
+            html += '<div class="form-group">';
+            html += '<label>When would you like ' + serviceName.toLowerCase() + 's? <span class="required">*</span></label>';
+            html += '<input type="text" name="' + type + 'Schedule" id="' + type + 'Schedule" required placeholder="Example: Every visit, Once per month, etc.">';
+            html += '<p class="helper-text">We\'ll be visiting every other week - let us know your preference</p>';
+            html += '</div>';
+            
+        } else if (frequency === 'multiple-weekly') {
+            // Multiple days per week - text description instead of checkboxes
+            html += '<div class="form-group">';
+            html += '<label>When would you like ' + serviceName.toLowerCase() + 's? <span class="required">*</span></label>';
+            html += '<textarea name="' + type + 'Schedule" id="' + type + 'Schedule" rows="3" required placeholder="Example: Every Friday, Twice per week on Monday and Thursday, Every other Monday, etc."></textarea>';
+            html += '<p class="helper-text">Describe which days and how often you\'d like this add-on</p>';
+            html += '</div>';
+            
+        } else if (frequency === 'monthly') {
+            // Monthly - number input
+            html += '<div class="form-group">';
+            html += '<label>How many times per month? <span class="required">*</span></label>';
+            html += '<input type="number" name="' + type + 'Count" id="' + type + 'Count" min="1" max="4" required placeholder="Enter number">';
+            html += '<p class="helper-text">Most monthly clients choose 1-2 times per month</p>';
+            html += '</div>';
+            html += '<div class="form-group">';
+            html += '<label>Any scheduling preferences?</label>';
+            html += '<textarea name="' + type + 'Notes" id="' + type + 'Notes" rows="2" placeholder="Example: First visit of each month, Same day as main service, etc."></textarea>';
+            html += '</div>';
+            
+        } else if (frequency === 'custom') {
+            // Custom - free text
+            html += '<div class="form-group">';
+            html += '<label>Describe when you\'d like ' + serviceName.toLowerCase() + 's <span class="required">*</span></label>';
+            html += '<textarea name="' + type + 'Schedule" id="' + type + 'Schedule" rows="3" required placeholder="Example: Every Friday visit, Twice per month on Tuesdays, etc."></textarea>';
+            html += '</div>';
+            
+        } else {
+            // Fallback - if no frequency selected yet
+            html += '<div class="form-group">';
+            html += '<p style="color: #8B7355; padding: 15px; background: rgba(181, 145, 151, 0.05); border-radius: 6px;">Please select your service frequency above first, then we\'ll ask about ' + serviceName.toLowerCase() + 's scheduling.</p>';
+            html += '</div>';
+        }
+        
+        return html;
+    }
+
+    // Generate booking summary with expandable sections
+    function generateBookingSummary() {
+        const summaryDiv = document.getElementById('summaryContent');
+        let html = '';
+        
+        // Check if this is meet & greet only
+        const clientStatus = document.querySelector('input[name="clientStatus"]:checked');
+        const newClientOption = document.querySelector('input[name="newClientOption"]:checked');
+        const bookAfter = document.querySelector('input[name="bookAfterMeetGreet"]:checked');
+        
+        const isMeetGreetOnly = clientStatus && clientStatus.value === 'new' && 
+                                newClientOption && newClientOption.value === 'meet-greet' && 
+                                bookAfter && bookAfter.value === 'no';
+        
+        if (isMeetGreetOnly) {
+            // Simple Meet & Greet Only Summary
+            html += '<div style="text-align: center; margin-bottom: 35px; padding-bottom: 25px; border-bottom: 2px solid #E8D5D8;">';
+            html += '<h3 style="font-family: \'Cormorant Unicase\', serif; color: #B59197; font-size: 1.9em; margin-bottom: 12px;">Your Meet & Greet Request</h3>';
+            html += '<p style="color: #8B7355; font-size: 1em; margin: 0;">Please review your information before submitting</p>';
+            html += '</div>';
+            
+            // Meet & Greet Details
+            html += '<div style="margin-bottom: 35px;">';
+            html += '<h4 style="font-family: \'Cormorant Unicase\', serif; color: #B59197; font-size: 1.4em; margin-bottom: 18px; border-bottom: 2px solid #E8D5D8; padding-bottom: 10px;">Meet & Greet Details</h4>';
+            html += '<div style="background: white; padding: 22px; border-radius: 8px; border: 1px solid #E8D5D8;">';
+            
+            html += '<div style="display: flex; justify-content: space-between; margin-bottom: 14px; padding-bottom: 14px; border-bottom: 1px solid #F5EFE7;">';
+            html += '<span><strong>Service Type:</strong></span>';
+            html += '<span style="color: #81C784; font-weight: 600;">FREE Meet & Greet</span>';
+            html += '</div>';
+            
+            const meetGreetTimes = document.getElementById('meetGreetTimes').value;
+            if (meetGreetTimes) {
+                html += '<div style="margin-bottom: 14px;">';
+                html += '<strong style="display: block; margin-bottom: 8px; color: #B59197;">Available Times:</strong>';
+                html += '<div style="padding: 12px; background: rgba(181, 145, 151, 0.05); border-radius: 6px; white-space: pre-wrap;">' + meetGreetTimes + '</div>';
+                html += '</div>';
+            }
+            
+            const meetGreetAttendees = document.getElementById('meetGreetAttendees').value;
+            if (meetGreetAttendees) {
+                html += '<div style="margin-bottom: 14px;">';
+                html += '<strong style="display: block; margin-bottom: 8px; color: #B59197;">Who to Expect:</strong>';
+                html += '<div style="padding: 12px; background: rgba(181, 145, 151, 0.05); border-radius: 6px; white-space: pre-wrap;">' + meetGreetAttendees + '</div>';
+                html += '</div>';
+            }
+            
+            const meetGreetNotes = document.getElementById('meetGreetNotes').value;
+            if (meetGreetNotes) {
+                html += '<div style="margin-bottom: 0;">';
+                html += '<strong style="display: block; margin-bottom: 8px; color: #B59197;">Special Notes:</strong>';
+                html += '<div style="padding: 12px; background: rgba(181, 145, 151, 0.05); border-radius: 6px; white-space: pre-wrap;">' + meetGreetNotes + '</div>';
+                html += '</div>';
+            }
+            
+            html += '</div>';
+            html += '</div>';
+            
+            // Important note
+            html += '<div style="margin-top: 30px; padding: 22px; background: #E8F5E9; border: 2px solid #81C784; border-radius: 10px;">';
+            html += '<p style="margin: 0; font-size: 1.02em; color: #1B5E20; line-height: 1.75;"><strong>What\'s Next:</strong> We\'ll review your availability and contact you within 24 hours to schedule your free meet & greet. No commitment required!</p>';
+            html += '</div>';
+            
+            summaryDiv.innerHTML = html;
+            document.getElementById('bookingSummary').style.display = 'block';
+            return;
+        }
+        
+        // Full Service Summary with expandable sections
+        html += '<div style="text-align: center; margin-bottom: 35px; padding-bottom: 25px; border-bottom: 2px solid #E8D5D8;">';
+        html += '<h3 style="font-family: \'Cormorant Unicase\', serif; color: #B59197; font-size: 1.9em; margin-bottom: 12px;">Your Booking Summary</h3>';
+        html += '<p style="color: #8B7355; font-size: 1em; margin: 0;">Review your service details and pricing below</p>';
+        html += '</div>';
+        
+        // Get all form values
+        const primaryService = document.getElementById('primaryService');
+        const frequency = document.getElementById('frequency');
+        const numDogs = parseInt(document.getElementById('numDogs').value) || 0;
+        const dogBath = document.getElementById('dogBath').checked;
+        const cleaning = document.getElementById('resetCleaningAddon').checked;
+        const addOnChoice = document.querySelector('input[name="addOnChoice"]:checked');
+        
+        const clientStatusFull = document.querySelector('input[name="clientStatus"]:checked');
+        const newClientOptionFull = document.querySelector('input[name="newClientOption"]:checked');
+        
+        let serviceCost = 0;
+        let isWeeklyRefresh = false;
+        let primaryServiceText = '';
+        let monthlyVisits = 0;
+        
+        // Determine service cost and monthly visits
+        if (primaryService.value) {
+            primaryServiceText = primaryService.options[primaryService.selectedIndex].text;
+            
+            if (primaryService.value === 'weekly-refresh') {
+                serviceCost = PRICING.WEEKLY_REFRESH;
+                isWeeklyRefresh = true;
+            } else if (primaryService.value === 'reset-cleaning') {
+                serviceCost = PRICING.CLEANING_STANDALONE;
+            } else if (primaryService.value === 'pet-visit') {
+                const duration = document.getElementById('duration');
+                if (duration.value) {
+                    switch(duration.value) {
+                        case '30min': serviceCost = PRICING.VISIT_30MIN; break;
+                        case '1hr': serviceCost = PRICING.VISIT_1HR; break;
+                        case '90min': serviceCost = PRICING.VISIT_90MIN; break;
+                        case '2hr': serviceCost = PRICING.VISIT_2HR; break;
+                    }
+                }
+            }
+            
+            // Add extra dog fee to service cost
+            if (numDogs > 2) {
+                const extraDogs = numDogs - 2;
+                serviceCost += extraDogs * PRICING.ADDITIONAL_DOG;
             }
         }
         
-        function handleRecurringService() {
-            const service = document.querySelector('#recurringServiceSection select[name="primaryService"]').value;
-            const durationGroup = document.getElementById('recurDurationGroup');
-            
-            if (service === 'pet-visit') {
-                durationGroup.style.display = 'block';
-                document.getElementById('recurDuration').required = true;
-            } else {
-                durationGroup.style.display = 'none';
-                document.getElementById('recurDuration').required = false;
+        // Calculate monthly visits based on frequency
+        if (frequency.value) {
+            if (frequency.value === 'weekly') {
+                monthlyVisits = 4;
+            } else if (frequency.value === 'biweekly') {
+                monthlyVisits = 2;
+            } else if (frequency.value === 'monthly') {
+                monthlyVisits = 1;
+            } else if (frequency.value === 'multiple-weekly') {
+                const selectedDays = document.querySelectorAll('input[name="days"]:checked');
+                monthlyVisits = selectedDays.length * 4;
             }
         }
-            </script>
-        </div>
-    </div>
+        
+        // SERVICE OVERVIEW SECTION (Non-expandable)
+        html += '<div style="margin-bottom: 35px;" class="service-overview-section">';
+        html += '<h4 style="font-family: \'Cormorant Unicase\', serif; color: #B59197; font-size: 1.4em; margin-bottom: 18px; border-bottom: 2px solid #E8D5D8; padding-bottom: 10px;">Service Overview</h4>';
+        html += '<div style="background: white; padding: 20px 18px; border-radius: 8px; border: 1px solid #E8D5D8;">';
+        
+        // Meet & greet if applicable
+        if (clientStatusFull && clientStatusFull.value === 'new' && newClientOptionFull && newClientOptionFull.value === 'meet-greet') {
+            const bookAfterYes = document.querySelector('input[name="bookAfterMeetGreet"]:checked');
+            if (bookAfterYes && bookAfterYes.value === 'yes') {
+                html += '<div style="display: flex; justify-content: space-between; gap: 15px; margin-bottom: 16px; padding-bottom: 16px; border-bottom: 1px solid #F5EFE7;">';
+                html += '<span style="flex: 1;"><strong>Meet & Greet:</strong></span>';
+                html += '<span style="color: #81C784; font-weight: 600; flex-shrink: 0;">FREE (included)</span>';
+                html += '</div>';
+            }
+        }
+        
+        html += '<div style="display: flex; justify-content: space-between; gap: 15px; margin-bottom: 16px;">';
+        html += '<span style="flex: 1;"><strong>Primary Service:</strong></span>';
+        // Add duration for pet visits
+        let serviceDisplay = primaryServiceText;
+        if (primaryService.value === 'pet-visit') {
+            const duration = document.getElementById('duration');
+            if (duration.value) {
+                const durationText = duration.options[duration.selectedIndex].text;
+                serviceDisplay = 'In-Home Pet Visit (' + durationText + ')';
+            }
+        }
+        html += '<span style="flex-shrink: 0; text-align: right;">' + serviceDisplay + '</span>';
+        html += '</div>';
+        
+        if (frequency.value) {
+            html += '<div style="display: flex; justify-content: space-between; gap: 15px; margin-bottom: 16px;">';
+            html += '<span style="flex: 1;"><strong>Frequency:</strong></span>';
+            
+            let frequencyText = frequency.options[frequency.selectedIndex].text;
+            
+            // Add day of week and time details
+            if (frequency.value === 'weekly') {
+                const weeklyDay = document.getElementById('weeklyDay');
+                const weeklyTime = document.querySelector('select[name="weeklyTime"]');
+                if (weeklyDay && weeklyDay.value) {
+                    frequencyText += ' - ' + weeklyDay.options[weeklyDay.selectedIndex].text;
+                }
+                if (weeklyTime && weeklyTime.value) {
+                    frequencyText += ' (' + weeklyTime.options[weeklyTime.selectedIndex].text + ')';
+                }
+            } else if (frequency.value === 'biweekly') {
+                const biweekDays = document.querySelectorAll('input[name="biweekDays"]:checked');
+                if (biweekDays.length > 0) {
+                    const days = Array.from(biweekDays).map(d => d.value).join(', ');
+                    frequencyText += ' - ' + days;
+                }
+            } else if (frequency.value === 'multiple-weekly') {
+                const days = document.querySelectorAll('input[name="days"]:checked');
+                if (days.length > 0) {
+                    const dayNames = Array.from(days).map(d => d.value).join(', ');
+                    frequencyText += ' - ' + dayNames;
+                }
+            }
+            
+            html += '<span style="flex-shrink: 0; text-align: right;">' + frequencyText + '</span>';
+            html += '</div>';
+        }
+        
+        // Add-ons - check if they chose recurring or as-needed
+        if (addOnChoice && addOnChoice.value === 'as-needed') {
+            // Show as-needed choice
+            html += '<div style="display: flex; justify-content: space-between; gap: 15px; margin-bottom: 16px;">';
+            html += '<span style="flex: 1;"><strong>Add-Ons:</strong></span>';
+            html += '<span style="color: #8B7355; flex-shrink: 0; text-align: right;">Will be scheduled as-needed</span>';
+            html += '</div>';
+        } else if (addOnChoice && addOnChoice.value === 'recurring') {
+            // Show recurring add-ons if selected
+            if (dogBath) {
+                let addonText = 'Dog Bath';
+                
+                // Check if number of dogs was specified
+                const dogBathNumDogs = document.getElementById('dogBathNumDogs');
+                if (dogBathNumDogs && dogBathNumDogs.value) {
+                    addonText += ' (' + dogBathNumDogs.value + ' dog';
+                    if (parseInt(dogBathNumDogs.value) > 1) addonText += 's';
+                    addonText += ')';
+                }
+                
+                // Get the add-on info based on frequency type
+                const dogBathSchedule = document.getElementById('dogBathSchedule');
+                const dogBathCount = document.getElementById('dogBathCount');
+                const dogBathNotes = document.getElementById('dogBathNotes');
+                
+                if (dogBathSchedule && dogBathSchedule.value) {
+                    addonText += ' - ' + dogBathSchedule.value;
+                } else if (dogBathCount && dogBathCount.value) {
+                    addonText += ' (' + dogBathCount.value + '/month)';
+                } else if (frequency.value === 'multiple-weekly') {
+                    const selectedDays = [];
+                    document.querySelectorAll('input[name="dogBathDays"]:checked').forEach(function(checkbox) {
+                        selectedDays.push(checkbox.value);
+                    });
+                    if (selectedDays.length > 0) {
+                        addonText += ' on ' + selectedDays.join(', ');
+                    }
+                }
+                
+                html += '<div style="display: flex; justify-content: space-between; gap: 15px; margin-bottom: 16px;">';
+                html += '<span style="flex: 1;"><strong>Add-On:</strong></span>';
+                html += '<span style="flex-shrink: 0; text-align: right;">' + addonText + '</span>';
+                html += '</div>';
+                
+                if (dogBathNotes && dogBathNotes.value) {
+                    html += '<div style="margin-left: 0; margin-bottom: 16px; padding-left: 10px; border-left: 3px solid #E8D5D8; font-size: 0.95em; color: #8B7355; font-style: italic;">';
+                    html += dogBathNotes.value;
+                    html += '</div>';
+                }
+            }
+            
+            if (cleaning) {
+            let addonText = 'Pet Reset Cleaning';
+            
+            // Get the add-on info based on frequency type
+            const cleaningSchedule = document.getElementById('cleaningSchedule');
+            const cleaningCount = document.getElementById('cleaningCount');
+            const cleaningNotes = document.getElementById('cleaningNotes');
+            
+            if (cleaningSchedule && cleaningSchedule.value) {
+                addonText += ' - ' + cleaningSchedule.value;
+            } else if (cleaningCount && cleaningCount.value) {
+                addonText += ' (' + cleaningCount.value + '/month)';
+            } else if (frequency.value === 'multiple-weekly') {
+                const selectedDays = [];
+                document.querySelectorAll('input[name="cleaningDays"]:checked').forEach(function(checkbox) {
+                    selectedDays.push(checkbox.value);
+                });
+                if (selectedDays.length > 0) {
+                    addonText += ' on ' + selectedDays.join(', ');
+                }
+            }
+            
+            html += '<div style="display: flex; justify-content: space-between; gap: 15px; margin-bottom: 16px;">';
+            html += '<span style="flex: 1;"><strong>Add-On:</strong></span>';
+            html += '<span style="flex-shrink: 0; text-align: right;">' + addonText + '</span>';
+            html += '</div>';
+            
+            if (cleaningNotes && cleaningNotes.value) {
+                html += '<div style="margin-left: 0; margin-bottom: 16px; padding-left: 10px; border-left: 3px solid #E8D5D8; font-size: 0.95em; color: #8B7355; font-style: italic;">';
+                html += cleaningNotes.value;
+                html += '</div>';
+            }
+        }
+        }
+        
+        html += '</div>';
+        html += '</div>';
+        
+        // PRICING SECTIONS HEADER
+        html += '<div style="text-align: center; margin-bottom: 25px;">';
+        html += '<h4 style="font-family: \'Cormorant Unicase\', serif; color: #B59197; font-size: 1.4em; margin-bottom: 8px;">Pricing Breakdown</h4>';
+        html += '<p style="color: #8B7355; font-size: 0.95em; margin: 0;">Click each section below to view details</p>';
+        html += '</div>';
+        
+        // Check if this is a new client with discount
+        const isNewClientDiscount = clientStatusFull && clientStatusFull.value === 'new' && 
+                                   newClientOptionFull && newClientOptionFull.value === '10-percent-off';
+        
+        // Check for first day add-ons
+        const firstDayBath = document.getElementById('firstDayBath');
+        const firstDayCleaning = document.getElementById('firstDayCleaning');
+        let firstDayAddOnTotal = 0;
+        
+        if (firstDayBath && firstDayBath.checked) {
+            const dogBathNumDogs = document.getElementById('dogBathNumDogs');
+            let numBathDogs = 1;
+            if (dogBathNumDogs && dogBathNumDogs.value) {
+                numBathDogs = parseInt(dogBathNumDogs.value);
+            }
+            firstDayAddOnTotal += PRICING.DOG_BATH * numBathDogs;
+        }
+        if (firstDayCleaning && firstDayCleaning.checked) {
+            firstDayAddOnTotal += PRICING.CLEANING_ADDON;
+        }
+        
+        // Calculate recurring add-on costs per month
+        let monthlyRecurringAddOns = 0;
+        let bathsPerMonth = 0;
+        let cleaningsPerMonth = 0;
+        
+        if (addOnChoice && addOnChoice.value === 'recurring') {
+            // Dog baths
+            if (dogBath) {
+                const dogBathNumDogs = document.getElementById('dogBathNumDogs');
+                let numBathDogs = 1;
+                if (dogBathNumDogs && dogBathNumDogs.value) {
+                    numBathDogs = parseInt(dogBathNumDogs.value);
+                }
+                
+                // Determine how many baths per month based on schedule
+                const dogBathCount = document.getElementById('dogBathCount');
+                const dogBathSchedule = document.getElementById('dogBathSchedule');
+                
+                if (dogBathCount && dogBathCount.value) {
+                    bathsPerMonth = parseInt(dogBathCount.value);
+                } else if (dogBathSchedule && dogBathSchedule.value) {
+                    const schedText = dogBathSchedule.value.toLowerCase().trim();
+                    
+                    if (schedText.includes('last') || schedText.includes('first') || 
+                        schedText.includes('second') || schedText.includes('third') || 
+                        schedText.includes('fourth') || schedText.includes('1st') || 
+                        schedText.includes('2nd') || schedText.includes('3rd') || 
+                        schedText.includes('4th')) {
+                        bathsPerMonth = 1;
+                    }
+                    else if (schedText.includes('every visit') || schedText.includes('all visits') || schedText === 'weekly') {
+                        if (frequency.value === 'weekly') bathsPerMonth = 4;
+                        else if (frequency.value === 'biweekly') bathsPerMonth = 2;
+                        else if (frequency.value === 'monthly') bathsPerMonth = 1;
+                    }
+                    else if (schedText.includes('every other') || schedText.includes('bi-weekly') || schedText.includes('biweekly') || schedText.includes('twice a month') || schedText.includes('2x') || schedText.includes('2 times')) {
+                        if (frequency.value === 'weekly') bathsPerMonth = 2;
+                        else if (frequency.value === 'biweekly') bathsPerMonth = 1;
+                        else bathsPerMonth = 2;
+                    }
+                    else if (schedText.includes('once a month') || schedText.includes('monthly') || schedText.includes('1x') || schedText.includes('one time') || schedText.includes('once per month')) {
+                        bathsPerMonth = 1;
+                    }
+                    else if (schedText.includes('every week') || schedText.includes('each week')) {
+                        bathsPerMonth = 4;
+                    }
+                    else {
+                        bathsPerMonth = 2;
+                    }
+                }
+                
+                monthlyRecurringAddOns += bathsPerMonth * PRICING.DOG_BATH * numBathDogs;
+            }
+            
+            // Cleanings
+            if (cleaning) {
+                const cleaningCount = document.getElementById('cleaningCount');
+                const cleaningSchedule = document.getElementById('cleaningSchedule');
+                
+                if (cleaningCount && cleaningCount.value) {
+                    cleaningsPerMonth = parseInt(cleaningCount.value);
+                } else if (cleaningSchedule && cleaningSchedule.value) {
+                    const schedText = cleaningSchedule.value.toLowerCase().trim();
+                    
+                    if (schedText.includes('last') || schedText.includes('first') || 
+                        schedText.includes('second') || schedText.includes('third') || 
+                        schedText.includes('fourth') || schedText.includes('1st') || 
+                        schedText.includes('2nd') || schedText.includes('3rd') || 
+                        schedText.includes('4th')) {
+                        cleaningsPerMonth = 1;
+                    }
+                    else if (schedText.includes('every visit') || schedText.includes('all visits') || schedText === 'weekly') {
+                        if (frequency.value === 'weekly') cleaningsPerMonth = 4;
+                        else if (frequency.value === 'biweekly') cleaningsPerMonth = 2;
+                        else if (frequency.value === 'monthly') cleaningsPerMonth = 1;
+                    }
+                    else if (schedText.includes('every other') || schedText.includes('bi-weekly') || schedText.includes('biweekly') || schedText.includes('twice a month') || schedText.includes('2x') || schedText.includes('2 times')) {
+                        if (frequency.value === 'weekly') cleaningsPerMonth = 2;
+                        else if (frequency.value === 'biweekly') cleaningsPerMonth = 1;
+                        else cleaningsPerMonth = 2;
+                    }
+                    else if (schedText.includes('once a month') || schedText.includes('monthly') || schedText.includes('1x') || schedText.includes('one time') || schedText.includes('once per month')) {
+                        cleaningsPerMonth = 1;
+                    }
+                    else if (schedText.includes('every week') || schedText.includes('each week')) {
+                        cleaningsPerMonth = 4;
+                    }
+                    else {
+                        cleaningsPerMonth = 2;
+                    }
+                }
+                
+                monthlyRecurringAddOns += cleaningsPerMonth * PRICING.CLEANING_ADDON;
+            }
+        }
+        
+        // Build expandable summary sections
+        if (isNewClientDiscount && !isWeeklyRefresh) {
+            // FIRST MONTH SECTION (with discount)
+            let firstMonthVisits = serviceCost * monthlyVisits;
+            let firstMonthSubtotal = firstMonthVisits + monthlyRecurringAddOns + firstDayAddOnTotal;
+            let firstVisitTotal = serviceCost + firstDayAddOnTotal;
+            let discountAmount = firstVisitTotal * PRICING.NEW_CLIENT_DISCOUNT;
+            let firstMonthAfterDiscount = firstMonthSubtotal - discountAmount;
+            let firstMonthTax = firstMonthAfterDiscount * PRICING.STATE_TAX_RATE;
+            let firstMonthTotal = firstMonthAfterDiscount + firstMonthTax;
+            
+            html += '<div class="summary-section">';
+            html += '<div class="summary-header" id="first-month-header" onclick="toggleSummarySection(\'first-month\')">';
+            html += '<div class="summary-total">';
+            html += '<span class="summary-total-label">Estimated First Month Total</span>';
+            html += '<span class="summary-total-amount discount">$' + firstMonthTotal.toFixed(2) + '</span>';
+            html += '</div>';
+            html += '<span class="expand-icon">▼</span>';
+            html += '</div>';
+            html += '<div class="summary-details" id="first-month-details">';
+            
+            // Details content
+            // Calculate base service cost without additional dogs
+            let baseServiceCost = serviceCost;
+            let additionalDogFee = 0;
+            if (numDogs > 2) {
+                const extraDogs = numDogs - 2;
+                additionalDogFee = extraDogs * PRICING.ADDITIONAL_DOG;
+                baseServiceCost = serviceCost - additionalDogFee;
+            }
+            
+            html += '<div class="detail-row">';
+            html += '<span>' + monthlyVisits + ' visits × $' + baseServiceCost.toFixed(2) + '</span>';
+            html += '<span>$' + (baseServiceCost * monthlyVisits).toFixed(2) + '</span>';
+            html += '</div>';
+            
+            // Show additional dog fee if applicable
+            if (additionalDogFee > 0) {
+                html += '<div class="detail-row">';
+                html += '<span>Additional Dog Fee</span>';
+                html += '<span>+$' + (additionalDogFee * monthlyVisits).toFixed(2) + '</span>';
+                html += '</div>';
+            }
+            
+            if (monthlyRecurringAddOns > 0) {
+                if (bathsPerMonth > 0) {
+                    const dogBathNumDogs = document.getElementById('dogBathNumDogs');
+                    let numBathDogs = 1;
+                    if (dogBathNumDogs && dogBathNumDogs.value) {
+                        numBathDogs = parseInt(dogBathNumDogs.value);
+                    }
+                    const bathCost = bathsPerMonth * PRICING.DOG_BATH * numBathDogs;
+                    html += '<div class="detail-row">';
+                    html += '<span>' + bathsPerMonth + ' dog bath' + (bathsPerMonth > 1 ? 's' : '') + (numBathDogs > 1 ? ' (' + numBathDogs + ' dogs)' : '') + '</span>';
+                    html += '<span>+$' + bathCost.toFixed(2) + '</span>';
+                    html += '</div>';
+                }
+                if (cleaningsPerMonth > 0) {
+                    const cleaningCost = cleaningsPerMonth * PRICING.CLEANING_ADDON;
+                    html += '<div class="detail-row">';
+                    html += '<span>' + cleaningsPerMonth + ' cleaning' + (cleaningsPerMonth > 1 ? 's' : '') + '</span>';
+                    html += '<span>+$' + cleaningCost.toFixed(2) + '</span>';
+                    html += '</div>';
+                }
+            }
+            
+            if (firstDayAddOnTotal > 0) {
+                html += '<div class="detail-row">';
+                html += '<span>First Day Add-Ons</span>';
+                html += '<span>+$' + firstDayAddOnTotal.toFixed(2) + '</span>';
+                html += '</div>';
+            }
+            
+            html += '<div class="detail-row subtotal">';
+            html += '<span>Subtotal</span>';
+            html += '<span>$' + firstMonthSubtotal.toFixed(2) + '</span>';
+            html += '</div>';
+            
+            html += '<div class="detail-row" style="color: #2E7D32; font-weight: 600;">';
+            html += '<span>New Client Discount (10%)</span>';
+            html += '<span>-$' + discountAmount.toFixed(2) + '</span>';
+            html += '</div>';
+            
+            html += '<div class="detail-row">';
+            html += '<span>State Tax (6%)</span>';
+            html += '<span>+$' + firstMonthTax.toFixed(2) + '</span>';
+            html += '</div>';
+            
+            html += '</div>';
+            html += '</div>';
+            
+            // REGULAR MONTHS SECTION
+            let regularMonthVisits = serviceCost * monthlyVisits;
+            let regularMonthSubtotal = regularMonthVisits + monthlyRecurringAddOns;
+            let regularMonthTax = regularMonthSubtotal * PRICING.STATE_TAX_RATE;
+            let regularMonthTotal = regularMonthSubtotal + regularMonthTax;
+            
+            html += '<div class="summary-section">';
+            html += '<div class="summary-header" id="regular-month-header" onclick="toggleSummarySection(\'regular-month\')">';
+            html += '<div class="summary-total">';
+            html += '<span class="summary-total-label">Regular Monthly Total (after first month)</span>';
+            html += '<span class="summary-total-amount">$' + regularMonthTotal.toFixed(2) + '</span>';
+            html += '</div>';
+            html += '<span class="expand-icon">▼</span>';
+            html += '</div>';
+            html += '<div class="summary-details" id="regular-month-details">';
+            
+            // Calculate base service cost without additional dogs
+            let baseServiceCostRegular = serviceCost;
+            let additionalDogFeeRegular = 0;
+            if (numDogs > 2) {
+                const extraDogs = numDogs - 2;
+                additionalDogFeeRegular = extraDogs * PRICING.ADDITIONAL_DOG;
+                baseServiceCostRegular = serviceCost - additionalDogFeeRegular;
+            }
+            
+            html += '<div class="detail-row">';
+            html += '<span>' + monthlyVisits + ' visits × $' + baseServiceCostRegular.toFixed(2) + '</span>';
+            html += '<span>$' + (baseServiceCostRegular * monthlyVisits).toFixed(2) + '</span>';
+            html += '</div>';
+            
+            // Show additional dog fee if applicable
+            if (additionalDogFeeRegular > 0) {
+                html += '<div class="detail-row">';
+                html += '<span>Additional Dog Fee</span>';
+                html += '<span>+$' + (additionalDogFeeRegular * monthlyVisits).toFixed(2) + '</span>';
+                html += '</div>';
+            }
+            
+            if (monthlyRecurringAddOns > 0) {
+                if (bathsPerMonth > 0) {
+                    const dogBathNumDogs = document.getElementById('dogBathNumDogs');
+                    let numBathDogs = 1;
+                    if (dogBathNumDogs && dogBathNumDogs.value) {
+                        numBathDogs = parseInt(dogBathNumDogs.value);
+                    }
+                    const bathCost = bathsPerMonth * PRICING.DOG_BATH * numBathDogs;
+                    html += '<div class="detail-row">';
+                    html += '<span>' + bathsPerMonth + ' dog bath' + (bathsPerMonth > 1 ? 's' : '') + (numBathDogs > 1 ? ' (' + numBathDogs + ' dogs)' : '') + '</span>';
+                    html += '<span>+$' + bathCost.toFixed(2) + '</span>';
+                    html += '</div>';
+                }
+                if (cleaningsPerMonth > 0) {
+                    const cleaningCost = cleaningsPerMonth * PRICING.CLEANING_ADDON;
+                    html += '<div class="detail-row">';
+                    html += '<span>' + cleaningsPerMonth + ' cleaning' + (cleaningsPerMonth > 1 ? 's' : '') + '</span>';
+                    html += '<span>+$' + cleaningCost.toFixed(2) + '</span>';
+                    html += '</div>';
+                }
+            }
+            
+            html += '<div class="detail-row">';
+            html += '<span>State Tax (6%)</span>';
+            html += '<span>+$' + regularMonthTax.toFixed(2) + '</span>';
+            html += '</div>';
+            
+            html += '</div>';
+            html += '</div>';
+            
+        } else {
+            // NO DISCOUNT - Simple monthly calculation
+            let monthlyVisitTotal = serviceCost * monthlyVisits;
+            let monthlySubtotal = monthlyVisitTotal + monthlyRecurringAddOns;
+            let stateTax = monthlySubtotal * PRICING.STATE_TAX_RATE;
+            let monthlyBaseTotal = monthlySubtotal + stateTax;
+            
+            html += '<div class="summary-section">';
+            html += '<div class="summary-header" id="monthly-total-header" onclick="toggleSummarySection(\'monthly-total\')">';
+            html += '<div class="summary-total">';
+            html += '<span class="summary-total-label">Estimated Monthly Total</span>';
+            html += '<span class="summary-total-amount">$' + monthlyBaseTotal.toFixed(2) + '</span>';
+            html += '</div>';
+            html += '<span class="expand-icon">▼</span>';
+            html += '</div>';
+            html += '<div class="summary-details" id="monthly-total-details">';
+            
+            // Calculate base service cost without additional dogs
+            let baseServiceCostNoDiscount = serviceCost;
+            let additionalDogFeeNoDiscount = 0;
+            if (numDogs > 2) {
+                const extraDogs = numDogs - 2;
+                additionalDogFeeNoDiscount = extraDogs * PRICING.ADDITIONAL_DOG;
+                baseServiceCostNoDiscount = serviceCost - additionalDogFeeNoDiscount;
+            }
+            
+            html += '<div class="detail-row">';
+            html += '<span>' + monthlyVisits + ' visits × $' + baseServiceCostNoDiscount.toFixed(2) + '</span>';
+            html += '<span>$' + (baseServiceCostNoDiscount * monthlyVisits).toFixed(2) + '</span>';
+            html += '</div>';
+            
+            // Show additional dog fee if applicable
+            if (additionalDogFeeNoDiscount > 0) {
+                html += '<div class="detail-row">';
+                html += '<span>Additional Dog Fee</span>';
+                html += '<span>+$' + (additionalDogFeeNoDiscount * monthlyVisits).toFixed(2) + '</span>';
+                html += '</div>';
+            }
+            
+            if (monthlyRecurringAddOns > 0) {
+                let breakdown = [];
+                if (bathsPerMonth > 0) {
+                    const dogBathNumDogs = document.getElementById('dogBathNumDogs');
+                    let numBathDogs = 1;
+                    if (dogBathNumDogs && dogBathNumDogs.value) {
+                        numBathDogs = parseInt(dogBathNumDogs.value);
+                    }
+                    breakdown.push(bathsPerMonth + ' dog bath' + (bathsPerMonth > 1 ? 's' : '') + (numBathDogs > 1 ? ' (' + numBathDogs + ' dogs)' : ''));
+                }
+                if (cleaningsPerMonth > 0) {
+                    breakdown.push(cleaningsPerMonth + ' cleaning' + (cleaningsPerMonth > 1 ? 's' : ''));
+                }
+                
+                html += '<div class="detail-row">';
+                html += '<span>Recurring Add-Ons';
+                if (breakdown.length > 0) {
+                    html += ' (' + breakdown.join(', ') + ')';
+                }
+                html += '</span>';
+                html += '<span>+$' + monthlyRecurringAddOns.toFixed(2) + '</span>';
+                html += '</div>';
+            }
+            
+            html += '<div class="detail-row">';
+            html += '<span>State Tax (6%)</span>';
+            html += '<span>+$' + stateTax.toFixed(2) + '</span>';
+            html += '</div>';
+            
+            html += '</div>';
+            html += '</div>';
+        }
+        
+        // Important note
+        html += '<div style="margin-top: 30px; padding: 22px; background: #E8F5E9; border: 2px solid #81C784; border-radius: 10px;">';
+        html += '<p style="margin: 0 0 12px 0; font-size: 1.1em; color: #1B5E20; font-weight: 600;">Please note:</p>';
+        html += '<ul style="margin: 0; padding-left: 20px; color: #1B5E20; line-height: 1.85;">';
+        html += '<li style="margin-bottom: 8px;">Final pricing may include a small travel fee based on your location.</li>';
+        html += '<li style="margin-bottom: 8px;">All estimated quotes are reviewed by our team for accuracy prior to confirming your booking request.</li>';
+        html += '<li style="margin-bottom: 0;">All details and exact pricing will be confirmed before your services begin - no surprises!</li>';
+        html += '</ul>';
+        html += '</div>';
+        
+        summaryDiv.innerHTML = html;
+        document.getElementById('bookingSummary').style.display = 'block';
+    }
+
+    // Form submission
+    document.getElementById('recurringBookingForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        
+        // Final validation
+        if (!validateCurrentStep()) {
+            return;
+        }
+        
+        const submitBtn = event.submitter;
+        const originalText = submitBtn.textContent;
+        submitBtn.textContent = 'Submitting...';
+        submitBtn.disabled = true;
+        
+        const formData = new FormData(this);
+        
+        fetch('https://formspree.io/f/meorwwrd', {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'Accept': 'application/json'
+            }
+        })
+        .then(response => {
+            if (response.ok) {
+                // Hide form
+                document.getElementById('bookingFormContainer').style.display = 'none';
+                document.getElementById('validationErrors').style.display = 'none';
+                document.querySelector('.progress-container').style.display = 'none';
+                
+                // Show success
+                document.getElementById('successMessage').style.display = 'block';
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            } else {
+                throw new Error('Form submission failed');
+            }
+        })
+        .catch(error => {
+            console.error('Submission error:', error);
+            alert('There was an error submitting your request. Please try again or call us at (859) 346-0605');
+            submitBtn.textContent = originalText;
+            submitBtn.disabled = false;
+        });
+    });
+</script>
 </body>
 </html>
