@@ -13,7 +13,6 @@
             box-sizing: border-box;
         }
 
-```
     body {
         font-family: 'Cormorant', serif;
         background: linear-gradient(135deg, #FAF7F5 0%, #F5EFE7 100%);
@@ -23,48 +22,52 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        padding: 40px 20px;
+        padding: 30px 20px;
     }
     
     .container {
         max-width: 800px;
         width: 100%;
+        padding: 20px;
     }
     
     .header {
         text-align: center;
-        margin-bottom: 50px;
+        margin-bottom: 40px;
+        padding: 0 15px;
     }
     
     .title {
         font-family: 'Cormorant Unicase', serif;
         color: #B59197;
-        font-size: 3em;
+        font-size: 2.5em;
         margin-bottom: 20px;
         font-weight: 700;
     }
     
     .subtitle {
         color: #6B5D58;
-        font-size: 1.2em;
+        font-size: 1.1em;
         line-height: 1.7;
-        margin-bottom: 15px;
+        margin-bottom: 20px;
+        padding: 0 10px;
     }
     
     .contact-info {
         color: #8B7355;
         font-size: 1em;
+        padding: 0 10px;
     }
     
     .form-options {
         display: grid;
-        gap: 25px;
+        gap: 20px;
     }
     
     .form-card {
         background: white;
         border-radius: 16px;
-        padding: 40px;
+        padding: 35px;
         box-shadow: 0 8px 30px rgba(181, 145, 151, 0.15);
         border: 2px solid #E8D5D8;
         transition: all 0.3s ease;
@@ -83,16 +86,17 @@
     .form-card h2 {
         font-family: 'Cormorant Unicase', serif;
         color: #B59197;
-        font-size: 2.2em;
+        font-size: 1.8em;
         margin-bottom: 0;
         font-weight: 700;
     }
     
     .form-card p {
         color: #6B5D58;
-        font-size: 1.15em;
-        margin-bottom: 25px;
-        line-height: 1.6;
+        font-size: 1em;
+        margin-bottom: 0;
+        margin-top: 8px;
+        line-height: 1.5;
     }
     
     .form-button {
@@ -101,15 +105,16 @@
         justify-content: center;
         background: linear-gradient(135deg, #B59197 0%, #A37F85 100%);
         color: white;
-        padding: 16px 35px;
+        padding: 14px 30px;
         border: none;
         border-radius: 10px;
         font-family: 'Cormorant Unicase', serif;
-        font-size: 1.3em;
+        font-size: 1.1em;
         font-weight: 700;
         text-decoration: none;
         transition: all 0.3s ease;
         box-shadow: 0 4px 15px rgba(181, 145, 151, 0.3);
+        white-space: nowrap;
     }
     
     .form-button:hover {
@@ -117,30 +122,27 @@
         box-shadow: 0 6px 25px rgba(181, 145, 151, 0.4);
     }
     
-    .form-button::after {
-        content: " →";
-        margin-left: 8px;
-        font-size: 1.2em;
-    }
-    
     @media (max-width: 768px) {
         .title {
-            font-size: 2.2em;
+            font-size: 2em;
         }
         
         .form-card {
-            padding: 30px;
+            padding: 25px;
             flex-direction: column;
             align-items: flex-start;
             gap: 15px;
         }
         
         .form-card h2 {
-            font-size: 1.8em;
+            font-size: 1.5em;
+        }
+        
+        .form-button {
+            width: 100%;
         }
     }
 </style>
-```
 
 </head>
 <body>
@@ -151,7 +153,6 @@
             <p class="contact-info">We typically respond within 12 hours to confirm availability for your booking. If you need care today or tomorrow, text us at (859) 346-0605 for the fastest response.</p>
         </div>
 
-```
     <div class="form-options">
         <!-- ONE-TIME & VACATION CARE -->
         <div class="form-card">
@@ -180,13 +181,12 @@
         </div>
     </div>
     
-    <div style="margin-top: 40px; text-align: center;">
-        <p style="font-family: 'Cormorant', serif; color: #8B7355; font-size: 1.05em; line-height: 1.6;">
+    <div style="margin-top: 35px; text-align: center; padding: 0 15px;">
+        <p style="font-family: 'Cormorant', serif; color: #8B7355; font-size: 1em; line-height: 1.6;">
             Have unique scheduling needs or special circumstances? Reach out directly at <a href="mailto:info@myreliacare.com" style="color: #B59197; text-decoration: underline;">info@myreliacare.com</a> or <a href="tel:859-346-0605" style="color: #B59197; text-decoration: underline;">(859) 346-0605</a> and we'll create a custom care plan for you.
         </p>
     </div>
 </div>
-```
 
 </body>
 </html>
