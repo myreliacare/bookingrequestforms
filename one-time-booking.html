@@ -744,7 +744,7 @@
 <body>
     <div class="page-header">
         <h1 class="page-title">One-Time & Vacation Care</h1>
-        <p class="page-intro">Perfect for single visits, multiple day bookings, or vacation coverage</p>
+        <p class="page-intro">Perfect for most of your care needs - single visits, multiple day bookings, or vacation coverage</p>
     </div>
 
     <div class="progress-container">
@@ -946,7 +946,8 @@
                         <button type="button" class="nav-button" onclick="prevStep()">Back</button>
                         <button type="button" class="nav-button primary" onclick="nextStep()">Next</button>
                     </div>
-                </div><!-- STEP 3: Service Details & Schedule -->
+                </div>
+                <!-- STEP 3: Service Details & Schedule -->
                 <div class="form-step" data-step="3">
                     <div class="form-section">
                         <h2 class="section-title">Service Details</h2>
@@ -1017,9 +1018,9 @@
                                 <div id="singleVisitTimes" style="display: none;"></div>
                             </div>
                             
-                            <!-- Add-Ons for Single Day (NO DOG BATHS) -->
+                            <!-- Add-On for Single Day (NO DOG BATHS) -->
                             <div id="singleDayRegularAddOns" style="margin-top: 25px; padding-top: 25px; border-top: 2px solid #E8D5D8;">
-                                <h3 style="color: #B59197; font-family: 'Cormorant Unicase', serif; font-size: 1.3em; margin-bottom: 15px;">Add-Ons (Optional)</h3>
+                                <h3 style="color: #B59197; font-family: 'Cormorant Unicase', serif; font-size: 1.3em; margin-bottom: 15px;">Add-On (Optional)</h3>
                                 <div class="checkbox-group">
                                     <div class="checkbox-item">
                                         <input type="checkbox" id="addOnCleaning" name="addOns" value="Add-On Pet Reset Cleaning">
@@ -1125,10 +1126,10 @@
                                     </div>
                                 </div>
                                 
-                                <!-- Add-Ons for Multiple Days (NO DOG BATHS) -->
+                                <!-- Add-On for Multiple Days (NO DOG BATHS) -->
                                 <div id="multipleDaysAddOns" style="margin-top: 25px; padding-top: 25px; border-top: 2px solid #E8D5D8;">
-                                    <h3 style="color: #B59197; font-family: 'Cormorant Unicase', serif; font-size: 1.3em; margin-bottom: 15px;">Add-Ons (Optional)</h3>
-                                    <p class="helper-text" style="margin-bottom: 15px;">Select any add-ons you'd like to include. You'll choose specific dates for each add-on below.</p>
+                                    <h3 style="color: #B59197; font-family: 'Cormorant Unicase', serif; font-size: 1.3em; margin-bottom: 15px;">Add-On (Optional)</h3>
+                                    <p class="helper-text" style="margin-bottom: 15px;">Select if you'd like to include this add-on. You'll choose specific dates below.</p>
                                     <div class="checkbox-group">
                                         <div class="checkbox-item">
                                             <input type="checkbox" id="addOnCleaningMultiple" name="addOns" value="Add-On Pet Reset Cleaning" onchange="handleAddOnScheduling()">
@@ -1149,11 +1150,11 @@
                             </div>
                         </div>
                         
-                        <!-- First Day Add-Ons for New Clients with Discount (NO DOG BATHS) -->
+                        <!-- First Day Add-On for New Clients with Discount (NO DOG BATHS) -->
                         <div id="firstDayAddOns" style="display: none; margin-top: 30px; padding-top: 30px; border-top: 2px solid #E8D5D8;">
                             <div class="highlight-box">
                                 <h3>Maximize Your New Client Discount!</h3>
-                                <p style="margin-bottom: 15px;">Would you like to include any add-ons on your first day of service to take advantage of your 15% new client discount?</p>
+                                <p style="margin-bottom: 15px;">Would you like to include this add-on on your first day of service to take advantage of your 15% new client discount?</p>
                                 <div class="checkbox-group">
                                     <div class="checkbox-item">
                                         <input type="checkbox" id="firstDayCleaning" name="firstDayAddOns" value="Pet Reset Cleaning">
@@ -1168,7 +1169,8 @@
                         <button type="button" class="nav-button" onclick="prevStep()">Back</button>
                         <button type="button" class="nav-button primary" onclick="nextStep()">Next</button>
                     </div>
-                </div><!-- STEP 4: Pet Information -->
+                </div>
+                <!-- STEP 4: Pet Information -->
                 <div class="form-step" data-step="4">
                     <div class="form-section">
                         <h2 class="section-title">Pet Information</h2>
@@ -1315,7 +1317,8 @@
                 </div>
             </form>
         </div>
-    </div><script>
+    </div>
+<script>
     let currentStep = 1;
     const totalSteps = 6;
 
@@ -1622,7 +1625,9 @@
         const singleDayRegularAddOns = document.getElementById('singleDayRegularAddOns');
         
         const isWeeklyRefresh = primaryService === 'weekly-refresh';
-        if (isWeeklyRefresh) {
+        const isStandAloneCleaning = primaryService === 'stand-alone-pet-reset-cleaning';
+        
+        if (isWeeklyRefresh || isStandAloneCleaning) {
             if (firstDayAddOns) firstDayAddOns.style.display = 'none';
             if (singleDayRegularAddOns) singleDayRegularAddOns.style.display = 'none';
             return;
@@ -1653,6 +1658,11 @@
         if (firstDayAddOns.style.display === 'none') {
             document.getElementById('firstDayCleaning').checked = false;
         }
+        
+        if (singleDayRegularAddOns && singleDayRegularAddOns.style.display === 'none') {
+            const addOnCleaning = document.getElementById('addOnCleaning');
+            if (addOnCleaning) addOnCleaning.checked = false;
+        }
     }
 
     function handleBookAfter() {
@@ -1662,6 +1672,7 @@
         const primaryService = document.getElementById('primaryService').value;
         const bookingType = document.getElementById('bookingType').value;
         const isWeeklyRefresh = primaryService === 'weekly-refresh';
+        const isStandAloneCleaning = primaryService === 'stand-alone-pet-reset-cleaning';
         
         const singleDayRegularAddOns = document.getElementById('singleDayRegularAddOns');
         const weeklyRefreshNote = document.getElementById('weeklyRefreshNote');
@@ -1673,19 +1684,24 @@
         const visitFrequencyQuestion = document.getElementById('visitFrequencyQuestion');
         const need1Visit = document.getElementById('need1Visit');
         
-        if (isWeeklyRefresh) {
+        if (isWeeklyRefresh || isStandAloneCleaning) {
             if (bookingType === 'single') {
                 if (singleDayRegularAddOns) singleDayRegularAddOns.style.display = 'none';
-                if (weeklyRefreshNote) weeklyRefreshNote.style.display = 'block';
                 if (firstDayAddOns) firstDayAddOns.style.display = 'none';
-                if (singleVisitCountGroup) singleVisitCountGroup.style.display = 'none';
-                if (singleVisitCount) singleVisitCount.value = '1';
+                if (singleVisitCountGroup) singleVisitCountGroup.style.display = isWeeklyRefresh ? 'none' : 'block';
+                if (singleVisitCount && isWeeklyRefresh) singleVisitCount.value = '1';
+                
+                // Only show Weekly Refresh note for Weekly Refresh, not for standalone cleaning
+                if (weeklyRefreshNote) weeklyRefreshNote.style.display = isWeeklyRefresh ? 'block' : 'none';
             } else if (bookingType === 'multiple') {
                 if (multipleDaysAddOns) multipleDaysAddOns.style.display = 'none';
-                if (weeklyRefreshNoteMultiple) weeklyRefreshNoteMultiple.style.display = 'block';
                 if (firstDayAddOns) firstDayAddOns.style.display = 'none';
-                if (visitFrequencyQuestion) visitFrequencyQuestion.style.display = 'none';
-                if (need1Visit && !need1Visit.checked) {
+                if (visitFrequencyQuestion) visitFrequencyQuestion.style.display = isWeeklyRefresh ? 'none' : 'block';
+                
+                // Only show Weekly Refresh note for Weekly Refresh, not for standalone cleaning
+                if (weeklyRefreshNoteMultiple) weeklyRefreshNoteMultiple.style.display = isWeeklyRefresh ? 'block' : 'none';
+                
+                if (isWeeklyRefresh && need1Visit && !need1Visit.checked) {
                     need1Visit.checked = true;
                     setTimeout(function() {
                         try {
@@ -1712,6 +1728,20 @@
             } else if (bookingType === 'multiple' && multipleDaysAddOns) {
                 multipleDaysAddOns.style.display = 'block';
             }
+        }
+        
+        // Clear add-on checkboxes when they're hidden
+        if (singleDayRegularAddOns && singleDayRegularAddOns.style.display === 'none') {
+            const addOnCleaning = document.getElementById('addOnCleaning');
+            if (addOnCleaning) addOnCleaning.checked = false;
+        }
+        if (multipleDaysAddOns && multipleDaysAddOns.style.display === 'none') {
+            const addOnCleaningMultiple = document.getElementById('addOnCleaningMultiple');
+            if (addOnCleaningMultiple) addOnCleaningMultiple.checked = false;
+        }
+        if (firstDayAddOns && firstDayAddOns.style.display === 'none') {
+            const firstDayCleaning = document.getElementById('firstDayCleaning');
+            if (firstDayCleaning) firstDayCleaning.checked = false;
         }
     }
 
@@ -2197,7 +2227,8 @@
             document.getElementById('referralFirstName').value = '';
             document.getElementById('referralLastInitial').value = '';
         }
-    }// ADD THIS AFTER part4-javascript-closing.html
+    }
+    // ADD THIS AFTER part4-javascript-closing.html
 
     function generateBookingSummary() {
         const summaryDiv = document.getElementById('summaryContent');
@@ -2495,8 +2526,15 @@
         if (cleaningTotal > 0) {
             const cleaningCount = bookingType === 'multiple' ? parseInt(document.getElementById('cleaningCount')?.value || 0) : 1;
             html += '<div class="detail-row">';
-            html += '<span>' + cleaningCount + ' cleaning' + (cleaningCount > 1 ? 's' : '') + '</span>';
+            html += '<span>' + cleaningCount + ' Pet Reset Cleaning' + (cleaningCount > 1 ? 's' : '') + '</span>';
             html += '<span>+$' + cleaningTotal.toFixed(2) + '</span>';
+            html += '</div>';
+        }
+        
+        if (firstDayAddOnTotal > 0) {
+            html += '<div class="detail-row">';
+            html += '<span>First Day Pet Reset Cleaning</span>';
+            html += '<span>+$' + firstDayAddOnTotal.toFixed(2) + '</span>';
             html += '</div>';
         }
         
